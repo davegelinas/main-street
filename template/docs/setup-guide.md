@@ -7,20 +7,28 @@ You can do this yourself, in about two hours, much of it waiting. Your AI walks 
 **You need:**
 
 - An email address and a phone.
-- A paid AI plan, about $20 a month. **Claude Pro** is smoothest today. (ChatGPT Plus? See Step 4.)
+- A paid AI plan, about $20 a month: **Claude Pro** or **ChatGPT Plus**. Either works. Use the one you already have.
 - Your business basics: name, phone, hours, address, what you sell. No answer yet? Say "skip it."
 
-**A computer makes Steps 5 and 6 easier**, because those screens are big. Everything else works fine on a phone, and after setup, everything happens on your phone.
+**A computer makes Steps 3, 5 and 6 easier**, because those screens are big. Everything else works fine on a phone, and after setup, everything happens on your phone.
 
 **Stuck?** Send your AI a screenshot and ask "what do I do here?" It works on every step.
+
+## Claude or ChatGPT?
+
+Most of this page is the same for both. Where they differ (Steps 3, 4 and 7), there's a part marked **Using Claude** and a part marked **Using ChatGPT**. Follow yours and skip the other.
+
+The one everyday difference: Claude publishes a change for you when you say "ship it." On ChatGPT, you do it with a few taps: **Create PR** in ChatGPT, then **Squash and merge** on GitHub.
+
+Using another AI, or a free plan? See [Other AIs](connect-your-ai.md#other-ais).
 
 ## The whole trip
 
 | Step | What | Time |
 |---|---|---|
 | 1 | Make two free accounts | 15 min |
-| 2 | Make an empty home for your site | 2 min |
-| 3 | Connect Claude to GitHub | 5 min |
+| 2 | Make a home for your site | 2 min |
+| 3 | Connect your AI to GitHub | 5 to 10 min |
 | 4 | Your AI builds your site | 40 min |
 | 5 | Put it on the internet | 20 min |
 | 6 | Lock your live site | 15 min |
@@ -33,16 +41,18 @@ Two sittings work well: Steps 1 to 4 one day, Steps 5 to 7 another. From Step 4 
 1. **GitHub** (where your website's files are kept): go to [github.com/signup](https://github.com/signup). Use your own email, not a helper's. GitHub emails you a code to type in. Later it will ask you to turn on two-step sign-in; your AI helps you with that at the end of setup.
 2. **Cloudflare** (what puts your site on the internet): go to [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up), with the same email, and click the link in the email it sends you.
 
-## Step 2: Make an empty home for your site (2 minutes)
+## Step 2: Make a home for your site (2 minutes)
 
 1. Go to [github.com/new](https://github.com/new).
 2. **Repository name:** your business name, lowercase, with dashes, like `maple-street-bakery`.
 3. Choose **Public**. Your website is public anyway, so its files can be too, and public gets GitHub's free lock for your live site (Step 6). Only website content ever goes in it, never anything private.
-4. Leave **Add a README** off. Click **Create repository**.
+4. Turn **Add README** on. (ChatGPT can't open a completely empty one, and it doesn't hurt Claude.) Click **Create repository**.
 
-It's empty for now. That's right: your AI fills it in Step 4.
+It holds just that one README for now. That's right: your AI fills it in Step 4.
 
-## Step 3: Connect Claude to GitHub (5 minutes)
+## Step 3: Connect your AI to GitHub (5 to 10 minutes)
+
+### Using Claude
 
 1. Go to [claude.ai/code](https://claude.ai/code) and sign in with your Claude account.
 2. When it asks, click **Sign in with GitHub**, then approve.
@@ -50,7 +60,20 @@ It's empty for now. That's right: your AI fills it in Step 4.
 
 Claude also makes a workspace for you called **Default**. Leave it as it is. If you see an **Auto-fix** option, leave it off.
 
+### Using ChatGPT
+
+Do this part on a computer if you can: ChatGPT sets up a new workspace only on its website or in its desktop app, not in the phone app.
+
+1. Go to [chatgpt.com](https://chatgpt.com) and sign in.
+2. Open **Settings** → **Codex Cloud** → **Environments** → **Create environment**. (Or start a new Codex task and choose **Work in** → **Cloud** → **Select environment** → **Create environment**.)
+3. Select your new repository. If it asks you to **Connect GitHub**, approve, choose **Only select repositories**, and pick your new repository.
+4. Click **Get started**. Codex looks at your repository and gets a workspace ready. It's nearly empty, so this is quick.
+5. Let it reach GitHub and the building tools: in the environment's settings, turn on **Allow Codex to access internet**, and under **Allow domains** choose **Package managers**. That list covers GitHub, where your website template lives, and the usual places building tools come from. The rest of the internet stays closed.
+6. Click **Publish** and wait for **Environment published**.
+
 ## Step 4: Your AI builds your site (40 minutes)
+
+### Using Claude
 
 1. Open this link. It opens Claude with the setup message already written:
 
@@ -58,25 +81,32 @@ Claude also makes a workspace for you called **Default**. Leave it as it is. If 
 
    The message looks technical. That's fine: it's for your AI, not for you.
 2. Click the repository picker **below the message box** and choose your new repository. Next to the send button, leave the mode on **Auto** or **Accept edits**, not **Plan** (Plan makes Claude stop and wait). Press send.
-3. While it works, technical text scrolls by. You don't need to read it; your AI asks when it needs you.
-4. Once, it sends you a link that adds a photo safety check it isn't allowed to add itself. Open it (GitHub may ask you to sign in), tap **Commit changes...**, then **Commit changes** again in the box that pops up. Tell your AI "done."
-5. Answer its questions in plain words, one at a time. Have a current website or a Google listing? Your AI will ask for screenshots of it. They save you typing.
-6. It also asks for 3 to 6 photos. Photos go into your site's photos folder on GitHub, not into the chat: [how to add your photos](gather-your-stuff.md#how-to-add-your-photos). No photos today? Say "later." Your site works fine without them.
+
+Claude saves its work to your repository by itself as it goes.
+
+### Using ChatGPT
+
+1. Click **Start a new task** in the environment you just published.
+2. Copy this message, paste it in, and send it. (If you see **Ask** and **Code** buttons, choose **Code**.)
+
+   ```
+   Set up my new business website in this repository. Start by cloning https://github.com/davegelinas/main-street and following its AI-SETUP.md. I am not technical: one step at a time, in plain words.
+   ```
+
+   It looks technical. That's fine: it's for your AI, not for you.
+
+ChatGPT doesn't save to your site by itself. When Codex says a change is ready (your first version, for example), tap **Create PR** (it may say **Open pull request**), open that pull request on GitHub, and tap **Squash and merge** → **Confirm squash and merge**. Until your site is locked in Step 6, do that as soon as Codex says it's ready: there's nothing to check yet.
+
+### Then, for everyone
+
+1. While it works, technical text scrolls by. You don't need to read it; your AI asks when it needs you.
+2. Once, it sends you a link that adds a photo safety check it isn't allowed to add itself. Open it (GitHub may ask you to sign in), tap **Commit changes...**, then **Commit changes** again in the box that pops up. Tell your AI "done."
+3. Answer its questions in plain words, one at a time. Have a current website or a Google listing? Your AI will ask for screenshots of it. They save you typing.
+4. It also asks for 3 to 6 photos. Photos go into your site's photos folder on GitHub, not into the chat: [how to add your photos](gather-your-stuff.md#how-to-add-your-photos). No photos today? Say "later." Your site works fine without them.
 
 Your AI copies the website into your repository, fills in your details, and writes your homepage from your answers. It keeps a checklist (`SETUP.md`), so if you stop, any later chat picks up where you left off.
 
-<details>
-<summary><b>Using ChatGPT Plus instead?</b></summary>
-
-Go to chatgpt.com/codex, connect GitHub, give it your new repository, and create its environment (accept the defaults). Then send it this message:
-
-```
-Set up my new business website in this repository. Start by cloning https://github.com/davegelinas/main-street and following its AI-SETUP.md. Push the first version straight to the main branch. I am not technical: one step at a time, in plain words.
-```
-
-If Codex says it can't download the template, upload the files yourself with Part 2 of [browser-only.md](browser-only.md), then come back and ask Codex to run the interview and make the first version.
-
-</details>
+If your AI can't download the website template at all, upload the files yourself with Part 2 of [browser-only.md](browser-only.md) (skip its "Create your repository" step: you already have one), then come back and ask it to run the interview and make the first version.
 
 ## Step 5: Put it on the internet (20 minutes)
 
@@ -115,15 +145,19 @@ Your AI sends you a link to your repository's rules page (it looks like `github.
 
 ## Step 7: Your Edit my website button, a first change, your site card (25 minutes)
 
-Switch to your phone for this one, and open your setup chat in the Claude app (same account: the chat is there too).
+Switch to your phone for this one, and open your setup chat in your AI's phone app (same account: the chat is there too). On ChatGPT, that's **Codex** in the ChatGPT app.
 
-1. Ask your AI: "Make my Edit my website button." It sets up a page on your site just for you, with one big button that opens your AI (if it sends a preview link first, say **"ship it"**). Then open **Safari** and go to your site's address with **/edit/** on the end (your AI tells you the exact address, like `maplestreetbakery.com/edit/`). Tap **Share** → **Add to Home Screen** → **Add**. On Android, open it in Chrome and use the menu → **Add to Home screen**. The first time you use the button, Safari may ask you to sign in to Claude; that's a one-time thing.
-2. Tap your new button and try a small change: "Add a banner: welcome to our new website!"
-3. Open the preview link your AI sends and look at the banner. Then say **"ship it."** A minute later, it's on your live site.
+1. Ask your AI: "Make my Edit my website button." It sets up a page on your site just for you, with one big button that opens your AI. It arrives as a change to approve: say **"ship it"** (on ChatGPT: **Create PR**, then **Squash and merge**). Then open **Safari** and go to your site's address with **/edit/** on the end (your AI tells you the exact address, like `maplestreetbakery.com/edit/`). Tap **Share** → **Add to Home Screen** → **Add**. On Android, open it in Chrome and use the menu → **Add to Home screen**. The first time you use the button, Safari may ask you to sign in to your AI; that's a one-time thing.
+2. Tap your new button and try a small change: "Add a banner: welcome to our new website!" (On ChatGPT, pick your website's environment first if it asks.)
+3. Look at the preview, then ship it:
+   - **Using Claude:** open the preview link Claude sends, look at the banner, and say **"ship it."**
+   - **Using ChatGPT:** when Codex finishes, tap **Create PR** and open the pull request. Within a minute or two, Cloudflare adds a comment there with a **preview link**: open it and look at the banner. To ship it, tap **Squash and merge** → **Confirm squash and merge**.
+
+   A minute later, it's on your live site.
 4. Write your site card (below). Your AI walks you through it.
-5. Now say **"undo that."** A minute later the banner is gone. Now you know you can take anything back.
+5. Now say **"undo that."** (On ChatGPT, when Codex has the undo ready, tap **Create PR**, then **Squash and merge**.) A minute later the banner is gone. Now you know you can take anything back.
 
-That's the loop from now on: say what you want, look at the preview, say "ship it."
+That's the loop from now on: say what you want, look at the preview, ship it.
 
 ## Your site card
 

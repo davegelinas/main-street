@@ -2,7 +2,7 @@
 
 **A professional website for your small business, for about $12 a year.**
 
-You change it by talking to the AI you already use. Say "change our Saturday hours to 9 to 2." Your AI sends you a preview link. You look at it on your phone and say **"ship it."** A minute later, your website is updated.
+You change it by talking to the AI you already use, **Claude** or **ChatGPT**. Say "change our Saturday hours to 9 to 2." Your AI sends you a preview link. You look at it on your phone and say **"ship it."** A minute later, your website is updated.
 
 No page builder. No monthly website fee. No developer to wait on.
 
@@ -24,13 +24,13 @@ About two hours, much of it waiting, and you can do it yourself. Your AI walks y
 
 - You run a small business: a shop, a salon, a trade, a bakery, a studio.
 - You want a website that looks professional, and you want to keep it up to date yourself.
-- You have, or are happy to get, a paid AI plan: **Claude Pro** (smoothest today) or **ChatGPT Plus**, about $20 a month.
+- You have, or are happy to get, a paid AI plan, about $20 a month: **Claude Pro** or **ChatGPT Plus**. Either works, and the setup guide has steps for each.
 
 ## How it works
 
 1. **Say what you want**, in plain words. Type it or say it out loud.
 2. **Open the preview link** your AI sends. It's your website with the change, on your phone.
-3. **Say "ship it."** Your live website updates in about a minute.
+3. **Say "ship it."** Your live website updates in about a minute. (On ChatGPT, it's two taps: **Create PR**, then **Squash and merge**.)
 
 Nothing goes live until you say "ship it." Changed your mind? Say **"undo that"** and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it.
 

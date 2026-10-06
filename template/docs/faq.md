@@ -7,7 +7,10 @@ No. If you can send a text message, you can run this website. Setup takes about 
 Yes. That's how it's designed: you and your AI, about two hours, with a checklist so you can stop and come back. A helper is welcome if you have one; they follow the same steps, signed in as you.
 
 **Can I do it all on my phone?**
-Day to day, yes: everything happens on your phone. Setup works on a phone too, but a computer makes two of the steps (Cloudflare and GitHub's settings) much easier.
+Day to day, yes: everything happens on your phone. Setup works on a phone too, but a computer makes a few steps much easier (Cloudflare, GitHub's settings, and, on ChatGPT, the one-time workspace setup).
+
+**Which AI do I need?**
+Claude Pro or ChatGPT Plus, about $20 a month. Either works: the setup guide has steps for each, and both follow the same rules inside your site. The one difference you'll notice: Claude publishes a change when you say "ship it," while on ChatGPT you tap **Create PR**, then **Squash and merge**. Another AI, or a free plan? See [Other AIs](connect-your-ai.md#other-ais).
 
 **What does it actually cost?**
 About $12 a year for your domain name (usually $10 to $15, depending on the ending: .com, .shop, and so on). Hosting and everything else are free. Separately, you need a paid AI plan, about $20 a month (Claude Pro or ChatGPT Plus), which many owners already have. On a free AI plan, there's a slower [browser-only path](browser-only.md).
