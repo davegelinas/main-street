@@ -13,9 +13,10 @@ if (!/^https:\/\//.test(base) && !isLocal) {
   process.exit(2);
 }
 const host = new URL(base).host;
-// Staging-like hosts (staging.<domain>, *.pages.dev) must stay out of
-// search engines; production must stay indexable.
-const isStagingHost = host.startsWith("staging.") || host.endsWith(".pages.dev");
+// The free Cloudflare addresses (*.pages.dev: the starter address and every
+// preview link) must stay out of search engines; the owner's domain must
+// stay indexable.
+const isPreviewHost = host.endsWith(".pages.dev");
 const results = [];
 
 async function check(name, fn) {
@@ -65,8 +66,8 @@ await check("http redirects to https", async () => {
   console.log("  SKIP  http redirects to https (localhost only)");
 }
 
-if (isStagingHost) {
-await check("staging sends X-Robots-Tag noindex", async () => {
+if (isPreviewHost) {
+await check("free address sends X-Robots-Tag noindex", async () => {
   const { res } = await get("/");
   const tag = res.headers.get("x-robots-tag") ?? "";
   if (!/noindex/i.test(tag)) throw new Error(`got "${tag || "(missing)"}", expected noindex`);
@@ -101,14 +102,14 @@ console.log("\nIntegrations (info only, see docs/api-keys.md):");
 try {
   const { text } = await get("/");
   if (/id="contact-form"/.test(text)) {
-    console.log("  INFO  contact form is on this page: messages are delivered only if RESEND_API_KEY and CONTACT_TO_EMAIL are set in Cloudflare; without them visitors see your email address instead. The page never breaks.");
+    console.log("  INFO  contact form is on this page: messages are delivered only if RESEND_API_KEY and CONTACT_TO_EMAIL are set in Cloudflare (Production) and your domain is verified in Resend; without them visitors are asked to email you directly. The page never breaks.");
   } else {
     console.log("  INFO  no contact form on this page (feature off).");
   }
   if (/cloudflareinsights\.com\/beacon/.test(text)) {
     console.log("  INFO  analytics beacon present, visitor stats are collecting.");
   } else {
-    console.log("  INFO  no analytics beacon, visitor stats off; the site works exactly the same.");
+    console.log("  INFO  no analytics beacon, visitor stats off. Turn them on with one click (Cloudflare -> Workers & Pages -> your project -> Metrics -> Enable Web Analytics); they start after the next deployment.");
   }
   const starters = ["Your photo here", "placeholder copy", "Example service", "lorem ipsum", "Your first real customer quote"];
   const found = starters.filter((s) => text.toLowerCase().includes(s.toLowerCase()));

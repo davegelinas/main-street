@@ -160,6 +160,7 @@
           "type": "string"
         },
         "domain": {
+          "description": "Your domain, like acmeplumbing.com. Leave empty until you connect one; the site runs on its free Cloudflare address until then.",
           "type": "string"
         }
       },

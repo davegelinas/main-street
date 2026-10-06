@@ -31,6 +31,15 @@ function loadConfig(root: string): Config {
   }
 }
 
+// The domain is empty until the owner connects one (the site starts on its
+// free *.pages.dev address). Absolute URLs (canonical, og:url, sitemap) are
+// only emitted once a real domain exists, so shares never point at a
+// placeholder.
+function liveDomain(cfg: Config): string {
+  const d = String(cfg.site?.domain ?? "").trim();
+  return d === "example.com" ? "" : d;
+}
+
 function getPath(obj: any, path: string): any {
   return path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
 }
@@ -78,7 +87,7 @@ function jsonLd(cfg: Config): string {
     description: cfg.site?.description,
     telephone: b.phone,
     email: b.email,
-    url: `https://${cfg.site?.domain}`,
+    url: liveDomain(cfg) ? `https://${liveDomain(cfg)}` : undefined,
     foundingDate: b.founded,
     address: {
       "@type": "PostalAddress",
@@ -117,10 +126,9 @@ function stripFeatures(html: string, cfg: Config): string {
     // Booking: buttons only render when a real booking URL is configured.
     // Never link a "book now" button to the contact form as a placeholder.
     if (name === "booking") return on && String(cfg.integrations?.bookingUrl ?? "").trim() ? body : "";
-    // Analytics: the beacon only renders when the token is provided at build
-    // time via the CF_ANALYTICS_TOKEN environment variable. The token never
-    // lives in site.config.json or any committed file.
-    if (name === "analytics") return on && String(process.env.CF_ANALYTICS_TOKEN ?? "").trim() ? body : "";
+    // Not a flag: blocks that need an absolute URL render only once a real
+    // domain is set in site.domain.
+    if (name === "liveDomain") return liveDomain(cfg) ? body : "";
     return on ? body : "";
   });
   let prev = "";
@@ -165,7 +173,6 @@ function replaceTokens(html: string, cfg: Config): string {
   return html.replace(/\{\{([a-zA-Z0-9_.]+)\}\}/g, (match, path) => {
     if (path === "year") return String(new Date().getFullYear());
     if (path === "jsonld") return jsonLd(cfg);
-    if (path === "analyticsToken") return String(process.env.CF_ANALYTICS_TOKEN ?? "").trim();
     if (path === "business.hours") return hoursHtml(cfg.business?.hours ?? []);
     if (path === "faqJsonld") return faqJsonLd(html);
     if (path === "business.tagline") return esc(tagline(cfg));
@@ -190,12 +197,15 @@ export function siteConfig(): Plugin {
       // llms.txt straight to the output dir, overwriting the public/ templates.
       // (options is typed by the Plugin contract; only options.dir is used.)
       const cfg = loadConfig(root);
-      const domain = cfg.site?.domain ?? "example.com";
+      const domain = liveDomain(cfg);
       const outDir = options.dir ?? resolve(root, "dist");
       const pages = ["", "privacy-policy/", "terms-of-service/"];
-      const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((p) => `  <url><loc>https://${domain}/${p}</loc></url>`).join("\n")}\n</urlset>\n`;
-      const robots = `User-agent: *\nAllow: /\n\nSitemap: https://${domain}/sitemap.xml\n`;
-      writeFileSync(resolve(outDir, "sitemap.xml"), sitemap);
+      let robots = "User-agent: *\nAllow: /\n";
+      if (domain) {
+        const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((p) => `  <url><loc>https://${domain}/${p}</loc></url>`).join("\n")}\n</urlset>\n`;
+        writeFileSync(resolve(outDir, "sitemap.xml"), sitemap);
+        robots += `\nSitemap: https://${domain}/sitemap.xml\n`;
+      }
       writeFileSync(resolve(outDir, "robots.txt"), robots);
       // llms.txt uses plain-text token replacement (no HTML escaping).
       try {

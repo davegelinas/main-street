@@ -5,21 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{business.name}} | {{business.tagline}}</title>
   <meta name="description" content="{{site.description}}">
-  <link rel="canonical" href="https://{{site.domain}}/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{business.name}}">
   <meta property="og:description" content="{{site.description}}">
+  <!-- feature:liveDomain -->
+  <link rel="canonical" href="https://{{site.domain}}/">
   <meta property="og:url" content="https://{{site.domain}}/">
   <meta property="og:image" content="https://{{site.domain}}/images/hero.svg">
+  <!-- /feature:liveDomain -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/styles.css">
   {{jsonld}}
-  <!-- feature:analytics -->
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{analyticsToken}}"}'></script>
-  <!-- /feature:analytics -->
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -198,7 +197,7 @@
           </details>
           <details>
             <summary>Do I have to write these answers myself?</summary>
-            <div><p>You can dictate answers in plain words to your AI assistant and it will tidy them up and put them here. Nothing goes live until you approve it on the staging site.</p></div>
+            <div><p>You can dictate answers in plain words to your AI assistant and it will tidy them up and put them here. Nothing goes live until you look at the preview and say "ship it."</p></div>
           </details>
           <details>
             <summary>How often should this page change?</summary>

@@ -65,10 +65,11 @@ addr.city = await prompt("City", addr.city);
 addr.state = await prompt("State (2 letters)", addr.state);
 addr.zip = await prompt("ZIP code", addr.zip);
 b.address = addr;
-const rawDomain = await promptValid("Domain name: your website address, like acmeplumbing.com (don't have one yet? just press Enter, your AI will help you get one later for about $12/year)", s.domain, (d) => isDomain(cleanDomain(d)), "That does not look like a domain, try again (example: acmeplumbing.com).");
-s.domain = cleanDomain(rawDomain);
-if (s.domain === "example.com") {
-  console.log("  (Keeping the placeholder example.com, your AI will help you get a real domain later.)");
+const domainDefault = s.domain === "example.com" ? "" : (s.domain ?? "");
+const rawDomain = await promptValid("Domain name, like acmeplumbing.com (no domain yet? press Enter: your site starts on a free Cloudflare address and your AI helps you add a domain later for about $12/year)", domainDefault, (d) => d.trim() === "" || isDomain(cleanDomain(d)), "That does not look like a domain, try again (example: acmeplumbing.com), or press Enter to skip.");
+s.domain = cleanDomain(rawDomain.trim());
+if (!s.domain) {
+  console.log("  (No domain yet. That's fine: the site works on its free address until you add one.)");
 }
 const taglineClean = b.tagline.trim().replace(/[.!\u2026]+$/, "");
 s.description = `${b.name}: ${taglineClean}. Located at ${addr.street}, ${addr.city}, ${addr.state}.`;
@@ -104,9 +105,9 @@ console.log("The page copy is neutral placeholder text.");
 console.log("Ask your AI assistant: \"rewrite the homepage copy for my business, keeping the layout.\"");
 
 // ---- Integrations status ----
-// API keys live in Cloudflare (Pages -> Settings -> Environment variables)
-// and in .dev.vars for local testing. Never in this repo, never in chat.
-// A missing key never breaks a page: the feature degrades gracefully.
+// API keys live in Cloudflare (Pages -> Settings -> Environment variables,
+// Production only) and in .dev.vars for local testing. Never in this repo,
+// never in chat. A missing key never breaks a page: the feature degrades.
 console.log("\nIntegrations status (details: docs/api-keys.md):");
 const feat = config.features ?? {};
 const devVarsPath = resolve(root, ".dev.vars");
@@ -121,17 +122,13 @@ function statusLine(name, state, note) {
 if (!feat.contactForm) {
   statusLine("Contact form email (Resend)", "SKIPPED", "the contact form feature is off. Turn it on in site.config.json to use it.");
 } else if (hasResendKey) {
-  statusLine("Contact form email (Resend)", "WORKING", "key found in .dev.vars for local testing. Also add it in Cloudflare Pages -> Settings -> Environment variables for the live site.");
+  statusLine("Contact form email (Resend)", "WORKING", "key found in .dev.vars for local testing. Also add it in Cloudflare Pages -> Settings -> Environment variables (Production) for the live site.");
 } else {
-  statusLine("Contact form email (Resend)", "NOT SET UP", "visitors see your email address instead of the form; the page never breaks. See docs/api-keys.md.");
+  statusLine("Contact form email (Resend)", "NOT SET UP", "it needs your own domain first. Until then visitors see your phone and email instead; the page never breaks. See docs/api-keys.md.");
 }
 
-if (!feat.analytics) {
-  statusLine("Visitor stats (Cloudflare Analytics)", "SKIPPED", "the analytics feature is off.");
-} else if (String(process.env.CF_ANALYTICS_TOKEN ?? "").trim()) {
-  statusLine("Visitor stats (Cloudflare Analytics)", "WORKING", "token found in this shell (rare, it normally lives in Cloudflare).");
-} else {
-  statusLine("Visitor stats (Cloudflare Analytics)", "NOT SET UP", "add CF_ANALYTICS_TOKEN in Cloudflare Pages -> Settings -> Environment variables. No visitor stats until then; the site works exactly the same. See docs/api-keys.md.");
+if (feat.analytics) {
+  statusLine("Visitor stats (Cloudflare Web Analytics)", "ONE CLICK", "Cloudflare dashboard -> Workers & Pages -> your project -> Metrics -> Enable. No key needed.");
 }
 
 // Offer to save a Resend key for local testing (optional, safe to skip).
@@ -151,16 +148,17 @@ if (feat.contactForm && !hasResendKey) {
   }
 }
 
-console.log("\nYour future website addresses (once your domain is connected, your helper or AI does that part):");
-console.log(`  Live:    https://${s.domain}`);
-console.log(`  Staging: https://staging.${s.domain}   <- every change appears here first, for your eyes only`);
+if (s.domain) {
+  console.log(`\nYour live site will be https://${s.domain} once the domain is connected (your AI walks you through that part).`);
+} else {
+  console.log("\nYour live site will start on a free Cloudflare address (shown when it's connected). Add your own domain whenever you're ready.");
+}
+console.log("Every change gets its own preview link first. Nothing goes live until you say \"ship it.\"");
 console.log("\nNext steps:");
-console.log("  For you:");
-console.log("    1. npm run dev      Preview your site at http://localhost:5173");
-console.log("    2. Ask your AI assistant to rewrite the homepage copy for your business");
-console.log("       (also give it your real opening hours: the Mon-Fri 9-5 default is a placeholder)");
-console.log("    3. Gather your stuff: photos, logo, and answers go in the shoebox at content/brand/ (see content/brand/README.md). Have a current site? Give your AI its domain and it will harvest the shoebox for you. Or just ask your AI to interview you in chat. docs/gather-your-stuff.md is the weekend homework.");
-console.log("  For your helper (or your AI): follow docs/setup-guide.md:");
-console.log("    3. Put the site on GitHub and connect it to Cloudflare Pages (free)");
-console.log("    4. Connect your domain name and set up email\n");
+console.log("  1. npm run dev      Preview your site at http://localhost:5173");
+console.log("  2. Ask your AI to rewrite the homepage copy for your business");
+console.log("     (and give it your real opening hours: the Mon-Fri 9-5 default is a placeholder).");
+console.log("  3. Gather your stuff: photos, logo, and your story go in content/brand/ (docs/gather-your-stuff.md).");
+console.log("     Or ask your AI to interview you in chat.");
+console.log("  4. Put the site online: docs/setup-guide.md (GitHub + Cloudflare Pages, free).\n");
 rl.close();
