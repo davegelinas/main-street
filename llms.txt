@@ -1,22 +1,22 @@
 # Main Street
 
-> Main Street is an open-source toolkit for building a professional small-business website for about $12 a year. The business owner updates the site by chatting with any AI assistant (ChatGPT, Claude, or similar): the AI prepares every change on a preview copy, the owner reviews it on their phone, and says "ship it" to make it live. No page builder, no monthly fees, no developer on retainer.
+> Main Street is an open-source toolkit for building a professional small-business website for about $12 a year. The business owner updates the site by chatting with any AI assistant (ChatGPT, Claude, or similar): the AI prepares every change as its own pull request with a preview link, the owner reviews it on their phone, and says "ship it" to make it live. No page builder, no monthly fees, no developer on retainer.
 
 ## What it is
 
 - A **site template** (`template/`): a fast, accessible small-business website with a setup wizard, business-type presets, and plain-English guides.
 - A **scaffolder** (`scripts/new-site.mjs`): turns the template into a new customer site repo in one command.
-- An **AI knowledge base** (`template/rules/`, `template/features/`, `template/presets/`, `template/CLAUDE.md`): instructions so any AI assistant can safely maintain the site.
-- **Docs**: [the $12/year stack](docs/the-12-dollar-stack.md), [setup guide](template/docs/setup-guide.md), [connect your AI](template/docs/connect-your-ai.md), [API keys](template/docs/api-keys.md), [everyday examples](template/docs/examples.md), [owner quickstart](template/docs/owner-quickstart.md), [for agencies](docs/for-agencies.md).
+- An **AI knowledge base** (`template/rules/`, `template/features/`, `template/presets/`, `template/AGENTS.md`, the single manual every AI reads): instructions so any AI assistant can safely maintain the site.
+- **Docs**: [the $12/year stack](docs/the-12-dollar-stack.md), [setup guide](template/docs/setup-guide.md), [connect your AI](template/docs/connect-your-ai.md), [API keys](template/docs/api-keys.md), [everyday examples](template/docs/examples.md), [owner page](template/README.md), [for agencies](docs/for-agencies.md).
 
 ## Who it is for
 
-Small business owners (plumbers, salons, bakeries, restaurants, shops) who want a professional website without learning a page builder or paying monthly fees, and the agencies, freelancers, or tech-savvy friends who set sites up for them.
+Small business owners (plumbers, salons, bakeries, restaurants, shops) who want a professional website without learning a page builder or paying monthly fees, who can set everything up themselves with their own AI in about an hour. A helper (agency, freelancer, or tech-savvy friend) is optional.
 
 ## How updates work (the golden loop)
 
 1. The owner tells their AI assistant what they want, in plain words.
-2. The AI prepares the change on a **preview copy** (the staging site).
+2. The AI prepares the change on its own branch and pull request, and sends the **preview link** Cloudflare builds for it.
 3. The owner opens the preview link on their phone and checks it.
 4. The owner says **"ship it"** and the live site updates in about a minute.
 
@@ -24,14 +24,14 @@ Nothing goes live without the owner seeing and approving it first.
 
 ## Key vocabulary
 
-- **Preview copy**: the staging site where every change is prepared and reviewed first. Never edit the live site directly.
-- **Ship it**: the owner's approval phrase. It means merge the preview copy to production.
-- **The $12/year stack**: the cost model. About $12 a year for the domain name; hosting, CDN, and analytics run on free tiers (Cloudflare Pages, Resend, Cloudflare Analytics).
-- **Graceful degradation**: if an API key is missing, the feature quietly steps back (visitors see an email address instead of a form) and the page never breaks.
+- **Preview link**: every change gets its own, built by Cloudflare from its pull request. There is no shared staging site. The live site is locked: GitHub blocks direct changes to `main`.
+- **Ship it**: the owner's approval phrase. It means merge that pull request to production. **Undo that** means the AI prepares a revert as a new preview.
+- **The $12/year stack**: the cost model. About $12 a year for the domain name; hosting, CDN, and analytics run on free tiers (Cloudflare Pages, Resend, Cloudflare Web Analytics). The hands-free AI loop needs a paid AI plan (about $20/month, Claude Pro or ChatGPT Plus).
+- **Graceful degradation**: if the contact form's one key is missing, the feature quietly steps back (visitors see an email address instead of a form) and the page never breaks.
 
 ## Technical facts
 
 - Static site built with Vite; plain HTML/CSS, no framework.
-- Deploys on Cloudflare Pages: `main` branch is production, `staging` branch is the preview site.
+- Deploys on Cloudflare Pages: `main` is production, every other branch gets its own preview link. The repository is public, with a GitHub ruleset on `main` that requires a pull request.
 - Contact form runs on a Cloudflare Pages Function with spam protection optional.
 - MIT licensed. Repository: https://github.com/davegelinas/main-street

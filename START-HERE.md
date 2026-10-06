@@ -1,22 +1,22 @@
 # START HERE
 
-Welcome. This checklist takes you from "I have the toolkit" to a live small-business website. No experience assumed. If a step confuses you, open your AI chat (muse.ai, claude.ai, chatgpt.com, or whichever you use) and say "walk me through this step."
+**Setting up your own business's website?** You don't need this page or a terminal. Follow the [setup guide](template/docs/setup-guide.md): two free accounts, an empty repository, one link, and your AI does the rest with you (about an hour).
 
-**The honest shape of this checklist:** steps 1–3 are the only terminal you'll ever touch (about 15 minutes). Everything after handover, the owner's entire life with the site, is just chatting. See [connect your AI](template/docs/connect-your-ai.md) for how the owner's side connects.
+This page is for **helpers who prefer a terminal**: an agency, a freelancer, or a tech-savvy friend setting a site up in the owner's accounts. If a step confuses you, ask your AI: "walk me through this step."
 
 ## 0. Understand what this is
 
-This toolkit is the **generator**. It holds a pristine site template and a scaffolder script. You use it to create one **customer site**: a separate folder (and later its own GitHub repo) that belongs to the business. The business owner lives in their site with their AI assistant; they never see this toolkit.
+This toolkit is the **generator**. It holds a pristine site template and a scaffolder script. You use it to create one **customer site**: a separate folder (and its own GitHub repository) that belongs to the business. The owner lives in their site with their AI; they never see this toolkit.
 
 ## 1. Create the site (2 minutes)
 
-On your computer, in a terminal, from this toolkit folder:
+From this toolkit folder:
 
 ```bash
 node scripts/new-site.mjs ../acme-plumbing
 ```
 
-(Replace `../acme-plumbing` with the business's folder name.) The `../` matters: your site lives **next to** the toolkit, not inside it. The toolkit stays pristine so you can make more sites later, and your site gets its own GitHub repo. The script copies the template, names everything correctly, verifies the copy, and initializes git. It refuses to overwrite a non-empty folder without `--force`, refuses to build inside the toolkit folder, and it never touches the network.
+The `../` matters: the site lives **next to** the toolkit, not inside it, so it can become its own repository. The script copies the template, names everything, verifies the copy, and initializes git. It refuses to overwrite a non-empty folder without `--force`, refuses to build inside the toolkit folder, and never touches the network.
 
 ## 2. Make it theirs (10 minutes)
 
@@ -26,35 +26,37 @@ npm install
 npm run setup
 ```
 
-`npm install` downloads the build tools (one time). `npm run setup` asks plain-language questions: business name, phone, email, address, domain, what kind of business, then configures everything. At the end it prints the status of the two free integrations (contact-form email, visitor stats) and points to the setup guide.
+The wizard asks plain questions (business name, phone, email, address, domain, kind of business) and configures everything. No domain yet? Press Enter: the site starts on a free address.
 
-## 3. See the site (1 minute)
+Check it with `npm run dev` (usually http://localhost:5173). Then tick boxes 1 and 2 in the site's `SETUP.md`.
+
+## 3. Put it on GitHub, in the owner's account (5 minutes)
+
+Create the repository at github.com/new as the owner: same name as the folder, **Public**, no README. Then:
 
 ```bash
-npm run dev
+git branch -M main
+git commit -m "First version of the site"
+git remote add origin https://github.com/OWNER/REPO.git
+git push -u origin main
 ```
 
-Open the address it prints (usually http://localhost:5173). The copy is neutral placeholder text right now. Ask your AI: "rewrite the homepage copy for this business, keeping the layout."
+## 4. Finish setup with the owner (30 minutes)
 
-## 4. Put it on the internet (15 minutes)
+Follow the site's `docs/setup-guide.md` in the owner's accounts, with the owner beside you: **Step 3** (connect the owner's AI to GitHub), then **Step 5** on:
 
-Full walkthrough inside the site: `docs/setup-guide.md`. The short version:
+- **Step 5:** connect Cloudflare Pages and turn on visitor stats.
+- **Step 6:** lock the live site (GitHub ruleset and settings).
+- **Step 7:** make the owner's **Edit my website** button, and have the owner ship one change and one undo themselves.
+- **Your site card:** make sure the owner writes down their logins and recovery codes.
 
-1. **Buy the domain** at Cloudflare Registrar (~$10-12/year, no markup).
-2. **Save and push the site.** The scaffolder staged everything locally; now make it real. From your site folder: `git branch -M main`, then `git commit -m "First version of the site"`. Create the repo at github.com/new (same name as the folder), then `git remote add origin https://github.com/YOUR-ACCOUNT/YOUR-REPO.git` and `git push -u origin main`.
-3. **Connect the site's repo to Cloudflare Pages**: Workers & Pages → Create → Continue to Pages → Import an existing Git repository → Get started → Connect to Git → pick the repo. Build command `npm run build`, output directory `dist`, framework preset None (there is no plain Vite option; do not pick the similar-looking VitePress or React (Vite)).
-4. **Push to the `staging` branch** → Cloudflare builds a preview. Once you attach your custom domain (setup guide Step 6), the preview lives at `staging.yourdomain.com`; until then it's `staging.<project>.pages.dev`. The preview row appears after your first commit to `staging` once Cloudflare is connected; it will not exist before that. The owner reviews every change here.
-5. **Owner says "ship it"** → merge `staging` into `main` → the live domain updates in about a minute.
-
-## 5. Hand it over
-
-Point the owner at their site's **README.md** and **[docs/examples.md](template/docs/examples.md)**: the "see, it's actually easy" proof. Their whole job from now on: tell their AI what they want, look at the preview link on their phone, say "ship it."
+The owner's domain, business email, and contact form are in the same guide under "Later," whenever they're ready.
 
 ## If something looks wrong
 
-1. Don't panic. Nothing here can send anyone a bill and almost nothing is irreversible.
-2. Ask the AI: "what just changed, and how do we undo it?"
-3. The fastest undo: Cloudflare dashboard → Workers & Pages → the site → Deployments → find the last good one → **Rollback**. No terminal needed.
+1. Don't panic. Nothing here can send anyone a bill, and almost nothing is irreversible.
+2. Ask the AI: "what just changed, and how do we undo it?" Then say "undo that."
+3. Live site broken right now? Emergency brake: Cloudflare dashboard → Workers & Pages → the site → Deployments → the last good one → **Rollback**. Then have the AI revert the bad change too, or the next "ship it" publishes it again.
 
 ---
 

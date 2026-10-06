@@ -9,3 +9,5 @@ Guidelines that keep the site fast:
 - Every photo shown on the site needs descriptive `alt` text in the HTML (it is how screen readers and Google "see" the image).
 
 Then run `npm run optimize-images`. If the `sharp` package is available it will convert everything to WebP and resize oversized files automatically. If not, the script prints a plain-English report of what needs shrinking, and you can ask your AI assistant to handle it.
+
+Phone photos can carry hidden GPS location data, and your site's files are public. `npm run optimize-images` strips it, and an automatic check on every change catches anything that slips through.

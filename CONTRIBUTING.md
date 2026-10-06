@@ -13,7 +13,7 @@ Thanks for wanting to help. This project exists so small businesses can have a g
 
 - **Owners first.** If a change makes something more powerful but harder to understand, it needs to work harder to justify itself.
 - **Tool-agnostic.** The docs and instructions must work with any AI assistant, never just one.
-- **Preview first, ship it after.** Never propose a change that lets edits skip the staging preview.
+- **Preview first, ship it after.** Never propose a change that lets edits skip the preview link, or that asks anyone to loosen the lock on `main`.
 - **No secrets in PRs.** API keys, tokens, and credentials never belong in files, logs, or screenshots.
 - **Be kind.** See the [Code of Conduct](CODE_OF_CONDUCT.md).
 
