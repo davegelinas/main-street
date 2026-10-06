@@ -37,7 +37,7 @@ form?.addEventListener("submit", async (e) => {
       form.reset();
     } else {
       formStatus.classList.add("err");
-      formStatus.textContent = body.error ?? "Something went wrong sending your message. Please try again.";
+      formStatus.textContent = body.error ?? "Sorry, the form isn't working right now. Please call or email us directly.";
     }
   } catch {
     formStatus.classList.add("err");
