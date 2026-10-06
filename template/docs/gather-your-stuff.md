@@ -47,7 +47,7 @@ Simple names help but aren't required: `storefront.jpg`, `team.jpg`, `croissants
 ## Logo and video, if you have them
 
 - **Logo?** Upload it the same way, into `content/brand/logo`. No logo? Your AI sets your business name in nice type instead. A logo is nice, never required.
-- **Short video?** Your shop in motion, a product being made. Upload it into `content/brand/videos`. Phone video is fine.
+- **Short video?** Your shop in motion, a product being made. Phone video is fine, with two catches: videos can carry the location they were filmed (turn location off when you share it), and GitHub's upload page takes files up to 25 MB, which is only a few seconds of phone video. Under 25 MB: upload it into `content/brand/videos`. Bigger: send your AI a link to it instead (iCloud, Google Drive, or a YouTube upload).
 
 ## Nothing here is required
 

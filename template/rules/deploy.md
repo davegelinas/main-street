@@ -13,7 +13,7 @@ There is no shared staging site. Two changes never ride together: approving new 
 2. `gh pr list` (or the repo's Pull requests page). Don't quiz the owner about each one. Do what they asked first, then add one line: "Two earlier changes are still waiting. Want to go through them?" If they say yes, go one at a time: ship it, change it, or toss it? Close the ones they toss.
 3. **Removals come first.** If a waiting change takes something off the live site (an undo, a banner coming down), mention it at the *start* of every session until it ships or is tossed: "The parade notice is still on your live site. Say 'ship it' and I'll take it down."
 4. If the owner keeps working on a waiting change, continue on its branch. Otherwise start fresh from `main`.
-5. **"I uploaded my photos."** On a locked site, GitHub's upload makes its own branch and pull request (the owner taps "Create a new branch... and start a pull request"). Find it (`gh pr list`), check out that branch, run `npm run optimize-images`, wire the photos in, and continue there. Don't start a fresh branch from `main`, or the photos get left behind.
+5. **"I uploaded my photos."** On a locked site, GitHub's upload makes its own branch and pull request (the owner taps "Create a new branch... and start a pull request"). Find it (`gh pr list`), check out that branch, and wait for its **photos** check to finish: CI may add a "Remove hidden camera data from photos" commit. Pull, then run `npm run optimize-images`, wire the photos in, and continue there. Always pull before you push on that branch. Don't start a fresh branch from `main`, or the photos get left behind.
 
 **Send direct links, not directions.** When the owner has to do something on GitHub, send the exact page: photo upload `https://github.com/OWNER/REPO/upload/main/content/brand/photos`, the lock `https://github.com/OWNER/REPO/settings/rules`, a pull request's own link.
 
@@ -47,7 +47,7 @@ If you can't merge yourself (your platform has no merge permission), give the ow
 ## Never
 
 - Never push or force-push to `main`, and never ask anyone to loosen the lock on it. If a merge is blocked (failing checks), fix the change on its branch.
-- Never merge without the owner's "ship it" for that change.
+- Never merge without the owner's "ship it" for that change. (The one exception: "undo that" about a change you shipped earlier in this same conversation, which publishes right away.)
 - Never deploy manually (`wrangler deploy`, `wrangler pages deploy`, dashboard uploads). They ship whatever is on your machine with no record, and the next merge silently reverts them. Retrying the latest deployment in the dashboard is fine: it rebuilds the same commit.
 - Never hand-edit production. Never "fix it live and commit later."
 

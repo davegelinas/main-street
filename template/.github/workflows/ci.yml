@@ -14,7 +14,8 @@ jobs:
   # taken. On every change, this strips that hidden camera data and commits
   # the clean copy, so it never reaches the live site. (The original upload
   # stays in the change's history, so turning location off before uploading
-  # is still the real protection.) On main it only checks.
+  # is still the real protection.) On main it does the same during setup;
+  # once main is locked the push is refused and the job fails loudly.
   photos:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
@@ -31,11 +32,7 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
-      - name: Check photos (main)
-        if: github.event_name == 'push'
-        run: npm run check-images
-      - name: Strip camera data and commit (pull requests)
-        if: github.event_name == 'pull_request'
+      - name: Strip camera data and commit
         run: |
           node scripts/optimize-images.mjs --strip || status=$?
           if [ -n "$(git status --porcelain)" ]; then

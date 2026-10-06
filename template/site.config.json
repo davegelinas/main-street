@@ -36,7 +36,7 @@
     "emailSignup": false,
     "faq": true,
     "gallery": true,
-    "heroPhoto": true,
+    "heroPhoto": false,
     "menu": true,
     "testimonials": true
   },

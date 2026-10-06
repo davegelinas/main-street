@@ -4,7 +4,7 @@ This folder is your **shoebox**. Whatever you put here, your AI uses to build yo
 
 - **`photos/`**: pictures of your business. Your storefront, you at work, your products, your team (with their okay), the inside of your shop. Phone photos are perfect.
 - **`logo/`**: your logo file, if you have one. No logo? Your AI sets your business name in nice type instead.
-- **`videos/`**: short clips, if you have any. Phone video is fine.
+- **`videos/`**: short clips, if you have any. Phone video is fine: turn location off, and keep each file under 25 MB (or send your AI a link instead).
 - **`brief.md`**: notes about your business. You don't have to write it: your AI fills it in from your answers when it interviews you.
 
 ## Adding a photo
