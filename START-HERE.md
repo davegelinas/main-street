@@ -6,7 +6,7 @@ This page is for **helpers who prefer a terminal**: an agency, a freelancer, or 
 
 **Watch the owner-alone setup** (70 seconds, no sound needed): one bakery, from no website to live, with the owner's own AI doing the technical parts. This page covers the terminal alternative for helpers.
 
-https://github.com/user-attachments/assets/dcb65631-03ed-4e0b-bfb5-f95be3692ee1
+https://github.com/user-attachments/assets/d84e840e-50ad-4bf6-ab4c-a339280051ed
 
 ## How it fits together
 
