@@ -27,7 +27,7 @@ Voice notes work too: your AI says back what it heard before it changes anything
 
 ## Made a mistake? Say "undo that"
 
-Every version of your site is saved, so nothing is ever lost. Say **"undo that"** and your AI takes it back: right away if it just published it, or with a quick preview for an older change.
+Every version of your site is saved, so nothing is ever lost. Say **"undo that"** and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it.
 
 ## What a good AI does
 

@@ -18,7 +18,7 @@ This checklist tracks the one-time setup. **Owner:** your AI works through it wi
 - [ ] **4. Visitor stats on.** One click: Cloudflare → Workers & Pages → the project → Metrics → Enable. (Cloudflare adds its script on the next deployment, so stats start after the next change ships.)
 - [ ] **5. Live site locked.** The GitHub ruleset and settings (setup guide, Step 6). From now on every change goes through its own preview.
 - [ ] **6. Edit my website button** on the owner's phone home screen (setup guide, Step 7). When you send the link, say: "Press and hold this link, tap Copy, paste it into Safari (Chrome on Android), sign in to Claude there once, then Share → Add to Home Screen." Tapping it directly opens the Claude app, which can't make home-screen buttons. Link format for Claude: `docs/connect-your-ai.md`, "Your Edit my website button." Other AIs: a home-screen bookmark to wherever the owner starts a chat about this repository.
-- [ ] **7. First change shipped, and one undo.** A small change (a welcome banner), preview link, "ship it," then "undo that" (it comes off right away, since it shipped in the same conversation).
+- [ ] **7. First change shipped, and one undo.** A small change (a welcome banner), preview link, "ship it," then "undo that" (it comes off right away, since it was the latest change).
 - [ ] **8. Site card written down:** logins, two-step sign-in turned on for GitHub (Settings → Password and authentication), and its recovery codes saved somewhere safe (setup guide, "Your site card"). Do this before step 7's undo.
 
 Domain they already own (if any): _____

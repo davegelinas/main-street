@@ -15,7 +15,9 @@ There is no shared staging site. Two changes never ride together: approving new 
 4. If the owner keeps working on a waiting change, continue on its branch. Otherwise start fresh from `main`.
 5. **"I uploaded my photos."** (They followed the upload message in `features/gallery.md`.) On a locked site, GitHub's upload makes its own branch and usually a pull request.
    - Find it: `gh pr list`. If the owner stopped before "Create pull request", there's a branch but no PR: look for a new branch (`git fetch origin` and `git branch -r`, often `<owner>-patch-1`).
-   - Wait for its **photos** check: CI may add a "Remove hidden camera data from photos" commit. Pull, then run `npm run optimize-images`, wire the photos in, and push. Always pull before you push on that branch.
+   - **With a PR:** wait for its **photos** check, which may add a "Remove hidden camera data from photos" commit. Pull, run `npm run optimize-images`, wire the photos in, push. Always pull before you push on that branch.
+   - **No PR yet:** there's no photos check to wait for. Run `npm run optimize-images`, wire the photos in, and push. If the optimizer says a photo **had a GPS location**, first rebuild the branch as one clean commit so the located original isn't kept in the change: `git reset --soft origin/main`, commit, `git push --force-with-lease origin HEAD:<that branch>` (that branch only, never `main`). Then open the PR yourself: `gh pr create --head <branch> --title "<plain title>"`.
+   - **A located photo** is worth one plain line to the owner either way: "One photo had the spot it was taken saved in it. I removed that. Next time, choose No Location before uploading." If a PR already existed, add: "The original is still in that change's history on GitHub."
    - Retitle it in plain words (`gh pr edit <n> --title "Gallery: four new photos"`); GitHub's "Add files via upload" means nothing to the owner. Retitle again if the change grows.
    - **If a waiting change already edits the same section** (a gallery update), move the uploaded photos onto that branch instead, close the upload's pull request, and tell the owner it's all one preview now. Otherwise continue on the upload's branch. Never start fresh from `main`, or the photos get left behind.
 
@@ -41,19 +43,19 @@ If you can't merge yourself (your platform has no merge permission), give the ow
 
 ## When the owner says "undo that"
 
-1. Find which change they mean. If there's any doubt, ask one question ("the hours change from this morning?").
+1. **Find which change they mean.** In the chat where you shipped it, it's obvious. Otherwise (the Edit my website button starts a fresh chat each time) list what shipped, in ship order: `git log --first-parent -5 --format=%s origin/main` (squash titles end in "(#n)"). Then ask one yes/no that names it: "The two gallery photos from earlier today? Say yes and I'll take them off."
 2. **It never shipped?** Toss it: close its pull request. "That one never went live, so I've thrown it away."
-3. **You shipped it earlier in this same conversation?** Revert it on a new branch, run `npm run build`, open the pull request, and merge it right away: it restores what they already approved. "Done: it's back the way it was. Live in about a minute." If the build fails, say so plainly instead of "Done", and fix it first.
-   **A new chat, so you don't know what "that" is?** (The Edit my website button starts a fresh chat each time.) List what shipped recently, `gh pr list --state merged --limit 3`, and ask one question: "The gallery photos from earlier today?" Then treat it as an earlier-session change (step 4).
-4. **It shipped in an earlier session?** Revert it on a new branch (`git revert` of that merge, or GitHub's **Revert** button on the merged pull request), open a pull request, send the preview link: "Here's your site with that change undone. Say 'ship it' and it's gone." Until it ships, it's a removal waiting (see "At the start of every session").
-   **Undoing photos?** A revert also empties the owner's originals in `content/brand/photos`. Keep them: after `git revert`, run `git checkout HEAD~1 -- content/brand/photos` and commit, so only the site goes back.
+3. **It's the most recent thing that shipped?** Its "undo that" (or the "yes" above) is the approval: the revert restores what was live before, which the owner already approved. Revert it on a new branch, run `npm run build`, open the pull request, and merge it right away. "Done: it's back the way it was. Live in about a minute." If the build fails, say so plainly instead of "Done", and fix it first.
+4. **Other changes shipped after it?** Then the revert mixes with newer work, so it gets a preview like any change: revert on a new branch (`git revert` of that merge, or GitHub's **Revert** button on the merged pull request), open a pull request, send the link: "Here's your site with that change undone. Say 'ship it' and it's gone." Until it ships, it's a removal waiting (see "At the start of every session").
+
+**Undoing photos?** A revert also empties the owner's originals in `content/brand/photos`. Keep them: after `git revert`, run `git checkout HEAD~1 -- content/brand/photos` and commit, so only the site goes back.
 
 **Emergency brake (live site broken right now):** Cloudflare dashboard → Workers & Pages → the project → Deployments → the last good production deployment → ⋯ → **Rollback**. This fixes the live site in seconds, but the bad change is still on `main`, and the next "ship it" would publish it again. Always follow a rollback with the revert pull request above. The rollback is for helpers and emergencies; the owner's undo is saying "undo that."
 
 ## Never
 
 - Never push or force-push to `main`, and never ask anyone to loosen the lock on it. If a merge is blocked (failing checks), fix the change on its branch.
-- Never merge without the owner's "ship it" for that change. (The one exception: "undo that" about a change you shipped earlier in this same conversation, which publishes right away.)
+- Never merge without the owner's "ship it" for that change. (The one exception: "undo that" for the most recent thing that shipped, which publishes right away; see above.)
 - Never deploy manually (`wrangler deploy`, `wrangler pages deploy`, dashboard uploads). They ship whatever is on your machine with no record, and the next merge silently reverts them. Retrying the latest deployment in the dashboard is fine: it rebuilds the same commit.
 - Never hand-edit production. Never "fix it live and commit later."
 

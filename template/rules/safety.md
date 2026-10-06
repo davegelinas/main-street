@@ -48,7 +48,7 @@ State the risk like this: "This will [concrete consequence]. Once done, [it can 
 
 ## Deployment safety
 
-- The owner looks at the preview link and says "ship it" before anything merges to `main`. No exceptions for beginners, except one: "undo that" about a change you shipped in this same conversation publishes the revert right away (`AGENTS.md`, hard rule 2).
+- The owner looks at the preview link and says "ship it" before anything merges to `main`. No exceptions for beginners, except one: "undo that" for the most recent thing that shipped publishes the revert right away (`AGENTS.md`, hard rule 2).
 - Never deploy manually (wrangler deploy, dashboard uploads). Deploys come from git so there's always a record.
 - After merging, run `npm run audit` against the live URL when you can reach it. If it fails, say so immediately and offer the undo.
 

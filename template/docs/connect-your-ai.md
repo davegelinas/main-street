@@ -43,5 +43,5 @@ On an iPhone, don't tap the link: tapping opens the Claude app, which can't make
 - **"The screen looks different from this page."** Tell your AI where you are ("I'm on the settings page and I don't see...") and it will guide you.
 - **"Can I send a voice message instead of typing?"** Yes. Your AI says back what it heard in one sentence before it changes anything. If a word is unclear, it asks instead of guessing.
 - **"How do I get the monthly checkup?"** Say "run the monthly checkup." Your AI checks for old hours, tired photos, leftover placeholder words, broken links, and changes you never shipped, then suggests fixes. Nothing changes without your yes.
-- **"Something looks wrong after I said ship it."** Say "undo that" and your AI takes it back: right away if it just published it, or with a quick preview for an older change.
+- **"Something looks wrong after I said ship it."** Say "undo that" and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it.
 - **"My AI seems lost, or forgot how my site works."** Start a fresh chat from your Edit my website button. It tells your AI to read the manual first.

@@ -45,6 +45,26 @@ function walk(dir) {
 
 const hasCameraData = (meta) => Boolean(meta.exif || meta.xmp || meta.iptc);
 
+// True when the EXIF block holds a GPS location (IFD0 tag 0x8825), so the
+// AI and the owner can tell a located photo from ordinary camera data.
+function hasGps(exif) {
+  if (!exif) return false;
+  try {
+    const b = exif.toString("latin1", 0, 6) === "Exif\0\0" ? exif.subarray(6) : exif;
+    const le = b.toString("latin1", 0, 2) === "II";
+    const u16 = (o) => (le ? b.readUInt16LE(o) : b.readUInt16BE(o));
+    const u32 = (o) => (le ? b.readUInt32LE(o) : b.readUInt32BE(o));
+    const ifd0 = u32(4);
+    for (let i = 0, n = u16(ifd0); i < n; i++) {
+      const e = ifd0 + 2 + i * 12;
+      if (u16(e) === 0x8825 && u32(e + 8)) return true;
+    }
+  } catch { /* unreadable EXIF: treat as no GPS; it is stripped either way */ }
+  return false;
+}
+
+let located = 0;
+
 // Re-encode in the same format with no metadata (sharp drops it by default).
 // rotate() first, so photos keep the orientation the phone recorded.
 async function encodeSameFormat(input, ext, resizeWidth) {
@@ -90,13 +110,16 @@ for (const full of files) {
 
   const kb = Math.round(statSync(full).size / 1024);
   const dirty = hasCameraData(meta);
+  const gps = hasGps(meta.exif);
+  if (gps) located++;
+  const what = gps ? "its GPS location and other camera data" : "hidden camera data";
   const wide = shipsToSite && (meta.width ?? 0) > MAX_WIDTH;
   const heavy = shipsToSite && kb * 1024 > MAX_BYTES;
 
   if (checkOnly) {
     if (dirty) {
       problems++;
-      console.log(`  CAMERA DATA ${shown}: still carries hidden camera data (possibly GPS). Run: npm run optimize-images`);
+      console.log(`  ${gps ? "GPS LOCATION" : "CAMERA DATA"} ${shown}: still carries ${what}. Run: npm run optimize-images`);
     } else if (wide || (heavy && ext !== ".webp")) {
       console.log(`  LARGE      ${shown} (${kb} KB): run npm run optimize-images to shrink it.`);
     }
@@ -107,7 +130,7 @@ for (const full of files) {
     if (dirty) {
       writeFileSync(full, await encodeSameFormat(readFileSync(full), ext));
       fixed++;
-      console.log(`  CLEANED    ${shown}: removed hidden camera data.`);
+      console.log(`  CLEANED    ${shown}: removed ${what}.`);
     }
     continue;
   }
@@ -122,7 +145,7 @@ for (const full of files) {
     // Same file in and out: read into memory first (sharp can't write over its input).
     writeFileSync(full, await encodeSameFormat(readFileSync(full), ext, wide ? MAX_WIDTH : undefined));
     fixed++;
-    console.log(`  ${wide ? "RESIZED   " : "CLEANED   "} ${shown}${dirty ? ": removed hidden camera data" : ""}.`);
+    console.log(`  ${wide ? "RESIZED   " : "CLEANED   "} ${shown}${dirty ? `: removed ${what}` : ""}.`);
   } else if (heavy) {
     console.log(`  LARGE      ${shown} (${kb} KB): already as small as this script makes it; fine to keep.`);
   } else {
@@ -134,5 +157,6 @@ const summary = checkOnly
   ? (problems === 0 ? "\nAll photos are clean." : `\n${problems} photo(s) need attention (see above).`)
   : `\n${fixed} photo(s) updated${problems ? `, ${problems} need attention (see above)` : ""}.`;
 console.log(summary);
+if (located) console.log(`${located} photo(s) had a GPS location (where they were taken). Tell the owner in one line, and see rules/deploy.md, "I uploaded my photos".`);
 // --check and --strip fail when something couldn't be made safe, so CI shows it.
 process.exit((checkOnly || stripOnly) && problems > 0 ? 1 : 0);

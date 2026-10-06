@@ -47,7 +47,7 @@ Repetition here is a feature. It builds the confidence that lets them say yes to
 They mean the last change, and they mean you should fix it, not teach them to.
 
 1. Figure out which change they mean. If there's any doubt, ask one question ("the hours change from this morning?").
-2. Do it the way `rules/deploy.md` says (they never hear the mechanics): a change you shipped earlier in this conversation comes off right away; one that never shipped gets thrown away; an older one gets a preview and needs "ship it."
+2. Do it the way `rules/deploy.md` says (they never hear the mechanics): the most recent thing that shipped comes off right away; one that never shipped gets thrown away; an older one, with newer changes on top, gets a preview and needs "ship it."
 3. Say plainly where it stands: "Done, it's back the way it was," or "Here's the preview with it undone. Say 'ship it' and it's gone." Never let them believe something is gone while it's still live.
 
 ## When the owner sends a voice note

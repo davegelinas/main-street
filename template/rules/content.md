@@ -13,6 +13,7 @@
 - The announcement banner is the owner's megaphone: `site.announcement` in `site.config.json` (and `features.announcementBanner` must be `true`). One sentence, plain words. Empty string = no banner. It shows at the top of the homepage.
 - Typical uses: holiday closures, special hours, "we moved", limited-time offerings.
 - **Short closures** (a day, a week, a holiday) go in two places, never in `business.hours`: add the date or range to `site.closedOn` (`"2026-11-04"` or `"2026-12-24 to 2026-12-26"`), which makes the page say "Closed today" on those days and tells Google, and write the banner. Change `business.hours` only when the regular weekly hours change.
+- **Read dates back before building:** "Thursday, December 24 to Saturday, December 26?" Typed or spoken, "the 24th" is ambiguous (in October it could mean October 24). Always say the weekday and the month.
 - **Put the end date in the words** ("Closed Friday, July 4 for the parade"). You won't remember to take it down, but any later session can see the date has passed and offer to (`AGENTS.md`, session start). Never promise "I'll take it down Monday."
 
 ## Images

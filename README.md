@@ -28,7 +28,7 @@ About two hours, much of it waiting, and you can do it yourself. Your AI walks y
 2. **Open the preview link** your AI sends. It's your website with the change, on your phone.
 3. **Say "ship it."** Your live website updates in about a minute.
 
-Nothing goes live until you say "ship it." Changed your mind? Say **"undo that"** and your AI takes it back: right away if it just published it, or with a quick preview for an older change.
+Nothing goes live until you say "ship it." Changed your mind? Say **"undo that"** and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it.
 
 ## What it costs
 

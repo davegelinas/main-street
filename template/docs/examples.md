@@ -94,6 +94,6 @@ In none of these did you open a dashboard, touch code, or wait on a developer, a
 
 1. **Say what you want**, in plain words.
 2. **Look at the preview** on your phone.
-3. **Say "ship it,"** or say what to change first. Changed your mind later? Say "undo that" and your AI takes it back: right away if it just published it, or with a quick preview for an older change.
+3. **Say "ship it,"** or say what to change first. Changed your mind later? Say "undo that" and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it.
 
 If you can send a text message, you can run your website.

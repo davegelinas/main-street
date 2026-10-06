@@ -19,7 +19,7 @@ No. Nothing on your website bills by usage, and your AI works on your plan, neve
 Not for your AI, ever. If one asks, say no. Your website has one optional free key, for the contact form, once you have your own domain: [api-keys.md](api-keys.md).
 
 **What if I break something?**
-Say "undo that" and your AI takes it back: right away if it just published it, or with a quick preview for an older change. Every change waits on a preview you approve, and every past version is saved, so nothing is ever lost.
+Say "undo that" and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it. Every change waits on a preview you approve, and every past version is saved, so nothing is ever lost.
 
 **My files are "public." Can people see private stuff?**
 Your website's files are public, just like your website. Only website content goes in them: the same words and photos customers see. Never passwords, private notes, or customer details. Turn location off on photos before you upload them (your AI strips it too).
