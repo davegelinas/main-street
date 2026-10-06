@@ -1,6 +1,8 @@
 // Builds dist/favicon.svg (the browser-tab icon) and dist/apple-touch-icon.png
 // (180 x 180, the icon "Add to Home Screen" uses) from the business's initial
-// and the theme's accent color, so every site gets its own icon.
+// and the theme's accent color, so every site gets its own icon. Then renders
+// whichever favicon.svg ships (made here or the owner's own) as
+// dist/favicon-32.png, for older Safari, which can't show SVG tab icons.
 // - The letters are pre-traced (monogram-glyphs.json), so the icons look the
 //   same on every build server, with or without fonts installed.
 // - Only while public/favicon.svg is the template's stock icon (it carries the
@@ -36,6 +38,16 @@ function letter(glyphs: Glyphs, ch: string, sans: boolean, size: number, cap: nu
 }
 
 export async function writeIcons(root: string, outDir: string, cfg: Record<string, any>, initial: string, sans: boolean): Promise<void> {
+  await writeMonogramIcons(root, outDir, cfg, initial, sans);
+  try {
+    const sharp = (await import("sharp")).default;
+    await sharp(resolve(outDir, "favicon.svg"), { density: 300 }).resize(32, 32).png().toFile(resolve(outDir, "favicon-32.png"));
+  } catch (err) {
+    console.warn(`site-config: could not make favicon-32.png: ${(err as Error).message}`);
+  }
+}
+
+async function writeMonogramIcons(root: string, outDir: string, cfg: Record<string, any>, initial: string, sans: boolean): Promise<void> {
   try {
     if (!initial || !readFileSync(resolve(root, "public/favicon.svg"), "utf8").includes(STOCK_MARK)) return;
     const glyphs = JSON.parse(readFileSync(resolve(root, "plugins/monogram-glyphs.json"), "utf8")) as Glyphs;

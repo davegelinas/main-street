@@ -33,7 +33,7 @@ Most of the brand comes from `site.config.json` and is built for you. Change the
 - **Monogram.** The first letter or digit of `business.name`, skipping a leading "The" (`{{monogram}}`). It's the round badge in the header and footer, the seal in the hero, and the site icons. Until there is a logo, it is the logo.
 - **Hero photo.** `features.heroPhoto`. On: the owner's best real photo. Off: the monogram as a seal on wide screens; phones show words and buttons. Off is right until a real photo exists (`features/hero-photo.md`).
 - **Link previews.** The build makes `images/share.jpg` (1200 x 630) from the hero photo, or a calm landscape in the theme colors when there is none. `og:image` already points at it. Don't hand-edit it.
-- **Site icons.** The build makes `favicon.svg` (browser tab) and `apple-touch-icon.png` (Add to Home Screen) from the monogram in the theme's accent color. It only does this while `public/favicon.svg` is the stock icon (it contains `main-street:stock-icon`). Replace that file and the build keeps yours.
+- **Site icons.** The build makes `favicon.svg` (browser tab) and `apple-touch-icon.png` (Add to Home Screen) from the monogram in the theme's accent color, plus `favicon-32.png` from whichever `favicon.svg` ships (older Safari can't show SVG tab icons). It only does this while `public/favicon.svg` is the stock icon (it contains `main-street:stock-icon`). Replace that file and the build keeps yours.
 
 ### Swapping in a real logo
 
