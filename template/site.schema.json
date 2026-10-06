@@ -153,6 +153,16 @@
         "domain": {
           "description": "Your domain, like acmeplumbing.com. Leave empty until you connect one; the site runs on its free Cloudflare address until then.",
           "type": "string"
+        },
+        "theme": {
+          "description": "The site's look: colors, heading font, and corners. terracotta (warm, food and craft), harbor (navy and blue, trades and offices), sage (green, florists and wellness), plum (salons and spas). Set by the preset; the colors themselves live in src/styles.css.",
+          "enum": [
+            "terracotta",
+            "harbor",
+            "sage",
+            "plum"
+          ],
+          "type": "string"
         }
       },
       "required": [

@@ -2,6 +2,8 @@
 
 Apply with: `npm run preset professional`
 
+Theme: `harbor` (colors and heading font; see `rules/design.md`).
+
 ## Feature bundle
 
 | Feature | State |

@@ -1,17 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Placeholder image">
   <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f5efe4"/>
-      <stop offset="1" stop-color="#e7dcc6"/>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eae6e1"/>
+      <stop offset="1" stop-color="#dbd5cd"/>
     </linearGradient>
   </defs>
-  <rect width="800" height="800" fill="url(#bg2)"/>
-  <rect x="32" y="32" width="736" height="736" rx="20" fill="none" stroke="#b9a87f" stroke-width="3" stroke-dasharray="16 12"/>
-  <g fill="none" stroke="#a08c63" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="338" y="320" width="124" height="96" rx="14"/>
-    <circle cx="400" cy="360" r="15"/>
-    <path d="M338 396l38-34 30 26 26-22 30 30"/>
+  <rect width="800" height="800" fill="url(#g2)"/>
+  <path d="M0 600 230 420l150 110 130-90 290 170V800H0z" fill="#d2cbc1"/>
+  <path d="M0 700c180-40 360-40 520-6s220 14 280-4V800H0z" fill="#c6beb2"/>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" text-anchor="middle">
+    <text x="400" y="262" font-size="42" font-weight="600" fill="#665e53">Your photo here</text>
+    <text x="400" y="310" font-size="30" fill="#857c70">Swap in a real photo</text>
   </g>
-  <text x="400" y="478" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="600" fill="#7d6b4d">Your photo here</text>
-  <text x="400" y="526" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="26" fill="#97835f">800 × 800: replace with a real photo</text>
 </svg>

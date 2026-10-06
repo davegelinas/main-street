@@ -38,7 +38,7 @@ try {
   const html = readFileSync(resolve(site, "dist/index.html"), "utf8");
 
   // Quotes in the name never break out of an attribute.
-  assert.ok(html.includes('aria-label="Joe&#39;s &quot;Best&quot; Bakery &amp; Café 🍞 home"'), "brand aria-label is not escaped");
+  assert.ok(html.includes('<meta property="og:title" content="Joe&#39;s &quot;Best&quot; Bakery &amp; Café 🍞">'), "og:title attribute is not escaped");
   assert.ok(!html.includes('"Best" Bakery'), "an unescaped quote reached the HTML");
   // An empty description falls back to name + tagline.
   assert.ok(html.includes('<meta name="description" content="Joe&#39;s &quot;Best&quot; Bakery &amp; Café 🍞: Bread, &quot;buns&quot; &amp; more.">'), "meta description fallback missing");

@@ -2,6 +2,8 @@
 
 Apply with: `npm run preset salon-wellness`
 
+Theme: `plum` (colors and heading font; see `rules/design.md`).
+
 ## Feature bundle
 
 | Feature | State |

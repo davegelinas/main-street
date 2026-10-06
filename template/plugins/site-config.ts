@@ -3,7 +3,8 @@
 //   2. replaces {{dot.path}} tokens, plus computed ones: {{year}}, {{jsonld}},
 //      {{faqJsonld}}, {{phoneHref}} (a dialable tel: link), {{directionsUrl}}
 //      (Google Maps link for the address), {{siteUrl}} (https://your-domain,
-//      or empty until a domain is connected)
+//      or empty until a domain is connected), {{monogram}} (the name's first
+//      letter, for the round brand mark shown until there is a logo)
 //   3. on build, emits sitemap.xml, robots.txt and llms.txt into dist/
 // Pages are found automatically (htmlPages): a new page is a new folder with
 // an index.html, and the build and sitemap pick it up with no config change.
@@ -325,6 +326,12 @@ function directionsUrl(cfg: Config): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
+// "The Velvet Chair" -> "V". Skips a leading "The"; empty if there is no letter.
+function monogram(cfg: Config): string {
+  const name = String(cfg.business?.name ?? "").trim().replace(/^the\s+/i, "");
+  return name.match(/[\p{L}\p{N}]/u)?.[0].toUpperCase() ?? "";
+}
+
 const TOKEN = /\{\{([a-zA-Z0-9_.]+)\}\}/g;
 
 // One token's plain (unescaped) value; undefined when nothing matches.
@@ -336,6 +343,7 @@ function tokenValue(path: string, cfg: Config): string | undefined {
     case "phoneHref": return phoneHref(cfg);
     case "directionsUrl": return directionsUrl(cfg);
     case "siteUrl": return siteUrl(cfg);
+    case "monogram": return monogram(cfg);
   }
   const v = getPath(cfg, path);
   return v == null || typeof v === "object" ? undefined : String(v);

@@ -1,17 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Placeholder image">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f5efe4"/>
-      <stop offset="1" stop-color="#e7dcc6"/>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#efebe5"/>
+      <stop offset="1" stop-color="#e3ddd4"/>
     </linearGradient>
   </defs>
-  <rect width="1200" height="900" fill="url(#bg)"/>
-  <rect x="40" y="40" width="1120" height="820" rx="24" fill="none" stroke="#b9a87f" stroke-width="3" stroke-dasharray="18 14"/>
-  <g fill="none" stroke="#a08c63" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="528" y="380" width="144" height="110" rx="16"/>
-    <circle cx="600" cy="425" r="18"/>
-    <path d="M528 462l44-40 34 30 30-26 36 36"/>
+  <rect width="1200" height="900" fill="url(#sky)"/>
+  <circle cx="905" cy="235" r="88" fill="#f8f5f0"/>
+  <path d="M0 650c170-95 330-118 500-58s300 74 440 18 205-64 260-58V900H0z" fill="#d9d2c7"/>
+  <path d="M0 760c210-70 420-62 610-18s380 40 590-26V900H0z" fill="#cdc5b8"/>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" text-anchor="middle">
+    <text x="600" y="430" font-size="50" font-weight="600" fill="#665e53">Your photo here</text>
+    <text x="600" y="492" font-size="34" fill="#857c70">Your storefront, your team, or your work</text>
   </g>
-  <text x="600" y="560" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="600" fill="#7d6b4d">Your photo here</text>
-  <text x="600" y="616" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="30" fill="#97835f">1200 × 900: replace with a real photo of your business</text>
 </svg>

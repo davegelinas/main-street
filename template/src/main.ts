@@ -1,4 +1,4 @@
-// Tiny progressive enhancement: mobile nav + contact form submit.
+// Tiny progressive enhancement: mobile nav, today's hours, contact form submit.
 // FAQ uses native <details> (no JS). Year is a build-time token (no JS).
 
 const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
@@ -31,6 +31,34 @@ document.addEventListener("keydown", (e) => {
     navToggle?.focus();
   }
 });
+
+// Today's hours: mark today's row in every hours list and show it in the
+// hero. Uses the visitor's day of the week. Labels come from business.hours:
+// "Monday – Friday", "Saturday", "Sat & Sun", "Weekends", "Every day".
+const DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+function coversToday(label: string, today: number): boolean {
+  const text = label.toLowerCase();
+  if (/every ?day|daily/.test(text)) return true;
+  if (/weekdays?/.test(text)) return today >= 1 && today <= 5;
+  if (/weekends?/.test(text)) return today === 0 || today === 6;
+  const days = [...text.matchAll(/\b(sun|mon|tue|wed|thu|fri|sat)/g)].map((m) => DAYS.indexOf(m[1]));
+  if (days.length === 2 && /[\u2013\u2014-]|\b(to|through|thru)\b/.test(text)) {
+    const [from, to] = days;
+    return from <= to ? today >= from && today <= to : today >= from || today <= to;
+  }
+  return days.includes(today);
+}
+const today = new Date().getDay();
+let todayHours = "";
+document.querySelectorAll<HTMLElement>(".hours > div").forEach((row) => {
+  if (!coversToday(row.querySelector("dt")?.textContent ?? "", today)) return;
+  row.classList.add("is-today");
+  todayHours ||= row.querySelector("dd")?.textContent?.trim() ?? "";
+});
+const todayLink = document.querySelector<HTMLElement>("[data-today-hours]");
+if (todayLink && todayHours) {
+  todayLink.textContent = /closed/i.test(todayHours) ? "Closed today" : `Today: ${todayHours}`;
+}
 
 const form = document.querySelector<HTMLFormElement>("#contact-form");
 const formStatus = document.querySelector<HTMLDivElement>("#form-status");
