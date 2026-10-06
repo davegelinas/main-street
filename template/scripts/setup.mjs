@@ -71,7 +71,7 @@ s.domain = cleanDomain(rawDomain.trim());
 if (!s.domain) {
   console.log("  (No domain yet. That's fine: the site works on its free address until you add one.)");
 }
-const taglineClean = b.tagline.trim().replace(/[.!\u2026]+$/, "");
+const taglineClean = b.tagline.trim().replace(/[.!?\u2026]+$/, "");
 s.description = `${b.name}: ${taglineClean}. Located at ${addr.street}, ${addr.city}, ${addr.state}.`;
 config.business = b;
 config.site = s;

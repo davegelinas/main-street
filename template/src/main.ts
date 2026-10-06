@@ -3,27 +3,84 @@
 
 const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
 const nav = document.querySelector<HTMLElement>(".site-nav");
-navToggle?.addEventListener("click", () => {
-  const open = nav?.classList.toggle("open") ?? false;
-  navToggle.setAttribute("aria-expanded", String(open));
+const navOpen = () => nav?.classList.contains("open") ?? false;
+
+function setNav(open: boolean) {
+  nav?.classList.toggle("open", open);
+  navToggle?.setAttribute("aria-expanded", String(open));
+}
+
+navToggle?.addEventListener("click", () => setNav(!navOpen()));
+// The open menu covers the page, so close it whenever the visitor moves on:
+// a menu link (it would otherwise hide the section it jumped to), a tap
+// elsewhere, Tab past the last link, or Escape (which returns focus to Menu).
+nav?.addEventListener("click", (e) => {
+  if ((e.target as Element).closest("a")) setNav(false);
+});
+document.addEventListener("click", (e) => {
+  const t = e.target as Node;
+  if (navOpen() && !nav?.contains(t) && !navToggle?.contains(t)) setNav(false);
+});
+nav?.addEventListener("focusout", (e) => {
+  const next = e.relatedTarget as Node | null;
+  if (next && !nav.contains(next) && next !== navToggle) setNav(false);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && navOpen()) {
+    setNav(false);
+    navToggle?.focus();
+  }
 });
 
 const form = document.querySelector<HTMLFormElement>("#contact-form");
 const formStatus = document.querySelector<HTMLDivElement>("#form-status");
+const submit = form?.querySelector<HTMLButtonElement>("button[type=submit]");
+// Time on the page before sending, on the visitor's own clock (the server
+// treats a send within 3 seconds as a bot).
+const shownAt = performance.now();
+let sending = false;
+
+function showStatus(kind: "" | "ok" | "err", text: string) {
+  if (!formStatus) return;
+  formStatus.className = kind ? `form-status ${kind}` : "form-status";
+  formStatus.textContent = text;
+}
+
+// Checks the fields in the browser, so a mistake gets a clear message and
+// focus lands on the field to fix. Returns false when something is missing.
+function checkFields(): boolean {
+  if (!form) return false;
+  const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("[required]")];
+  const bad = fields.filter((f) => !f.value.trim() || !f.validity.valid);
+  for (const f of fields) {
+    const invalid = bad.includes(f);
+    f.setAttribute("aria-invalid", String(invalid));
+    if (invalid) f.setAttribute("aria-describedby", "form-status");
+    else f.removeAttribute("aria-describedby");
+  }
+  if (!bad.length) return true;
+  const empty = bad.some((f) => !f.value.trim());
+  showStatus("err", empty ? "Please fill in your name, email, and message." : "That email address does not look right. Please check it.");
+  bad[0].focus();
+  return false;
+}
 
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
-  if (!form || !formStatus) return;
+  if (!form || sending || !checkFields()) return;
   const data = new FormData(form);
   const payload = {
     name: String(data.get("name") ?? ""),
     email: String(data.get("email") ?? ""),
     message: String(data.get("message") ?? ""),
     website: String(data.get("website") ?? ""),
-    startedAt: Number(data.get("startedAt") ?? 0),
+    elapsed: Math.round(performance.now() - shownAt),
   };
-  formStatus.className = "form-status show";
-  formStatus.textContent = "Sending…";
+  // One send at a time: a double tap must not email the owner twice.
+  // (aria-disabled, not disabled, so keyboard focus stays on the button.)
+  sending = true;
+  submit?.setAttribute("aria-disabled", "true");
+  showStatus("", "Sending…");
   try {
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -32,19 +89,15 @@ form?.addEventListener("submit", async (e) => {
     });
     const body = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
     if (res.ok && body.ok) {
-      formStatus.classList.add("ok");
-      formStatus.textContent = "Thanks! Your message is on its way. We usually reply within a day.";
+      showStatus("ok", "Thanks! Your message is on its way. We usually reply within a day.");
       form.reset();
     } else {
-      formStatus.classList.add("err");
-      formStatus.textContent = body.error ?? "Something went wrong sending your message. Please try again.";
+      showStatus("err", body.error ?? "Something went wrong sending your message. Please try again.");
     }
   } catch {
-    formStatus.classList.add("err");
-    formStatus.textContent = "Could not reach the server. Please check your connection and try again.";
+    showStatus("err", "Could not reach the server. Please check your connection and try again.");
+  } finally {
+    sending = false;
+    submit?.removeAttribute("aria-disabled");
   }
 });
-
-// Stamp when the form was shown (used server-side as a bot signal).
-const startedAt = document.querySelector<HTMLInputElement>('input[name="startedAt"]');
-if (startedAt) startedAt.value = String(Date.now());

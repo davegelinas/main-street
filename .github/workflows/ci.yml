@@ -16,7 +16,7 @@ jobs:
           node-version: 22
 
       - name: Scaffold a fresh site
-        run: node scripts/new-site.mjs /tmp/site --git
+        run: node scripts/new-site.mjs /tmp/site
 
       - name: Install
         run: cd /tmp/site && npm install --no-audit --no-fund
@@ -43,3 +43,9 @@ jobs:
           done
           cd /tmp/site
           node scripts/audit-site.mjs http://localhost:4173
+
+      - name: Tricky business details
+        # Quotes, ampersands, emoji, loosely written hours and missing fields
+        # must build, keep the HTML well-formed, and never put wrong hours in
+        # Google's data. Runs last: it rebuilds dist/ with a test config.
+        run: node scripts/check-tricky-config.mjs /tmp/site

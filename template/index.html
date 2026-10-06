@@ -37,10 +37,16 @@
       <nav class="site-nav" id="site-nav" aria-label="Main">
         <ul>
           <li><a href="#about">About</a></li>
+          <!-- feature:menu -->
           <li><a href="#menu">Services</a></li>
+          <!-- /feature:menu -->
           <li><a href="#visit">Visit</a></li>
+          <!-- feature:faq -->
           <li><a href="#faq">FAQ</a></li>
+          <!-- /feature:faq -->
+          <!-- feature:contactForm -->
           <li><a class="nav-cta" href="#contact">Contact</a></li>
+          <!-- /feature:contactForm -->
         </ul>
       </nav>
     </div>
@@ -59,7 +65,9 @@
             <!-- feature:booking -->
             <a class="btn" href="{{integrations.bookingUrl}}">Book now</a>
             <!-- /feature:booking -->
+            <!-- feature:menu -->
             <a class="btn" href="#menu">See what we offer</a>
+            <!-- /feature:menu -->
             <a class="btn btn-ghost" href="#visit">Hours and directions</a>
           </div>
         </div>
@@ -106,7 +114,7 @@
           </div>
         </div>
         <!-- feature:booking -->
-        <p class="lede" style="margin-top:1.5rem"><a class="btn" href="{{integrations.bookingUrl}}">Book now</a></p>
+        <p class="lede menu-cta"><a class="btn" href="{{integrations.bookingUrl}}">Book now</a></p>
         <!-- /feature:booking -->
       </div>
     </section>
@@ -175,10 +183,10 @@
             <address>
               {{business.address.street}}<br>
               {{business.address.city}}, {{business.address.state}} {{business.address.zip}}<br>
-              <a href="tel:{{business.phone}}">{{business.phone}}</a><br>
+              <a href="{{phoneHref}}">{{business.phone}}</a><br>
               <a href="mailto:{{business.email}}">{{business.email}}</a>
             </address>
-            <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query={{business.address.street}}%20{{business.address.city}}%20{{business.address.state}}%20{{business.address.zip}}" target="_blank" rel="noopener">Get directions</a>
+            <a class="btn btn-ghost" href="{{directionsUrl}}" target="_blank" rel="noopener">Get directions</a>
           </div>
         </div>
       </div>
@@ -219,19 +227,18 @@
             <p class="lede">Questions, quotes, or feedback: send a note and a real person replies, usually within a day.</p>
             <p>Prefer email or phone?<br>
               <a href="mailto:{{business.email}}">{{business.email}}</a><br>
-              <a href="tel:{{business.phone}}">{{business.phone}}</a>
+              <a href="{{phoneHref}}">{{business.phone}}</a>
             </p>
           </div>
           <form id="contact-form" novalidate>
             <label for="cf-name">Your name</label>
-            <input id="cf-name" name="name" type="text" autocomplete="name" required>
+            <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required>
             <label for="cf-email">Email</label>
-            <input id="cf-email" name="email" type="email" autocomplete="email" required>
+            <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required>
             <label for="cf-message">Message</label>
-            <textarea id="cf-message" name="message" required></textarea>
+            <textarea id="cf-message" name="message" maxlength="5000" required></textarea>
             <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <input type="hidden" name="startedAt" value="0">
-            <div style="margin-top:1.2rem"><button class="btn" type="submit">Send message</button></div>
+            <div class="form-actions"><button class="btn" type="submit">Send message</button></div>
             <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
             <p class="form-note">We only use your details to reply to your message. Nothing is sold, shared, or added to a list.</p>
           </form>
@@ -253,7 +260,7 @@
           <ul>
             <li>{{business.address.street}}</li>
             <li>{{business.address.city}}, {{business.address.state}} {{business.address.zip}}</li>
-            <li><a href="tel:{{business.phone}}">{{business.phone}}</a></li>
+            <li><a href="{{phoneHref}}">{{business.phone}}</a></li>
           </ul>
         </div>
         <div>

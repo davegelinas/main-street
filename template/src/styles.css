@@ -10,6 +10,7 @@
   --accent-soft: #f0ddd0;
   --gold: #c99a2e;
   --line: #e5d9c8;
+  --line-strong: #8a7b6d;     /* form field edges: 3:1 against white and cream */
   --card: #fffdf8;
   --radius: 14px;
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
@@ -19,7 +20,9 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* scroll-padding keeps jump-link targets (and focused fields) out from
+   under the sticky header. */
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
 
 body {
   margin: 0;
@@ -106,12 +109,15 @@ a:hover { color: var(--accent); }
   font-weight: 600;
   margin-right: auto;
 }
+.brand { min-height: 44px; }
 .brand svg { width: 34px; height: 34px; flex: none; }
 
 .nav-toggle {
   display: none;
+  min-width: 44px;
+  min-height: 44px;
   background: none;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 8px;
   padding: 0.5rem 0.7rem;
   font-size: 1rem;
@@ -222,6 +228,7 @@ section + section { border-top: 1px solid var(--line); }
 .menu-card li:last-child { border-bottom: none; }
 .menu-card .price { font-weight: 700; color: var(--accent-deep); white-space: nowrap; }
 .menu-card .desc { display: block; font-size: 0.9rem; color: var(--ink-soft); }
+.menu-cta { margin-top: 1.5rem; }
 
 /* Gallery */
 .gallery-grid {
@@ -311,7 +318,7 @@ form input, form textarea {
   width: 100%;
   font: inherit;
   padding: 0.75rem 0.9rem;
-  border: 1.5px solid var(--line);
+  border: 1.5px solid var(--line-strong);
   border-radius: 10px;
   background: #fff;
   color: var(--ink);
@@ -322,15 +329,15 @@ form input:focus, form textarea:focus {
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 form textarea { min-height: 140px; resize: vertical; }
+form [aria-invalid="true"] { border-color: #b3261e; }
+.form-actions { margin-top: 1.2rem; }
+.btn[aria-disabled="true"] { opacity: 0.7; cursor: progress; }
 .hp { position: absolute; left: -9999px; } /* honeypot */
 .form-note { font-size: 0.88rem; color: var(--ink-soft); margin-top: 1rem; }
-.form-status {
-  margin-top: 1rem;
-  padding: 1rem 1.2rem;
-  border-radius: 10px;
-  display: none;
-}
-.form-status.show { display: block; }
+/* Always rendered (an empty live region is invisible), so screen readers
+   reliably announce every message put into it. */
+.form-status { margin-top: 1rem; border-radius: 10px; }
+.form-status:not(:empty) { padding: 1rem 1.2rem; background: var(--cream-deep); }
 .form-status.ok { background: #e9f3e4; border: 1px solid #9cc184; }
 .form-status.err { background: #f9e7e2; border: 1px solid #d99a86; }
 
@@ -349,6 +356,7 @@ form textarea { min-height: 140px; resize: vertical; }
 }
 .site-footer h3 { color: #fff; font-size: 1.05rem; }
 .site-footer a { color: #e9dfd0; }
+.site-footer :focus-visible { outline-color: #e9dfd0; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; }
 .site-footer li { margin-bottom: 0.45rem; }
 .footer-brand { font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin-bottom: 0.6rem; }

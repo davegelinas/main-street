@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+# Read-only unless a job asks for more (the photos job does, to commit).
+permissions:
+  contents: read
+
 jobs:
   # This repo is public, and phone photos can carry the exact spot they were
   # taken. On every change, this strips that hidden camera data and commits

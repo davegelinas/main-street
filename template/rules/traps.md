@@ -5,7 +5,7 @@ Read this before debugging anything weird. Each entry cost someone real time.
 ## Build and deploy
 
 - **`npm run dev` doesn't apply `_headers` or `_redirects`.** Routing and header behavior must be verified against a Cloudflare preview/production URL, not localhost.
-- **A token showing literally** (`{{business.name}}` visible on the page) means the build transform didn't run on that file. Check `plugins/site-config.ts` and the Vite multi-page input list. Don't hardcode the value as a "fix."
+- **A token showing literally** (`{{business.name}}` visible on the page) means the build transform didn't run on that file. Check `plugins/site-config.ts` (pages are found automatically: any folder with an `index.html`, plus `404.html`). Don't hardcode the value as a "fix."
 - **A feature block visible when it should be off** means the `<!-- feature:name -->` comment syntax drifted (extra spaces, wrong name). The strip is literal: match it exactly.
 - **Stale preview:** Cloudflare preview URLs cache aggressively. Hard-refresh (or open in a private window) before declaring something broken.
 - **The contact form "doesn't work" on a preview link.** Expected: previews have no secret keys, so the form shows its "email us directly" note. Test it on the live site.
