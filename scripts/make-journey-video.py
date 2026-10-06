@@ -2,17 +2,19 @@
 """Build the journey video: the everyday loop of changing your website.
 
 What it shows (36 seconds, no sound): the owner of Maple Street Bakery taps
-the Edit my website button on their phone, says what they want in plain
-words, gets a preview link, looks at the change on their phone, says
-"ship it" (live in about a minute), and later says "undo that".
+the Edit my website button on their phone (it opens their site's Edit page,
+then "Open my AI" opens the chat), says what they want in plain words, gets
+a preview link, looks at the change on their phone, says "ship it" (live in
+about a minute), and later says "undo that".
 
 How it is made: programmatic kinetic typography. Every on-screen word is an
 exact string in this file (STEPS, CLOSE, the chat, DEMO_*), drawn with Pillow
-and encoded with ffmpeg, so nothing can be garbled. The phone screen that shows
-the website is a real screenshot: the script scaffolds a throwaway site from
-template/ (scripts/new-site.mjs), fills in the demo bakery below, builds it,
-and photographs it at phone size (390 px wide, 2x) with Chrome's headless
-shell. So the video always shows the template as it is today.
+and encoded with ffmpeg, so nothing can be garbled. The phone screens that
+show the website, its Edit page and its home-screen icon are real: the script
+scaffolds a throwaway site from template/ (scripts/new-site.mjs), fills in
+the demo bakery below, builds it, and photographs it at phone size (390 px
+wide, 2x) with Chrome's headless shell. So the video always shows the
+template as it is today.
 
 Visual language follows template/src/styles.css (terracotta theme): paper
 background, ink text, terracotta accent, Fraunces display headlines (the
@@ -334,6 +336,15 @@ def check_fits(s, role, size, max_w):
         raise ValueError(f"text too wide for {max_w}px: {s!r}")
 
 
+def ellipsize(s, role, size, max_w):
+    """Cut s to fit max_w with a trailing ellipsis, the way a phone shortens labels."""
+    if text_w(s, role, size) <= max_w:
+        return s
+    while s and text_w(s + "\u2026", role, size) > max_w:
+        s = s[:-1]
+    return s.rstrip() + "\u2026"
+
+
 def rich_words(s):
     """Split a headline into (word, accent) pairs; {braces} mark accent words."""
     out, accent = [], False
@@ -411,11 +422,6 @@ def glyph(name, size, color):
         d.arc([8 * u, 3.5 * u, 16 * u, 14.5 * u], 180, 360, fill=c, width=int(2.4 * u))
         d.line([(8 * u + 1.2 * u, 9 * u), (8 * u + 1.2 * u, 11 * u)], fill=c, width=int(2.4 * u))
         d.line([(16 * u - 1.2 * u, 9 * u), (16 * u - 1.2 * u, 11 * u)], fill=c, width=int(2.4 * u))
-    elif name == "pencil":
-        # a pencil pointing down-left: body, tip, and eraser band
-        d.polygon([(6.2 * u, 15.4 * u), (15.6 * u, 6 * u), (18 * u, 8.4 * u), (8.6 * u, 17.8 * u)], fill=c)
-        d.polygon([(6.2 * u, 15.4 * u), (8.6 * u, 17.8 * u), (4.6 * u, 19.4 * u)], fill=c)
-        d.polygon([(16.4 * u, 5.2 * u), (17.4 * u, 4.2 * u), (19.8 * u, 6.6 * u), (18.8 * u, 7.6 * u)], fill=c)
     elif name == "mic":
         d.rounded_rectangle([9 * u, 3 * u, 15 * u, 14 * u], int(3 * u), fill=c)
         d.arc([5.5 * u, 6 * u, 18.5 * u, 17.5 * u], 0, 180, fill=c, width=sw)
@@ -540,6 +546,20 @@ class Shot:
     def css(self, px):
         return px * 2 * self.scale
 
+    def button_y(self, color=ACCENT):
+        """Screen y of the page's first big accent button (scanned near its left end)."""
+        x = int(SW * 0.17)
+        run = 0
+        for y in range(self.img.height):
+            r, g, b = self.img.getpixel((x, y))[:3]
+            if abs(r - color[0]) + abs(g - color[1]) + abs(b - color[2]) < 40:
+                run += 1
+            else:
+                if run >= 24:
+                    return STATUS_H + y - run / 2
+                run = 0
+        sys.exit("Couldn't find the button in the edit page screenshot; has template/edit/ changed?")
+
 
 def site_screen(shot, scroll=0.0, url=None, url_p=0.0, ring=0.0):
     light = sum(shot.top) < 380
@@ -565,8 +585,7 @@ def site_screen(shot, scroll=0.0, url=None, url_p=0.0, ring=0.0):
 
 
 # ------------------------------------------------------------ home screen ---
-HOME_ICON = (19, 386, 54, 54)  # x, y, w, h of the Edit my website icon
-HOME_LABEL = "Edit my website"
+HOME_ICON = (19, 386, 54, 54)  # x, y, w, h of the Edit button on the home screen
 APP_TONES = [(247, 238, 226), (226, 200, 176), (197, 160, 132), (236, 222, 205),
              (214, 182, 154), (250, 244, 236), (186, 146, 118), (230, 212, 192)]
 
@@ -602,25 +621,31 @@ def home_base():
     return img
 
 
-@functools.lru_cache(maxsize=None)
-def edit_icon():
-    icon = rrect(54, 54, 13, ACCENT).copy()
-    put(icon, glyph("pencil", 30, WHITE), 12, 12)
-    return icon
+_APP_ICONS = {}
 
 
-def home_screen(pop=1.0, tap_since=-1.0):
-    """Home screen; pop is the Edit my website icon's arrival (0 to 1)."""
+def app_icon(touch_icon):
+    """The site's real apple-touch-icon, rounded the way a phone shows it."""
+    if id(touch_icon) not in _APP_ICONS:
+        x, y, w, h = HOME_ICON
+        icon = touch_icon.convert("RGBA").resize((w, h), Image.LANCZOS)
+        icon.putalpha(rrect(w, h, 13, WHITE).getchannel("A"))
+        _APP_ICONS[id(touch_icon)] = icon
+    return _APP_ICONS[id(touch_icon)]
+
+
+def home_screen(touch_icon, label, pop=1.0, tap_since=-1.0):
+    """Home screen with the site's Edit button; pop is its arrival (0 to 1)."""
     img = home_base().copy()
     x, y, w, h = HOME_ICON
     if pop > 0:
         s = ease_back(pop)
         if 0 <= tap_since <= 0.25:  # pressed
             s *= 1 - 0.08 * math.sin(math.pi * tap_since / 0.25)
-        icon = scaled(edit_icon(), s)
+        icon = scaled(app_icon(touch_icon), s)
         put(img, icon, x + (w - icon.width) / 2, y + (h - icon.height) / 2, clamp01(pop * 2))
-        check_fits(HOME_LABEL, "bold", 11, 2 * (x + w / 2) - 4)
-        draw_text(img, x + w / 2, y + 71, HOME_LABEL, "bold", 11, WHITE, clamp01(pop * 2 - 0.6), "m")
+        short = ellipsize(label, "bold", 11, 70)
+        draw_text(img, x + w / 2, y + 71, short, "bold", 11, WHITE, clamp01(pop * 2 - 0.6), "m")
     ripple(img, x + w / 2, y + h / 2, tap_since)
     return img
 
@@ -950,8 +975,9 @@ class _QuietHandler(http.server.SimpleHTTPRequestHandler):
 def build_shots(out_dir, variants):
     """Scaffold the demo site, then build and photograph each variant.
 
-    variants: (name, announcement, css_height). Each becomes out_dir/name.png
-    at 390 CSS px wide, 2x.
+    variants: (name, announcement, css_height, page path). Each becomes
+    out_dir/name.png at 390 CSS px wide, 2x. The site's apple-touch-icon.png
+    is kept too, as out_dir/touch-icon.png, for the home screen.
     """
     for tool in ("node", "npm"):
         if not shutil.which(tool):
@@ -981,7 +1007,7 @@ def _build_shots(out_dir, variants, chrome):
             f.write(html)
         subprocess.run(["npm", "install", "--no-audit", "--no-fund", "--loglevel=error"], cwd=site, check=True)
         cfg_path = os.path.join(site, "site.config.json")
-        for name, announcement, css_h in variants:
+        for name, announcement, css_h, page in variants:
             with open(cfg_path, encoding="utf-8") as f:
                 cfg = json.load(f)
             for key, vals in DEMO_CONFIG.items():
@@ -996,7 +1022,7 @@ def _build_shots(out_dir, variants, chrome):
             out = os.path.join(out_dir, name + ".png")
             cmd = [chrome, "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=2",
                    f"--window-size=390,{css_h}", "--virtual-time-budget=4000",
-                   f"--screenshot={out}", f"http://127.0.0.1:{srv.server_port}/"]
+                   f"--screenshot={out}", f"http://127.0.0.1:{srv.server_port}{page}"]
             if hasattr(os, "geteuid") and os.geteuid() == 0:
                 cmd.insert(1, "--no-sandbox")
             try:
@@ -1004,14 +1030,19 @@ def _build_shots(out_dir, variants, chrome):
             finally:
                 srv.shutdown()
             print("  screenshot:", out, flush=True)
+        shutil.copyfile(os.path.join(site, "dist", "apple-touch-icon.png"), os.path.join(out_dir, "touch-icon.png"))
 
 
 def load_shots(shots_dir, variants):
     want = [os.path.join(shots_dir, v[0] + ".png") for v in variants]
-    if not all(os.path.exists(p) for p in want):
+    icon = os.path.join(shots_dir, "touch-icon.png")
+    if not all(os.path.exists(p) for p in want + [icon]):
         os.makedirs(shots_dir, exist_ok=True)
         build_shots(shots_dir, variants)
-    return {v[0]: Shot(p) for v, p in zip(variants, want)}
+    shots = {v[0]: Shot(p) for v, p in zip(variants, want)}
+    with Image.open(icon) as f:
+        shots["touch-icon"] = f.convert("RGBA")
+    return shots
 
 
 # ---------------------------------------------------------- encode / main ---
@@ -1070,8 +1101,12 @@ DEMO_CONFIG = {
     "site": {
         "theme": "terracotta",
         "description": "Maple Street Bakery: butter croissants and sourdough, baked at 5am. 214 Maple Street, Fairview, OH.",
+        # The Edit page's "Open my AI" link (docs/connect-your-ai.md format).
+        "editUrl": "https://claude.ai/code?repositories=maria-lopez/maple-street-bakery&prompt=Read%20AGENTS.md%20first.%20Here%27s%20what%20I%27d%20like%20to%20change%20on%20my%20website%3A%20",
     },
 }
+# What the phone calls the Edit page on the home screen (edit/index.html sets it).
+EDIT_LABEL = "Edit " + DEMO_CONFIG["business"]["name"]
 
 
 def _menu_item(n, name, desc, price):
@@ -1101,10 +1136,12 @@ DEMO_COPY = [
     _menu_item("six", "Morning bun", "Orange zest and brown sugar.", 5),
 ]
 
-# (name, announcement, CSS height of the capture)
+# (name, announcement, CSS height of the capture, page)
 SHOT_VARIANTS = [
-    ("pumpkin-note", "Pumpkin bread is back for fall.", 844),
+    ("pumpkin-note", "Pumpkin bread is back for fall.", 844, "/"),
+    ("edit-page", "", 844, "/edit/"),
 ]
+FREE_ADDRESS = "maple-street-bakery.pages.dev"
 
 CLOSE = dict(
     kicker=None,
@@ -1115,13 +1152,13 @@ CLOSE = dict(
 
 # One entry per step. Headline {braces} are drawn in the accent color.
 STEPS = [
-    dict(key="tap", dur=5.0,
+    dict(key="tap", dur=6.0,
          head="Tap {Edit my website}",
-         sub="The button on your home screen opens your AI, with your site already chosen."),
-    dict(key="say", dur=6.5,
+         sub="Your home-screen button opens your Edit page.\nTap \u201cOpen my AI\u201d and your site is already chosen."),
+    dict(key="say", dur=6.0,
          head="Say what you want",
          sub="In plain words, the way you'd tell a person.\nType it, or send a voice note."),
-    dict(key="link", dur=5.5,
+    dict(key="link", dur=5.0,
          head="Get a {preview link}",
          sub="Every change gets its own preview link.\nNothing is live yet."),
     dict(key="look", dur=5.0,
@@ -1152,20 +1189,32 @@ def build_scenes(shots):
     def at(key, offset):
         return starts[key] + offset
 
-    tap = 2.2  # the Edit my website tap, in the first step
+    # First step: tap the home-screen button, the Edit page opens, tap "Open my AI".
+    tap_icon, tap_open = 1.2, 3.3
     chat = Chat([
-        (at("link", 1.2), "ai", PREVIEW_MSG, PREVIEW_CHIP),
+        (at("link", 1.0), "ai", PREVIEW_MSG, PREVIEW_CHIP),
         (at("ship", 1.0), "me", "ship it", None),
         (at("ship", 2.3), "ai", "Shipped! It's on your live site in about a minute.", None),
         (at("undo", 0.9), "me", "undo that", None),
         (at("undo", 2.2), "ai", "Done: it's back the way it was. Live in about a minute.", None),
-    ], draft=(at("tap", tap), at("say", 1.6), at("say", 4.6), PREFILL, REQUEST),
+    ], draft=(at("tap", tap_open), at("say", 1.6), at("say", 4.6), PREFILL, REQUEST),
         mic_hint=(at("say", 0.3), at("say", 1.5)))
-    site = shots["pumpkin-note"]
+    site, edit_page, touch_icon = shots["pumpkin-note"], shots["edit-page"], shots["touch-icon"]
+    page = site_screen(edit_page, 0, FREE_ADDRESS, 1.0)
 
     def v_tap(img, t, tg):
-        home = home_screen(1.0, t - tap)
-        screen = home if t < tap + 0.25 else zoom_open(home, chat.render(tg), HOME_ICON, (t - tap - 0.25) / 0.5)
+        home = home_screen(touch_icon, EDIT_LABEL, 1.0, t - tap_icon)
+        if t < tap_icon + 0.25:
+            screen = home
+        elif t < tap_icon + 0.75:
+            screen = zoom_open(home, page, HOME_ICON, (t - tap_icon - 0.25) / 0.5)
+        elif t < tap_open + 0.25:
+            screen = page.copy()
+            ripple(screen, SW / 2, edit_page.button_y(), t - tap_open)
+        elif t < tap_open + 0.75:
+            screen = push(page, chat.render(tg), (t - tap_open - 0.25) / 0.5)
+        else:
+            screen = chat.render(tg)
         draw_phone(img, screen)
 
     def v_chat(img, t, tg):
@@ -1173,8 +1222,8 @@ def build_scenes(shots):
 
     def v_link(img, t, tg):
         screen = chat.render(tg)
-        if t > 4.4 and chat.chip_at:  # tap the preview link
-            ripple(screen, *chat.chip_at, t - 4.4, ACCENT)
+        if t > 4.0 and chat.chip_at:  # tap the preview link
+            ripple(screen, *chat.chip_at, t - 4.0, ACCENT)
         draw_phone(img, screen)
 
     def v_look(img, t, tg):
@@ -1222,7 +1271,7 @@ def main():
     ap.add_argument("--mp4", default=os.path.join(REPO, "template/docs/assets/journey.mp4"))
     ap.add_argument("--poster", default=os.path.join(REPO, "template/docs/assets/journey-poster.png"))
     ap.add_argument("--shots", help="folder for the site screenshots; reused if they're already there")
-    ap.add_argument("--crf", type=int, default=23, help="x264 quality: lower is sharper and bigger (23 keeps this near 0.6 MB)")
+    ap.add_argument("--crf", type=int, default=25, help="x264 quality: lower is sharper and bigger (25 keeps this near 0.6 MB)")
     ap.add_argument("--frames", help="write PNGs every N seconds to this folder instead of a video (for checking)")
     ap.add_argument("--every", type=float, default=2.0)
     args = ap.parse_args()
