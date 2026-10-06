@@ -53,7 +53,7 @@ const destination = (env: Env) => {
 function sender(env: Env, request: Request): string {
   if (env.CONTACT_FROM_EMAIL?.trim()) return env.CONTACT_FROM_EMAIL.trim();
   const host = new URL(request.url).hostname.replace(/^www\./, "");
-  if (host.endsWith(".workers.dev") || host.endsWith(".pages.dev") || !host.includes(".")) return "";
+  if (host.endsWith(".workers.dev") || host.endsWith(".pages.dev")) return "";
   return `noreply@${host}`;
 }
 
