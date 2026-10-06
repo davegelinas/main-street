@@ -136,15 +136,6 @@
       "properties": {
         "bookingUrl": {
           "type": "string"
-        },
-        "resend": {
-          "additionalProperties": false,
-          "properties": {
-            "fromEmail": {
-              "type": "string"
-            }
-          },
-          "type": "object"
         }
       },
       "type": "object"

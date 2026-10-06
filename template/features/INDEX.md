@@ -12,9 +12,9 @@ Features are switches in `site.config.json` under `"features"`, plus the HTML bl
 | Testimonials | `testimonials` | [testimonials.md](testimonials.md) | Customer quotes section |
 | Menu / price list | `menu` | [menu.md](menu.md) | Structured list of items and prices |
 | FAQ | `faq` | [faq.md](faq.md) | Expandable questions (also feeds SEO) |
-| Blog | `blog` | [blog.md](blog.md) | Simple dated posts, no CMS |
+| Blog | `blog` | [blog.md](blog.md) | Simple dated posts, no CMS (**not built yet**) |
 | Booking link | `booking` | [booking.md](booking.md) | "Book now" buttons pointing at your booking tool |
-| Email signup | `emailSignup` | [email-signup.md](email-signup.md) | Newsletter capture (needs Supabase + a sender) |
+| Email signup | `emailSignup` | [email-signup.md](email-signup.md) | Newsletter capture, needs Supabase + a sender (**not built yet**) |
 
 ## How toggling works
 

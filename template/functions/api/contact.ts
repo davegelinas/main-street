@@ -79,7 +79,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const to = env.CONTACT_TO_EMAIL;
   if (!apiKey || !to) return friendlyError();
 
-  const from = env.FROM_EMAIL ?? `noreply@${new URL(request.url).hostname.replace(/^www\./, "")}`;
+  const host = new URL(request.url).hostname.replace(/^www\./, "");
+  // Resend only sends from a verified domain: the owner's own, never *.pages.dev.
+  if (!env.FROM_EMAIL && host.endsWith(".pages.dev")) return friendlyError();
+  const from = env.FROM_EMAIL ?? `noreply@${host}`;
 
   // Failures are logged for the owner's AI to find: Cloudflare dashboard ->
   // Workers & Pages -> the project -> the deployment -> Functions (real-time logs).

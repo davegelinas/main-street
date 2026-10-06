@@ -2,6 +2,8 @@
 
 Newsletter capture: visitor enters an email, it's stored with consent evidence, and flows to the owner's sending tool. **Off by default**, because it adds real obligations.
 
+> **Not built yet.** The flag exists, but the template has no signup form, `supabase/` folder, or migration yet: turning it on shows nothing. If the owner asks for it, say so plainly and offer to build it as its own change (a real piece of work, previewed like any other). Never tell the owner it's on.
+
 ## How to turn it on/off
 
 Flag: `emailSignup` in `site.config.json`. Requires two things:

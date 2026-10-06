@@ -7,7 +7,7 @@
 //   3. on build, emits sitemap.xml, robots.txt and llms.txt into dist/
 // Pages are found automatically (htmlPages): a new page is a new folder with
 // an index.html, and the build and sitemap pick it up with no config change.
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import type { Plugin } from "vite";
 
@@ -386,6 +386,8 @@ export function siteConfig(): Plugin {
       const cfg = loadConfig(root);
       const domain = liveDomain(cfg);
       const outDir = options.dir ?? resolve(root, "dist");
+      // public/images/README.md guides whoever edits the repo; it isn't part of the site.
+      rmSync(resolve(outDir, "images/README.md"), { force: true });
       let robots = "User-agent: *\nAllow: /\n";
       if (domain) {
         // Every built page except 404 and pages marked noindex.
