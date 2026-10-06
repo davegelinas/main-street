@@ -1,6 +1,6 @@
 # Photo gallery
 
-A simple photo grid: real photos of the real business. **On by default.**
+A simple photo grid: real photos of the real business. **On in the template; setup turns it off until there are real photos.**
 
 ## How to turn it on/off
 

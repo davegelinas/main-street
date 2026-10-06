@@ -9,7 +9,7 @@ This checklist tracks the one-time setup. **Owner:** your AI works through it wi
   - Business name, what they do in one sentence, public phone, public email, address, hours.
   - Kind of business: pick the preset (`npm run preset <name>`).
   - Services and prices (optional), how they started, and what they're known for. Write every answer into `content/brand/brief.md`, then follow `rules/brand.md`.
-  - **3 to 6 photos.** "Later" is fine. Send the upload message from `features/gallery.md`; then copy the photos into `public/images/` and run `npm run optimize-images`.
+  - **3 to 6 photos.** "Later" is fine. Send the upload message from `features/gallery.md`; then copy the photos into `public/images/` and run `npm run optimize-images`. Before the lock their upload lands straight on `main`, and the photos check adds its own commit there: `git pull` before you push.
   - A current website or Google listing? Ask for **screenshots** of it.
   - Do they already own a domain? Note it below, but leave `site.domain` empty until it's connected. If their public email is at a domain (`hello@theirbusiness.com`), someone already owns that domain: find out who before anyone buys one or turns on Email Routing.
 
