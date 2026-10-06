@@ -3,14 +3,52 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, staging]
+    branches: [main]
+
+# Read-only unless a job asks for more (the photos job does, to commit).
+permissions:
+  contents: read
 
 jobs:
+  # This repo is public, and phone photos can carry the exact spot they were
+  # taken. On every change, this strips that hidden camera data and commits
+  # the clean copy, so it never reaches the live site. (The original upload
+  # stays in the change's history, so turning location off before uploading
+  # is still the real protection.) On main it does the same during setup;
+  # once main is locked the push is refused and the job fails loudly.
+  photos:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: photos-${{ github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Strip camera data and commit
+        run: |
+          node scripts/optimize-images.mjs --strip || status=$?
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -am "Remove hidden camera data from photos"
+            git pull --rebase
+            git push
+          fi
+          exit ${status:-0}
+
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
           cache: npm

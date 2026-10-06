@@ -62,7 +62,7 @@ Every AI platform does this differently: a settings page, an apps list, a one-ti
 
 Some AI platforms don't support plug-ins yet, or they call the feature something else ("apps," "integrations," "extensions"). Try asking: **"What apps can you connect to?"**
 
-And there is always a fallback that works everywhere: make the thing in the app yourself (design the logo in Canva, export the video from Higgsfield), then **attach the file in your chat**. Your AI can put it on your site from there. The connector just saves you the trip.
+And there is always a fallback that works everywhere: make the thing in the app yourself (design the logo in Canva, export the video from Higgsfield), then **upload the file** to your site's `content/brand` folder on GitHub ([how](gather-your-stuff.md#how-to-add-your-photos)) and tell your AI. It puts it on your site from there. The connector just saves you the trip.
 
 ## The rules still apply
 

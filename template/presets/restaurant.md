@@ -2,6 +2,8 @@
 
 Apply with: `npm run preset restaurant`
 
+Theme: `terracotta` (colors and heading font; see `rules/design.md`).
+
 ## Feature bundle
 
 | Feature | State |
@@ -33,4 +35,4 @@ LocalBusiness subtype: `Restaurant` (or `CafeOrCoffeeShop`, `Bakery`). Include `
 ## Watch for
 
 - Menu drift (printed menu vs site). Ask whenever prices come up.
-- Holiday hours: restaurants live and die by them. The announcement banner is your friend.
+- Holiday hours: restaurants live and die by them. Put every closure in `site.closedOn`; the site announces it three weeks ahead and takes it down by itself.

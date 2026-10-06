@@ -68,9 +68,11 @@
           "additionalProperties": false,
           "properties": {
             "facebook": {
+              "description": "Facebook page link or name. Empty = no Facebook link on the site.",
               "type": "string"
             },
             "instagram": {
+              "description": "Instagram handle (@yourshop) or link. Empty = no Instagram link on the site.",
               "type": "string"
             }
           },
@@ -122,6 +124,10 @@
         "gallery": {
           "type": "boolean"
         },
+        "heroPhoto": {
+          "description": "The big photo at the top of the homepage. Off until there is a real photo: the hero then shows the business's initial as a seal.",
+          "type": "boolean"
+        },
         "menu": {
           "type": "boolean"
         },
@@ -136,15 +142,6 @@
       "properties": {
         "bookingUrl": {
           "type": "string"
-        },
-        "resend": {
-          "additionalProperties": false,
-          "properties": {
-            "fromEmail": {
-              "type": "string"
-            }
-          },
-          "type": "object"
         }
       },
       "type": "object"
@@ -156,10 +153,55 @@
           "description": "One-sentence banner. Empty string hides it.",
           "type": "string"
         },
+        "closedOn": {
+          "description": "One-off closures: a date like \"2026-11-04\", a range like \"2026-12-24 to 2026-12-26\", or either with a short note: { \"dates\": \"2026-12-24 to 2026-12-26\", \"note\": \"for the holidays\" }. Each shows as its own line at the top of the homepage (\"Closed Thu, Dec 24 to Sat, Dec 26, for the holidays.\") from 21 days before until it ends, the page says \"Closed today\" on those days, and Google gets them as special hours. No announcement needed. Past closures drop off the site by themselves; the monthly checkup tidies them out of this list.",
+          "items": {
+            "oneOf": [
+              {
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}( to \\d{4}-\\d{2}-\\d{2})?$",
+                "type": "string"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "dates": {
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}( to \\d{4}-\\d{2}-\\d{2})?$",
+                    "type": "string"
+                  },
+                  "note": {
+                    "description": "A few words that finish the sentence, like \"for the holidays\" or \"for the parade\".",
+                    "maxLength": 60,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "dates"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "type": "array"
+        },
         "description": {
           "type": "string"
         },
         "domain": {
+          "description": "Your domain, like acmeplumbing.com. Leave empty until you connect one; the site runs on its free Cloudflare address until then.",
+          "type": "string"
+        },
+        "editUrl": {
+          "description": "The owner's Edit my website link: the full address of their AI chat with this site already chosen. For Claude, the prefill link in docs/connect-your-ai.md; for Codex, https://chatgpt.com/codex. The page at /edit/ turns it into one big button the owner keeps on their home screen. Empty until set up.",
+          "type": "string"
+        },
+        "theme": {
+          "description": "The site's look: colors, heading font, and corners. terracotta (warm, food and craft), harbor (navy and blue, trades and offices), sage (green, florists and wellness), plum (salons and spas). Set by the preset; the colors themselves live in src/styles.css.",
+          "enum": [
+            "terracotta",
+            "harbor",
+            "sage",
+            "plum"
+          ],
           "type": "string"
         }
       },

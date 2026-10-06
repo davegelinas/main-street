@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-theme="{{site.theme}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="only light">
+  <title>Edit {{business.name}}</title>
+  <!-- The owner's "Edit my website" home-screen button. Kept out of search
+       and off the menu and footer. Not a standalone web app on purpose:
+       links must open normally. -->
+  <meta name="robots" content="noindex">
+  <meta name="apple-mobile-web-app-title" content="Edit {{business.name}}">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- feature:displayFont -->
+  <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- /feature:displayFont -->
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">{{monogram}}</span>
+        <span class="brand-name">{{business.name}}</span>
+      </a>
+    </div>
+  </header>
+  <main id="main">
+    <section class="edit-page" aria-labelledby="edit-title">
+      <div class="wrap">
+        <div class="edit-card">
+          <p class="eyebrow">For the owner</p>
+          <h1 id="edit-title">Edit {{business.name}}</h1>
+          <!-- feature:editUrl -->
+          <a class="btn edit-open" href="{{site.editUrl}}">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+            Open my AI
+          </a>
+          <!-- /feature:editUrl -->
+          <!-- feature:noEditUrl -->
+          <p class="edit-missing">Ask your AI to set up this page. It puts the link to your AI chat here, then a big "Open my AI" button appears.</p>
+          <!-- /feature:noEditUrl -->
+
+          <h2>Put this on your home screen</h2>
+          <div class="edit-howto">
+            <figure class="edit-icon" aria-hidden="true">
+              <img src="/apple-touch-icon.png" alt="" width="60" height="60">
+              <figcaption>Edit {{business.name}}</figcaption>
+            </figure>
+            <ul class="edit-steps">
+              <li><strong>iPhone:</strong> open this page in Safari, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>.</li>
+              <li><strong>Android:</strong> open this page in Chrome, tap the <strong>menu</strong>, then <strong>Add to Home screen</strong>.</li>
+            </ul>
+          </div>
+          <p class="edit-then">Then just tap it, say what you want, and look at the preview link.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

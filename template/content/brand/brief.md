@@ -2,6 +2,8 @@
 
 > **You don't have to write this yourself.** The easiest way: tell your AI "interview me about my business, a few questions at a time." It asks, you answer in plain words, and it fills this in for you. What you write below is just a head start.
 
+> **This file is public**, like your website. Write only what you'd print on a flyer: no personal phone numbers, private notes, or prices you haven't announced.
+
 Delete the hints in parentheses as you fill each one in. Skip anything that doesn't apply.
 
 ---
@@ -9,7 +11,7 @@ Delete the hints in parentheses as you fill each one in. Skip anything that does
 ## Current website, if you have one
 
 Your current site's address, if you have one.
-(Give your AI the domain and it will pull your content from the old site as a head start: "Pull everything you can from mysite.com into my shoebox." You confirm what's right before anything goes on the new site.)
+(Give your AI the domain, or screenshots if it can't open the site, and it will pull your content from the old site as a head start: "Pull everything you can from mysite.com into my shoebox." You confirm what's right before anything goes on the new site.)
 
 _Your answer:_
 

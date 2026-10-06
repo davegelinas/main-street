@@ -1,14 +1,33 @@
+# Security headers for every page.
+# (Cache rules for hashed build assets live under /assets/* below.)
+# The Content-Security-Policy only blocks things this site never does (plugins,
+# <base> hijacks, being framed by other sites, plain-http loads), so fonts,
+# Cloudflare visitor stats, maps and booking embeds keep working.
 /*
-  Security headers for every page.
-  (Cache rules for hashed build assets live under /assets/* below.)
-*/
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: base-uri 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests
+
+# Keep the free Cloudflare addresses (the starter address and every change's
+# preview link) out of search engines. Your own domain is not affected.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Font files never change in place: a different font gets a new file name.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Photos are often replaced under the same file name ("swap the hero photo"),
+# so browsers check for a newer copy on every visit. Unchanged photos answer
+# with a tiny "not modified", so this costs almost nothing.
 /images/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate

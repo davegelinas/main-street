@@ -8,7 +8,7 @@ Flag: `testimonials` in `site.config.json`. Quotes live in the page markup (or a
 
 ## Rules
 
-- **Never invent testimonials.** Every quote must come from a real customer, with their real name (first name + last initial is fine) and real permission to publish.
+- **Never invent testimonials.** Every quote must come from a real customer, with their real name (first name + last initial is fine) and real permission to publish. Public Google or Yelp reviews are the exception: quote an exact excerpt, attribute "First L., Google review", and the owner's okay is enough (`rules/content.md`).
 - Keep them short. One or two sentences. Trim with the customer's approval, never silently.
 - Three to six quotes. Rotate them occasionally; stale praise gathers dust.
 - Attribute honestly: name and, if relevant, context ("regular since 2021"). Never invent titles or credentials.

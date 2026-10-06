@@ -8,9 +8,9 @@ Flag: `contactForm` in `site.config.json`. The form posts to `functions/api/cont
 
 ## What the owner needs to do
 
-One thing: create a free Resend API key and add it as `RESEND_API_KEY` in Cloudflare (Pages → Settings → Environment variables → Production). Step-by-step in `docs/setup-guide.md`.
+After their own domain is connected: verify the domain in Resend, then add `RESEND_API_KEY` and `CONTACT_TO_EMAIL` in Cloudflare (Pages → Settings → Variables and Secrets → **Production** only). Step-by-step in `docs/api-keys.md`.
 
-Until the key exists, the form **hides itself** and the section shows the business email and phone instead. This is deliberate: a form that fails on every submission is worse than no form. Verify the degraded state on the preview URL before calling it done.
+Until then, the section always shows the business phone and email next to the form, and anyone who submits sees "Email is not set up yet. Please email us directly." Nothing breaks. Preview links never have the key (on purpose), so they always show this note: test real delivery on the live site after shipping.
 
 ## How it works
 
@@ -24,10 +24,10 @@ Resend's free tier covers far more than a small business contact form will ever 
 
 ## Customization
 
-- Change the recipient: the function sends to the business email from config. If the owner wants submissions to go elsewhere, that's a config change, not a code change.
+- Change the recipient: messages go to `CONTACT_TO_EMAIL`, set in Cloudflare. To send them elsewhere, the owner changes that variable (no code change), then retries the latest deployment.
 - Extra fields (party size, date): add them to the form and the function together, and test end-to-end.
 
 ## What can go wrong
 
-- "Nobody's getting the emails": check the Resend dashboard first (deliveries log), then whether the key is set in Cloudflare's *Production* environment (not just Preview).
+- "Nobody's getting the emails": check the Resend dashboard first (deliveries log), then that the domain is still **Verified** there, then that both variables are set in Cloudflare's *Production* environment.
 - Form works locally but not live: `.dev.vars` has the key but Cloudflare doesn't. See `rules/traps.md`.

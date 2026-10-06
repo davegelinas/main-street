@@ -1,40 +1,46 @@
-# FAQ
+# Questions owners ask
 
-**Do I need to know how to code?**
-No. The setup wizard asks plain-language questions, and day-to-day updates happen by talking to an AI assistant or editing text on GitHub.com. Reading this FAQ is the hardest technical thing you'll do.
+**Do I need to be good with computers?**
+No. If you can send a text message, you can run this website. Setup takes about two hours, much of it waiting, and your AI walks you through every click. Send it a screenshot whenever you're unsure.
+
+**Can I set it up without a technical helper?**
+Yes. That's how it's designed: you and your AI, about two hours, with a checklist so you can stop and come back. A helper is welcome if you have one; they follow the same steps, signed in as you.
+
+**Can I do it all on my phone?**
+Day to day, yes: everything happens on your phone. Setup works on a phone too, but a computer makes two of the steps (Cloudflare and GitHub's settings) much easier.
 
 **What does it actually cost?**
-About $10–12/year for the domain name. Everything else is free-tier. Your AI chat subscription (Claude, ChatGPT, or similar) is separate, but it's one most owners already pay for (about $20/month if you don't have one yet), and this system never adds API usage charges on top of it.
+About $12 a year for your domain name (usually $10 to $15, depending on the ending: .com, .shop, and so on). Hosting and everything else are free. Separately, you need a paid AI plan, about $20 a month (Claude Pro or ChatGPT Plus), which many owners already have. On a free AI plan, there's a slower [browser-only path](browser-only.md).
 
-**Do I need to buy API access for the AI?**
-No. Your AI works on the chat subscription you already pay for, so the AI itself can never run up a usage charge. The site uses at most two free service keys (contact-form email, visitor stats); see [api-keys.md](api-keys.md).
+**Can I get a surprise bill?**
+No. Nothing on your website bills by usage, and your AI works on your plan, never on a metered API key. The domain renewing once a year is the only website bill.
 
-**Can I really not get a surprise bill?**
-Correct. No service here bills by usage on the tiers we use. The domain renews yearly; that's the only charge.
+**Do I need an API key?**
+Not for your AI, ever. If one asks, say no. Your website has one optional free key, for the contact form, once you have your own domain: [api-keys.md](api-keys.md).
 
 **What if I break something?**
-Cloudflare dashboard → Workers & Pages → your site → Deployments → find the last good one → ⋯ → Rollback. One click. Also, every change goes through a preview link you approve first, so breakage is rare.
+Say "undo that" and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it. Every change waits on a preview you approve, and every past version is saved, so nothing is ever lost.
+
+**My files are "public." Can people see private stuff?**
+Your website's files are public, just like your website. Only website content goes in them: the same words and photos customers see. Never passwords, private notes, or customer details. Turn location off on photos before you upload them (your AI strips it too).
+
+**What if I stop paying for my AI plan?**
+Your website keeps running exactly as it is. You just can't update it by chat until you have a plan again. Small text fixes still work on GitHub.com: [editing-in-browser.md](editing-in-browser.md).
 
 **Do I own my website?**
-Yes. It's your GitHub repo, your Cloudflare account, your domain. The template is just the starting point. If you stop using it, everything stays yours.
+Yes: your GitHub account, your Cloudflare account, your domain. If you stop using this toolkit, everything stays yours and keeps working. Nothing phones home.
 
-**What if the AI assistant makes a mistake?**
-Tell it what you see in plain words. It can undo anything, and you can always roll back the deployment yourself. Mistakes here are cheap and reversible by design.
+**Can I use my booking tool?**
+Yes. The booking button links to whatever you use: Square, Acuity, Calendly, Vagaro. Your site sends people there.
 
-**Can I use my existing booking/scheduling tool?**
-Yes. The booking feature links to Acuity, Calendly, Square, Vagaro, whatever you use. The site sends people there; it doesn't replace it.
-
-**Does it work for online stores?**
-Not really, and that's deliberate. This is for businesses where the website earns the visit or the call: restaurants, trades, salons, professional services. Real e-commerce (carts, payments, inventory) is a different product with different costs.
+**Can I sell online?**
+A little, yes: your site can show products with **Buy** buttons that open your Shopify checkout ([connectors.md](connectors.md)). A full shop with a cart, payments, and stock counts is a different kind of product.
 
 **Will my site show up on Google?**
-The template handles the technical side (structured data, sitemap, speed, mobile). The human side matters more: claim your Google Business Profile, keep hours accurate, get reviews. See `rules/seo.md`.
+Once you connect your own domain, yes. Your free starter address is hidden from Google on purpose. The site already does the technical part. The human part matters more: claim your Google Business Profile, keep your hours right, and ask happy customers for reviews. Your AI can walk you through each one.
 
-**Can someone build this for me and hand it over?**
-Yes. That's the normal way it happens. A freelancer (or a tech-savvy friend) sets the whole thing up in about an hour, in your accounts, and teaches you the update flow in ten minutes. From then on, it's yours.
+**Can someone set it up for me instead?**
+Yes. A freelancer or a tech-savvy friend can do it in your accounts and show you the "ship it" loop in ten minutes. Either way, it's yours.
 
-**What happens if this template disappears?**
-Nothing happens to your site. Your repo is a complete, independent copy. It builds with standard open-source tools and deploys to Cloudflare. No part of it phones home.
-
-**Why not just use Squarespace/Wix?**
-Those are fine products. This is for people who'd rather pay $12/year than $200+/year, own their site outright, and update it by having a conversation instead of wrestling a page builder.
+**Why not Squarespace or Wix?**
+They're fine products. This is for people who'd rather pay about $12 a year than $200 or more, own their site outright, and update it with a conversation instead of a page builder.

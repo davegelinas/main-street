@@ -28,8 +28,8 @@ Say what you checked, even when the answer is "looks fine."
    listing, so ask whether the site still matches their Google Business
    Profile.
 2. **Placeholder copy.** Search the pages for leftover starter text (the audit
-   script flags it: placeholder copy, "Example service", "Your first real
-   customer quote"). Anything still generic gets rewritten or flagged.
+   script flags visible starter text and placeholder images: "Example
+   service", "Your first real customer quote", "Your photo here"). Anything still generic gets rewritten or flagged.
 3. **Photos.** Placeholder or stand-in images still in use? Photos the owner
    might want to refresh? Ask, don't assume.
 4. **Reviews.** Any new Google, Yelp, or Facebook reviews worth featuring? Ask
@@ -39,26 +39,35 @@ Say what you checked, even when the answer is "looks fine."
    it lands somewhere real.
 6. **Seasonal.** What's coming in the next 60 to 90 days? Seasonal services,
    holiday closures, price changes, new offerings. Ask one question about it.
-7. **Announcement banner.** Still promoting something current, or something
-   that ended?
-8. **Analytics (if enabled).** Summarize in plain English: roughly how many
-   visitors, which pages they looked at, one suggestion. No jargon. If
-   analytics is off, say so in one line and move on.
-9. **Broken bits.** Walk the staging site yourself: contact form, tap-to-call
+7. **Announcement and closures.** Is the announcement still about something
+   current? Any closures coming up that aren't in `site.closedOn` yet
+   (holidays especially)? Past `site.closedOn` entries no longer show; tidy
+   them away in a change of their own (never riding along with another
+   change, so an undo of that change can't bring them back).
+8. **Analytics (if enabled).** You can't see Cloudflare's numbers yourself.
+   Ask the owner for a screenshot of the project's **Metrics** page, then
+   summarize in plain English: roughly how many visitors, which pages, one
+   suggestion. No screenshot? Skip it in one line. Never estimate.
+9. **Broken bits.** Walk the live site yourself: contact form, tap-to-call
    buttons, map links. If the contact form has its keys set, offer to send a
    test message; never send one unasked.
+10. **Waiting changes.** List open pull requests. Anything older than 14 days:
+    ask ship it, change it, or toss it, one at a time. Close the ones they
+    toss.
 
 ## How to report
 
-- One short section per item, in plain words. "Checked, looks fine" is a
-  complete answer.
-- End with a numbered list of **proposed changes**, each one sentence.
+- Lead with the two or three things that matter most, in plain words, and
+  ask one question. Offer the rest on request ("I checked eight other things
+  and they look fine. Want the full list?"). No wall of text.
+- End with a short numbered list of **proposed changes**, each one sentence.
 - The owner approves items one by one, or says "do all of them." Every
-  approved change goes through the normal loop: staging preview, owner looks,
-  "ship it."
-- **Never change anything during a checkup on your own authority.** The only
-  exception is something actively broken or embarrassing (site down, wrong
-  phone number): fix it first, then report it immediately in plain words.
+  approved change goes through the normal loop: its own preview link, owner
+  looks, "ship it."
+- **Never change anything during a checkup on your own authority.** If
+  something is actively broken or embarrassing (wrong phone number, a notice
+  for an event that's over), prepare the fix first and tell the owner right
+  away. It still needs their "ship it."
 
 ## After the checkup
 

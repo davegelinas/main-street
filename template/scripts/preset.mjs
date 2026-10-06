@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Apply a business-type preset: flips feature flags in site.config.json.
+// Apply a business-type preset: flips feature flags and sets the theme in
+// site.config.json.
 // Usage: node scripts/preset.mjs <bakery|restaurant|home-services|retail|salon-wellness|professional>
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -10,6 +11,7 @@ const configPath = resolve(root, "site.config.json");
 
 export const PRESETS = {
   bakery: {
+    theme: "terracotta",
     type: "Bakery",
     features: {
       menu: true, gallery: true, testimonials: true, faq: true, contactForm: true,
@@ -17,6 +19,7 @@ export const PRESETS = {
     },
   },
   restaurant: {
+    theme: "terracotta",
     type: "Restaurant",
     features: {
       menu: true, gallery: true, faq: true, contactForm: true,
@@ -24,6 +27,7 @@ export const PRESETS = {
     },
   },
   "home-services": {
+    theme: "harbor",
     type: "HomeAndConstructionBusiness",
     features: {
       faq: true, testimonials: true, contactForm: true,
@@ -31,6 +35,7 @@ export const PRESETS = {
     },
   },
   retail: {
+    theme: "sage",
     type: "Store",
     features: {
       gallery: true, testimonials: true, contactForm: true,
@@ -38,13 +43,15 @@ export const PRESETS = {
     },
   },
   "salon-wellness": {
+    theme: "plum",
     type: "HealthAndBeautyBusiness",
     features: {
-      gallery: true, menu: true, faq: true, contactForm: true, booking: true,
-      announcementBanner: true, analytics: true, testimonials: false, blog: false, emailSignup: false,
+      gallery: true, menu: true, faq: true, contactForm: true, booking: true, testimonials: true,
+      announcementBanner: true, analytics: true, blog: false, emailSignup: false,
     },
   },
   professional: {
+    theme: "harbor",
     type: "ProfessionalService",
     features: {
       faq: true, testimonials: true, contactForm: true,
@@ -61,6 +68,9 @@ export function applyPreset(config, name) {
   if (config.business.type !== preset.type) {
     config.business.type = preset.type;
   }
+  // The theme (colors, heading font) follows the kind of business too.
+  config.site = config.site ?? {};
+  config.site.theme = preset.theme;
   config.features = config.features ?? {};
   const changed = [];
   for (const [flag, value] of Object.entries(preset.features)) {
@@ -84,6 +94,7 @@ if (isCli) {
   const changed = applyPreset(config, name);
   writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
   console.log(`Preset "${name}" applied to site.config.json`);
+  console.log(`  theme: ${PRESETS[name].theme} (colors and heading font; change "site.theme" any time)`);
   if (!changed.length) {
     console.log("No flags changed (already matching).");
   } else {

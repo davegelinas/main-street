@@ -2,6 +2,8 @@
 
 Apply with: `npm run preset retail`
 
+Theme: `sage` (colors and heading font; see `rules/design.md`).
+
 ## Feature bundle
 
 | Feature | State |
@@ -28,7 +30,7 @@ Warm, specific, sensory. Name the flowers, not just the colors. "Peonies, garden
 
 ## Schema
 
-LocalBusiness subtype: `Store` (or `Florist` where it exists). Delivery area in the JSON-LD.
+LocalBusiness subtype: `Store` (or `Florist` where it exists). A delivery area isn't generated into the structured data yet: put it in plain words on the page and in the FAQ. If they have Instagram, fill in `business.social.instagram` so it shows in the footer.
 
 ## Watch for
 

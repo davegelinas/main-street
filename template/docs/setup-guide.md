@@ -1,172 +1,169 @@
-# Setup guide
+# Set up your website
 
-The complete walkthrough: from zero to a live website at your own domain. Budget about an hour, most of it waiting for DNS. If you get stuck at any step, describe where you are in plain words to your AI assistant; it can read this guide too.
+You can do this yourself, in about two hours, much of it waiting. Your AI walks you through every step, and you can stop any time and pick up where you left off.
 
-**No installs, no helper, nothing but a browser?** Skip this guide and follow [browser-only.md](browser-only.md) instead. It covers the same journey with every step written out for someone whose only tool is a ChatGPT or Claude browser tab.
+**At the end:** your website is live, and an **Edit my website** button sits on your phone.
 
-## What you need
+**You need:**
 
-- A GitHub account (free).
-- A Cloudflare account (free).
-- About $10-12/year for the domain name. (Cloudflare needs a payment method on the account to buy it.)
-- An AI chat subscription you already use (Claude, ChatGPT, or similar). Connect it first: [connect-your-ai.md](connect-your-ai.md). Your AI itself never needs API keys.
-- Node.js 22 (match `.node-version`), only if you'll run commands on your own computer (the hands-on path in Step 2).
-- Git on your computer, or GitHub Desktop (free), for the one-time push in Step 1.
+- An email address and a phone.
+- A paid AI plan, about $20 a month. **Claude Pro** is smoothest today. (ChatGPT Plus? See Step 4.)
+- Your business basics: name, phone, hours, address, what you sell. No answer yet? Say "skip it."
 
-**Before you start, collect from the owner:** the business details (name, tagline, address, phone, email, hours, services, prices), the domain name they want (or whether you're buying a new one), whose GitHub and Cloudflare accounts you'll use (theirs, not yours), and a Gmail address for the Email Routing destination.
+**A computer makes Steps 5 and 6 easier**, because those screens are big. Everything else works fine on a phone, and after setup, everything happens on your phone.
 
-## Step 1: Get your site folder (5 minutes)
+**Stuck?** Send your AI a screenshot and ask "what do I do here?" It works on every step.
 
-Your site starts as a copy of the `template/` folder in the Main Street repo.
+## The whole trip
 
-**Easiest (if your AI can reach files on your computer, e.g. Claude Code):** ask it: "Download the Main Street template from github.com/davegelinas/main-street and scaffold my site folder." It handles the download, the copy, and the naming. If your AI is a plain browser tab with no file access, use the by-hand path below, or the owner can follow [browser-only.md](browser-only.md).
+| Step | What | Time |
+|---|---|---|
+| 1 | Make two free accounts | 15 min |
+| 2 | Make an empty home for your site | 2 min |
+| 3 | Connect Claude to GitHub | 5 min |
+| 4 | Your AI builds your site | 40 min |
+| 5 | Put it on the internet | 20 min |
+| 6 | Lock your live site | 15 min |
+| 7 | Your Edit my website button, a first change, your site card | 25 min |
 
-**By hand:** download the [repo zip](https://github.com/davegelinas/main-street/archive/refs/heads/main.zip), unzip it, and copy everything inside `template/` into a new folder named after your business (e.g. `acme-plumbing`). Include hidden files: `.github/`, `.gitignore`, and `.node-version` must come along. That folder is your site.
+Two sittings work well: Steps 1 to 4 one day, Steps 5 to 7 another. From Step 4 on, your AI leads and tells you what to click. This page is your map.
 
-**Put the folder on GitHub** (the scaffolder only stages files locally; nothing is on GitHub until you do this). From your site folder:
+## Step 1: Make two free accounts (15 minutes)
 
-```bash
-git branch -M main
-git commit -m "First version of the site"
+1. **GitHub** (where your website's files are kept): go to [github.com/signup](https://github.com/signup). Use your own email, not a helper's. GitHub emails you a code to type in. Later it will ask you to turn on two-step sign-in; your AI helps you with that at the end of setup.
+2. **Cloudflare** (what puts your site on the internet): go to [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up), with the same email, and click the link in the email it sends you.
+
+## Step 2: Make an empty home for your site (2 minutes)
+
+1. Go to [github.com/new](https://github.com/new).
+2. **Repository name:** your business name, lowercase, with dashes, like `maple-street-bakery`.
+3. Choose **Public**. Your website is public anyway, so its files can be too, and public gets GitHub's free lock for your live site (Step 6). Only website content ever goes in it, never anything private.
+4. Leave **Add a README** off. Click **Create repository**.
+
+It's empty for now. That's right: your AI fills it in Step 4.
+
+## Step 3: Connect Claude to GitHub (5 minutes)
+
+1. Go to [claude.ai/code](https://claude.ai/code) and sign in with your Claude account.
+2. When it asks, click **Sign in with GitHub**, then approve.
+3. Let Claude work on your new repository. If Claude offers to install the **Claude GitHub App**, say yes. If it doesn't, open [this link](https://github.com/apps/claude/installations/new). Either way, choose **Only select repositories**, pick your new repository, and click **Install** (or **Save**).
+
+Claude also makes a workspace for you called **Default**. Leave it as it is. If you see an **Auto-fix** option, leave it off.
+
+## Step 4: Your AI builds your site (40 minutes)
+
+1. Open this link. It opens Claude with the setup message already written:
+
+   **[Start my website setup](https://claude.ai/code?prompt=Set%20up%20my%20new%20business%20website%20in%20this%20repository.%20Start%20by%20cloning%20https%3A%2F%2Fgithub.com%2Fdavegelinas%2Fmain-street%20and%20following%20its%20AI-SETUP.md.%20Push%20the%20first%20version%20straight%20to%20the%20main%20branch.%20I%20am%20not%20technical%3A%20one%20step%20at%20a%20time%2C%20in%20plain%20words.)**
+
+   The message looks technical. That's fine: it's for your AI, not for you.
+2. Click the repository picker **below the message box** and choose your new repository. Next to the send button, leave the mode on **Auto** or **Accept edits**, not **Plan** (Plan makes Claude stop and wait). Press send.
+3. While it works, technical text scrolls by. You don't need to read it; your AI asks when it needs you.
+4. Once, it sends you a link that adds a photo safety check it isn't allowed to add itself. Open it (GitHub may ask you to sign in), tap **Commit changes...**, then **Commit changes** again in the box that pops up. Tell your AI "done."
+5. Answer its questions in plain words, one at a time. Have a current website or a Google listing? Your AI will ask for screenshots of it. They save you typing.
+6. It also asks for 3 to 6 photos. Photos go into your site's photos folder on GitHub, not into the chat: [how to add your photos](gather-your-stuff.md#how-to-add-your-photos). No photos today? Say "later." Your site works fine without them.
+
+Your AI copies the website into your repository, fills in your details, and writes your homepage from your answers. It keeps a checklist (`SETUP.md`), so if you stop, any later chat picks up where you left off.
+
+<details>
+<summary><b>Using ChatGPT Plus instead?</b></summary>
+
+Go to chatgpt.com/codex, connect GitHub, give it your new repository, and create its environment (accept the defaults). Then send it this message:
+
+```
+Set up my new business website in this repository. Start by cloning https://github.com/davegelinas/main-street and following its AI-SETUP.md. Push the first version straight to the main branch. I am not technical: one step at a time, in plain words.
 ```
 
-Then create the repo at github.com/new (same name as the folder, e.g. `acme-plumbing`), and:
+If Codex says it can't download the template, upload the files yourself with Part 2 of [browser-only.md](browser-only.md), then come back and ask Codex to run the interview and make the first version.
 
-```bash
-git remote add origin https://github.com/YOUR-ACCOUNT/YOUR-REPO.git
-git push -u origin main
-```
+</details>
 
-(Say to your AI: "help me put my site folder on GitHub" for click-by-click help.)
+## Step 5: Put it on the internet (20 minutes)
 
-## Step 2: Make it yours (10 minutes)
+Your AI tells you when it's time. If the screen doesn't match these words, send it a screenshot.
 
-**Owner:** say to your AI: "run the setup with me." It asks for your business details in plain language, right in chat, and fills in the site. (If your AI can't reach the files yet, your helper runs the wizard below while you answer the same questions out loud.)
+1. In Cloudflare: **Workers & Pages** → **Create application** → **Pages** → **Connect to Git** (it may say **Import an existing Git repository**). Choose **Pages**, not Workers.
+2. Approve GitHub, then pick your repository.
 
-**Helper (or hands-on),** on your computer, from your site folder:
+   > **Not in the list?** ("No repositories matching") On GitHub: your picture → **Settings** → **Applications** → **Installed GitHub Apps** → **Cloudflare Workers and Pages** → **Configure** → add your repository → **Save**. Then refresh Cloudflare.
+3. Fill in these settings exactly:
+   - **Project name:** your business name, lowercase, with dashes. It becomes your free address: `<name>.pages.dev`.
+   - **Production branch:** `main`
+   - **Framework preset:** **None**. (There's no plain "Vite" choice; don't pick VitePress or React.)
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+4. Click **Save and Deploy**. In two or three minutes your site is live at `https://<name>.pages.dev`. Tell your AI the address.
+5. Turn on visitor stats: your project → **Metrics** → **Enable** under Web Analytics. One click. Counting starts after your next change goes live.
 
-```bash
-cd ../acme-plumbing
-npm install
-npm run setup
-```
+Your free address is hidden from Google on purpose. It's a working site you can check and share with friends. The real launch is your own domain, later.
 
-(Use your real folder name.) `npm install` downloads the build tools (one time). `npm run setup` asks plain-language questions: business name, phone, email, address, domain, what kind of business, then configures everything.
+## Step 6: Lock your live site (15 minutes)
 
-Then preview:
+This is what makes "nothing goes live until you say ship it" true for everyone, your AI included. It's the fiddliest screen of the whole setup, so go slowly, and send your AI a screenshot before you click **Create**. It will check every box with you.
 
-```bash
-npm run dev
-```
+Your AI sends you a link to your repository's rules page (it looks like `github.com/your-name/your-site/settings/rules`; or open your repository → **Settings** → **Rules** → **Rulesets**). On a phone, first tap **aA** in Safari's address bar → **Request Desktop Website**.
 
-Open the address it prints. That's your site.
+1. **New ruleset** → **New branch ruleset**.
+   - **Name:** `Protect live site`. **Enforcement:** Active. Leave the **bypass list empty**.
+   - **Target branches:** **Add target** → **Include default branch**.
+   - Keep **Restrict deletions** and **Block force pushes** checked. Check **Require a pull request before merging**, with required approvals at **0** (your "ship it" is the approval).
+   - Click **Create**.
+2. **General** (in the same Settings menu):
+   - **Features:** turn off **Issues**, and set pull requests to **collaborators only**.
+   - **Pull Requests:** leave only **Allow squash merging** checked (uncheck merge commits and rebase merging), and check **Automatically delete head branches**.
+3. Last, your own account (your picture → **Settings** → **Emails**): check **Keep my email addresses private**.
 
-## Step 3: Domain + DNS on Cloudflare (10 minutes + waiting)
+## Step 7: Your Edit my website button, a first change, your site card (25 minutes)
 
-You want Cloudflare holding your DNS. That's what gives your staging site a clean address (`staging.yourdomain.com`) instead of an ugly `*.pages.dev` URL, and it makes the domain wiring automatic later.
+Switch to your phone for this one, and open your setup chat in the Claude app (same account: the chat is there too).
 
-**Buying new?** Buy it at [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/): wholesale cost, no markup (~$10/year for `.com`), and DNS is already on Cloudflare. Done. Skip to Step 4.
+1. Ask your AI: "Make my Edit my website button." It sets up a page on your site just for you, with one big button that opens your AI (if it sends a preview link first, say **"ship it"**). Then open **Safari** and go to your site's address with **/edit/** on the end (your AI tells you the exact address, like `maplestreetbakery.com/edit/`). Tap **Share** → **Add to Home Screen** → **Add**. On Android, open it in Chrome and use the menu → **Add to Home screen**. The first time you use the button, Safari may ask you to sign in to Claude; that's a one-time thing.
+2. Tap your new button and try a small change: "Add a banner: welcome to our new website!"
+3. Open the preview link your AI sends and look at the banner. Then say **"ship it."** A minute later, it's on your live site.
+4. Write your site card (below). Your AI walks you through it.
+5. Now say **"undo that."** A minute later the banner is gone. Now you know you can take anything back.
 
-**Already own one elsewhere?** Move its DNS to Cloudflare (free, your registrar stays as-is):
+That's the loop from now on: say what you want, look at the preview, say "ship it."
 
-1. In Cloudflare: **Add domain**, enter it, continue. Cloudflare shows you two nameservers.
-2. **Read the email warning first:** changing nameservers moves *every* DNS record. Copy your existing records (especially MX/email records) before switching. See [domains-and-dns.md](domains-and-dns.md), which your AI assistant can walk through with you.
-3. At your registrar, replace the domain's nameservers with Cloudflare's two.
-4. Back in Cloudflare, **Check nameservers**. Status flips to **Active** in minutes to a few hours. Go get coffee; don't keep poking it.
+## Your site card
 
-## Step 4: Connect Cloudflare Pages (10 minutes)
+First, turn on GitHub's two-step sign-in: your picture → **Settings** → **Password and authentication** → **Enable two-factor authentication**. Follow the steps, and save the **recovery codes** it shows you. They get you back in if you ever lose your phone.
 
-1. In Cloudflare: **Workers & Pages** → **Create** → **Continue to Pages** (the website option) → **Import an existing Git repository** → **Get started** → **Connect to Git**.
-2. Authorize GitHub if asked, and pick your repo.
+Then write these down, on paper or in your phone's notes, and keep them somewhere safe:
 
-   > **Repo not showing up?** ("No repositories matching") The Cloudflare Pages GitHub App is usually only allowed to see *some* of your repos. Fix it on GitHub: click your avatar → **Settings** → **Applications** → **Installed GitHub Apps** → **Cloudflare Pages** → **Configure** → under *Repository access*, choose **All repositories** (or pick your site's repo) → **Save**. Back in Cloudflare, refresh the repo list. It'll appear. (Make sure it's the **Cloudflare Pages** app, not Cloudflare Workers, they're separate.)
-3. Build settings:
-   - Production branch: `main`
-   - Framework preset: leave at **None**. (There is no plain Vite option in the list; the similar-looking VitePress and React (Vite) are different things. Do not pick them.)
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-   - (Leave everything else default.)
-4. Click **Save and Deploy**. Cloudflare builds your site and gives it a `*.pages.dev` address. It's live already, just not at your domain yet.
+- GitHub: username, email, and **recovery codes**.
+- Cloudflare: login email.
+- Your AI plan's login.
+- Your website's address.
+- "If something looks wrong: tell my AI **undo that**."
 
-From now on, **every push to `main` rebuilds and redeploys production automatically.**
+## Later: your own domain (30 minutes, plus some waiting)
 
-## Step 5: Your live domain (5 minutes + waiting)
+When you're ready to launch, say to your AI: **"Walk me through connecting my domain safely."** It goes one step at a time.
 
-1. In Pages → your site → **Custom domains** → **Set up a custom domain**.
-2. Enter your domain (e.g. `acmeplumbing.com`). Cloudflare adds the DNS record and provisions SSL automatically. No records to type.
-3. Add the `www` version too if you want it (same screen).
-4. Wait for DNS to propagate (minutes to hours). Then open your domain: that's your live site.
+- **Buying a new domain?** Cloudflare → **Domain Registration** → search and buy (about $10 to $15 a year, at cost). Then skip to "Attach it."
+- **Already own one** (GoDaddy, Namecheap, Squarespace...)? It stays where it is; only its settings move to Cloudflare. If your email runs on that domain, this is the one step that can break it when rushed, so your AI starts with screenshots of every current setting. The careful version: [domains-and-dns.md](domains-and-dns.md).
 
-## Step 6: Your staging site at staging.yourdomain.com (10 minutes)
+**Attach it:** Cloudflare → your project → **Custom domains** → **Set up a custom domain** → your domain → **Activate**. Add the `www` version too. Then tell your AI "my domain is connected." It gets your site ready for Google and helps you tell Google it exists. Now you've launched.
 
-This is the preview copy where every change lands first. One permanent address, pretty enough to bookmark on your phone.
+## Later: business email (10 minutes)
 
-1. **Turn on staging builds.** Pages → your site → **Settings** → **Builds & deployments** → **Branch deploy controls**: choose **All non-production branches** (or otherwise make sure `staging` is included).
-2. **Push the `staging` branch once.** From your site folder:
+Free forwarding, so `hello@yourbusiness.com` lands in your Gmail: Cloudflare → your domain → **Email** → **Email Routing** → enable → add your Gmail as a destination (click the link Cloudflare emails you) → create `hello@` → your Gmail.
 
-   ```bash
-   git checkout -b staging main
-   git push -u origin staging
-   ```
+**Already have email on your domain** (Google Workspace, Microsoft 365, or mailboxes from your registrar)? Skip this. Turning it on would take over your existing mail.
 
-   Cloudflare builds it. The first build must succeed before the next step works. Your staging branch already has an address: `staging.<project>.pages.dev` (open it to confirm the build worked).
-3. **Attach the subdomain.** **Custom domains** → **Set up a custom domain** → enter `staging.yourdomain.com` → **Continue** → **Activate domain**. Cloudflare creates the DNS record automatically.
-4. **Point it at the staging branch.** Go to your domain's **DNS** settings, find the `CNAME` record named `staging`, and change its target from `<project>.pages.dev` to `staging.<project>.pages.dev` (your branch's address from step 2). **Leave it proxied** (orange cloud on). An unproxied (gray-cloud) record silently serves the *live* site on the staging address.
-5. Open `staging.yourdomain.com`. That's your staging site, forever at that address.
+## Later: the contact form
 
-Staging is automatically hidden from Google (it sends `X-Robots-Tag: noindex`), so customers never stumble onto the preview copy. Don't "fix" that, it's on purpose.
+It needs your own domain first. Then it's one free key, set up with your AI's help: [api-keys.md](api-keys.md).
 
-**No custom domain?** Everything still works: staging lives at `staging.<project>.pages.dev`. The pretty subdomain just needs DNS on Cloudflare.
+## For helpers who prefer a terminal
 
-**One-time safety lock (recommended):** on GitHub, open your site repo → **Settings** → **Branches** → **Add branch protection rule**. Branch name pattern: `main`. Check **Require a pull request before merging**. Save. From now on, nothing can go live without going through the preview step first, even by accident. (This closes the one hole in the golden loop: the pencil editor on GitHub could otherwise push straight to the live site.)
-
-## Step 7: Business email (10 minutes, recommended)
-
-**Receiving** (free, Cloudflare Email Routing):
-
-1. Cloudflare dashboard → **Email** → **Email Routing** → Enable, select your domain.
-2. Add a destination address: your personal Gmail. Cloudflare emails a verification link to that address: click it before continuing, or routing stays off.
-3. Create a custom address: `hello@yourdomain.com` → your Gmail. Add `noreply@` too if you'll use the contact form.
-4. Cloudflare adds the MX records. Test: send an email to `hello@yourdomain.com` and watch it land in your Gmail.
-
-**Sending** (free, Resend; needed for the contact form):
-
-1. Sign up at [resend.com](https://resend.com) (free tier).
-2. Add your domain, add the DNS records Resend shows you (SPF/DKIM), wait for verification. Finish this before you tell customers about the form: mail from an unverified domain lands in spam.
-3. Create an API key (Sending access only).
-4. Cloudflare → Pages → your site → **Settings** → **Environment variables** → Production → add two variables (mark them secret/encrypted):
-   - `RESEND_API_KEY`: the key from step 3.
-   - `CONTACT_TO_EMAIL`: the business email address where form messages should land. Without it, the form cannot deliver.
-5. Redeploy once (Deployments → latest → Retry deployment) so the function picks it up.
-
-Until the key exists, the form still shows on the page but cannot deliver: anyone who submits sees a note saying email is not set up yet and is asked to email you directly. Nothing breaks.
-
-**Replying as the business from Gmail** (optional): Gmail → Settings → Accounts → "Send mail as" → add `hello@yourdomain.com` with these values: SMTP server `smtp.resend.com`, port `465`, username `resend`, password: your Resend API key. Now replies come from the business address.
-
-## Step 8: Analytics (5 minutes, optional)
-
-Cloudflare dashboard sidebar → **Analytics & Logs** → **Web Analytics** → **Add a site**, type your domain. Cloudflare shows a code snippet. Copy just the `"token": "..."` value (about 32 characters; choose the JS-snippet option if asked). Then: Pages → your project → **Settings** → **Environment variables** → Production → add `CF_ANALYTICS_TOKEN` with the token, **Save**, and redeploy (Deployments → ⋯ → Retry deployment). The token is read at build time and never goes in the repo. The snippet only renders when the token is present. No cookies, no consent banner. Full owner walkthrough: [api-keys.md](api-keys.md).
-
-## Step 9: Meet your AI web developer
-
-See [connect-your-ai.md](connect-your-ai.md) and [owner-quickstart.md](owner-quickstart.md). The short version: connect your AI with the subscription you already pay for (no API keys), say "read CLAUDE.md," and talk. From here on, every update is a conversation.
-
-## Verify everything
-
-```bash
-npm run audit https://yourdomain.com
-npm run audit https://staging.yourdomain.com
-```
-
-The first checks the live site; the second checks staging (it also verifies staging is hidden from search engines). Fix anything red before announcing the site.
+Steps 2 and 4 can be done from a terminal instead: see [START-HERE.md](https://github.com/davegelinas/main-street/blob/main/START-HERE.md) in the toolkit, then tick boxes 1 and 2 in `SETUP.md`. **Step 3 still happens in the owner's AI account**, or their Edit my website button won't work. Steps 5 onward are the same, in the owner's accounts.
 
 ## What "done" looks like
 
-- [ ] Your domain shows your site, with your business details.
-- [ ] `staging.yourdomain.com` shows the staging copy (push something to the `staging` branch and watch it appear).
-- [ ] The contact form sends you an email (submit a test).
-- [ ] Email to `hello@yourdomain.com` lands in your inbox.
-- [ ] `npm run audit` is all green on both addresses.
-- [ ] You've made one change through your AI assistant using the staging link.
-
-Welcome to the $12/year club.
+- [ ] Your site is live at its free address, with your details.
+- [ ] Your live site is locked (Step 6).
+- [ ] The **Edit my website** button is on your phone, and you've shipped one change and one undo.
+- [ ] GitHub's two-step sign-in is on, and your site card is written down.
+- [ ] Later: your domain shows your site, and the contact form delivers a test message.

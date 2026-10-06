@@ -1,92 +1,73 @@
 # Your business website
 
-This is **your website**: the files, the words, the photos. It costs about $12 a year (just the domain name) and you update it by *talking*: you tell your AI assistant what you want in plain English, it makes the change, you look at a preview on your phone, and you say "ship it."
+This is **your website**: the files, the words, the photos. It costs about $12 a year (the domain name) plus the AI plan you use, and you update it by *talking*: tell your AI what you want, open the preview link it sends, and say "ship it."
 
-No page builders. No monthly fees. No developer on retainer. And you can never break it beyond repair (see "Made a mistake?" below).
+**Not set up yet?** Start with [docs/setup-guide.md](docs/setup-guide.md). You can do it yourself in about two hours, with your AI walking you through every step.
 
-## How updates work: the golden loop
+## How updates work
 
-You never edit the live site directly. Every change follows the same loop:
+![The golden loop, animated: you ask your AI, it prepares a preview, you review it on your phone, you say ship it, the live site updates](docs/assets/golden-loop.svg)
 
-```mermaid
-flowchart TD
-    A[You tell your AI<br/>what you want] --> B[Your AI prepares it<br/>on a preview copy]
-    B --> C[You open the preview link<br/>on your phone]
-    C --> D{Looks right?}
-    D -- Not yet --> A
-    D -- Yes --> E[You say ship it]
-    E --> F[Your live site updates<br/>in about a minute]
-```
+1. **Tap your Edit my website button** (your site's `/edit/` page, saved to your home screen) and say what you want, the way you'd say it to a person.
+2. **Open the preview link** your AI sends. It's your site with the change, on your phone.
+3. **Say "ship it."** Your live site updates in about a minute.
 
-That's the whole system. One loop, every time, no exceptions. It’s what keeps the live site safe while you experiment freely.
+Nothing goes live until you say "ship it." Not right yet? Just say what to change, and you get a new preview.
 
-![The golden loop, animated: you ask your AI, it updates the preview copy, you review it on your phone, you say ship it, the live site updates](docs/assets/golden-loop.svg)
-
-**Watch the whole journey** (36 seconds, no sound needed):
-
-https://github.com/user-attachments/assets/752e5e89-482f-40f9-b1c0-d4fab41c60b9
-
-(That's the everyday experience: one message, one preview link, "ship it." The one-time setup is a separate afternoon: [docs/setup-guide.md](docs/setup-guide.md).)
-
-**What to say to your AI** (copy-paste any of these):
+## What to say
 
 - "Change our Saturday hours to 9am to 2pm."
-- "Add a banner: we're closed Thanksgiving week."
+- "Add a banner: we're closed Thanksgiving week, reopening Monday."
 - "Add drain cleaning for $129 to the price list."
-- "Replace the homepage photo with the one I just attached."
+- "Turn off the testimonials for now."
+- "Add a booking button that goes to [your booking link]."
+- "What would you change about the homepage?"
 
-More examples, including before-and-after walkthroughs: [docs/examples.md](docs/examples.md).
+Voice notes work too: your AI says back what it heard before it changes anything. More examples: [docs/examples.md](docs/examples.md).
 
-You can also send a voice note instead of typing. Your AI will say back what it heard in one sentence and take it from there.
+## Made a mistake? Say "undo that"
+
+Every version of your site is saved, so nothing is ever lost. Say **"undo that"** and your AI takes it back: right away if it was the latest change, or with a quick preview if newer changes went live after it.
+
+## What a good AI does
+
+- Tells you what it's about to do *before* doing it, in one or two plain sentences.
+- Explains any technical word it uses.
+- Ends every change with a preview link you can open on your phone.
+- Waits for your "ship it" before anything goes live.
+- Asks first before anything risky: your domain, your email, deleting things.
+
+If it isn't doing these, say so. "Explain it like I'm new to this" works remarkably well.
+
+## Good to know
+
+- **Small asks work best.** "Change the headline" beats "redesign the site." Big changes still work; they take a few more previews.
+- **Your words win.** If you dictate copy, it goes in exactly as you said it. If your AI rewrites your voice, say "use my words exactly."
+- **Real photos beat everything.** [docs/gather-your-stuff.md](docs/gather-your-stuff.md) shows what to shoot.
+- **Your files are public, like your website.** Only website content goes in: never passwords, keys, or private notes. Turn location off on photos before you upload them; your AI strips it too.
+- **You can't run up a bill.** Hosting is free and nothing on your site bills by usage. The domain renews once a year.
+- **Every month: say "run the monthly checkup."** Your AI looks for old hours, tired photos, and broken links, then suggests fixes.
+- **Want a logo, a video, or online selling?** Your AI can borrow apps like Canva, Higgsfield, or Shopify: [docs/connectors.md](docs/connectors.md).
+- **No AI handy and just a typo?** [docs/editing-in-browser.md](docs/editing-in-browser.md) shows how to fix it on GitHub.com.
 
 ## Your first week
 
-Do these in order. Each one is small; together they take an afternoon.
+- [ ] Finish setup, if your AI says anything is left (it keeps a checklist in `SETUP.md`).
+- [ ] Add a few photos and tell your AI your story ([docs/gather-your-stuff.md](docs/gather-your-stuff.md)).
+- [ ] Ship three small changes, so the loop feels normal.
+- [ ] When you're ready to launch, connect your own domain ([docs/setup-guide.md](docs/setup-guide.md), "Later: your own domain"). Until then your site works on its free address but is hidden from Google.
 
-- [ ] **Connect your AI.** [docs/connect-your-ai.md](docs/connect-your-ai.md) hooks up the chat subscription you already pay for. No API keys, ever. Do this first; everything below assumes it's done.
-- [ ] **See your site.** Your AI (or whoever set this up for you) will give you two links: the **live site** and the **preview site**. Open both on your phone and save them.
-- [ ] **Gather your stuff.** [docs/gather-your-stuff.md](docs/gather-your-stuff.md) is the weekend homework: your photos, your story, your prices. They go in the shoebox (`content/brand/`), and your AI builds the site from them. Or skip the files and ask your AI to interview you in chat.
-- [ ] **Read the examples.** [docs/examples.md](docs/examples.md) shows five everyday updates: holiday hours, a new service, an announcement banner, a new photo, a new page, each as one message you'd send your AI. This is the "see, it's actually easy" proof.
-- [ ] **Try one tiny change.** Pick something harmless, like the announcement banner: "Add a banner: welcome to our new website!" Watch it appear on the preview site, then say "ship it."
-- [ ] **Set up your keys.** [docs/api-keys.md](docs/api-keys.md) walks you (and your AI) through the two free keys: one so the contact form emails you, one for visitor stats. Skip them and the site still works. It just does a little less.
-- [ ] **Learn the undo.** Read "Made a mistake?" below. It takes 30 seconds and you'll feel much braver afterwards.
-- [ ] **Know the no-install update path.** [docs/editing-in-browser.md](docs/editing-in-browser.md): fix a typo straight on GitHub.com. No AI, no terminal, no setup.
-- [ ] **Need a logo, a video, or online selling?** [docs/connectors.md](docs/connectors.md) shows how your AI can borrow other apps (Canva, Higgsfield, Shopify), with copy-paste requests.
+Questions: [docs/faq.md](docs/faq.md).
 
-Then, when you're ready: [docs/setup-guide.md](docs/setup-guide.md) (your own domain name), [docs/owner-quickstart.md](docs/owner-quickstart.md) (getting good at directing your AI), [docs/faq.md](docs/faq.md).
-
-## Every month: the checkup
-
-Websites go stale when nobody looks at them. Once a month, say **"run the monthly checkup"** to your AI. It reviews the whole site for stale hours, old photos, leftover placeholder text, and broken links, then proposes fixes in plain English. You approve each one; nothing changes without your yes. This is how the site stays fresh without you having to remember.
-
-## Made a mistake? Undo in one click
-
-Every version of your site is saved. If anything ever looks wrong, the fastest fix is to tell your AI **"undo that"**: it puts the previous version on your preview site, you check it, and you say "ship it." Or do it yourself, any time:
-
-1. Open the **Cloudflare dashboard** → **Workers & Pages** → your site.
-2. Click **Deployments**.
-3. Find the version from before the mistake and click **Rollback**.
-
-That's it: the live site goes back to exactly how it was. Nothing is ever lost, and you don't need anyone's help to do it.
-
-## The one rule: secrets
-
-Your site uses a couple of secret keys (for the contact form email and visitor stats). They live in **Cloudflare's dashboard** (Pages → Settings → Environment variables) and **nowhere else**:
-
-- Never paste a key into these website files.
-- Never paste a key into a chat message or email.
-- If a key ever leaks, delete it where you got it and make a new one. Two minutes, problem solved.
-
-Full guide: [docs/api-keys.md](docs/api-keys.md).
-
-## What's in this folder (the 30-second tour)
+## What's in this folder
 
 - `index.html`: your homepage. The words live here.
-- `site.config.json`: your business facts: name, hours, address, phone, and which features are on. The setup wizard (`npm run setup`) edits this for you.
-- `public/images/`: your photos.
-- `docs/`: plain-English guides, including the [setup guide](docs/setup-guide.md) and [API keys](docs/api-keys.md).
+- `site.config.json`: your business facts (name, hours, address, phone) and which features are on.
+- `public/images/`: the photos on your site. `content/brand/`: your shoebox of photos, logo, and story.
+- `docs/`: plain-English guides.
+- `AGENTS.md` and `rules/`: the instructions your AI follows.
 - Everything else is machinery your AI handles. You don't need to open it.
 
 ## For the technically curious
 
-The site is a static build (Vite, plain HTML/CSS, no framework) deployed on Cloudflare Pages. `main` = live site, `staging` = preview site. The contact form runs on a Pages Function with graceful degradation. `CLAUDE.md` + `rules/` are the operating manual your AI follows. None of this is required reading. It's here so your AI (or a future developer) has the full picture.
+A static build (Vite, plain HTML/CSS, no framework) on Cloudflare Pages. `main` is the live site; every other branch gets its own preview link, and a GitHub ruleset makes sure changes reach `main` only through a pull request. The contact form runs on a Pages Function and steps back gracefully without its key. `AGENTS.md` and `rules/` are the operating manual for any AI. If the live site is ever broken and the owner's AI isn't available, a helper can use the emergency rollback in `rules/deploy.md`.

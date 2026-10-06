@@ -1,22 +1,35 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{site.theme}}" data-closed-on="{{closedOn}}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="only light">
   <title>Terms of Service | {{business.name}}</title>
   <meta name="description" content="Terms of service for {{business.name}}.">
+  <!-- feature:liveDomain -->
   <link rel="canonical" href="https://{{site.domain}}/terms-of-service/">
+  <!-- /feature:liveDomain -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- feature:displayFont -->
+  <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- /feature:displayFont -->
   <link rel="stylesheet" href="/src/styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="/">{{business.name}}</a>
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">{{monogram}}</span>
+        <span class="brand-name">{{business.name}}</span>
+      </a>
+      <a class="header-call" href="{{phoneHref}}" aria-label="Call {{business.phone}}">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.3 1.5a12 12 0 0 0 5.9 5.9l1.5-2.3 4.6 1.8V19a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span class="header-call-label">Call</span>
+        <span class="header-call-number">{{business.phone}}</span>
+      </a>
     </div>
   </header>
   <main id="main">
@@ -30,13 +43,13 @@
         <p>This website belongs to {{business.name}}. Use it to learn what we do, find our hours, and get in touch. Do not misuse it.</p>
 
         <h2>Content</h2>
-        <p>Services, products, prices, and hours are kept current but can change without notice. Photos show our real work, but individual results vary.</p>
+        <p>Services, products, prices, and hours are kept current but can change without notice.</p>
 
         <h2>Orders and messages</h2>
-        <p>Messages sent through the contact form are requests, not confirmed orders. An order is confirmed only when we reply and say so. Custom orders may require a deposit, which we will discuss with you directly.</p>
+        <p>Messages sent to us, by phone, email, or through this website, are requests, not confirmed orders. An order is confirmed only when we reply and say so.</p>
 
         <h2>Acceptable use</h2>
-        <p>Do not attempt to disrupt the site, harvest other visitors' information, or submit spam through the contact form. Automated abuse will be blocked.</p>
+        <p>Do not attempt to disrupt the site, harvest other visitors' information, or send spam through this website. Automated abuse will be blocked.</p>
 
         <h2>Liability</h2>
         <p>The site is provided as-is. To the extent the law allows, {{business.name}} is not liable for issues arising from your use of the website itself. (Issues with our actual work are a different matter, please tell us in person.)</p>

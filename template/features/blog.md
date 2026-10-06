@@ -2,6 +2,8 @@
 
 Simple dated posts. News, stories, seasonal notes. **Off by default.**
 
+> **Not built yet.** The flag exists, but the template has no blog pages or Markdown renderer yet: turning it on shows nothing. If the owner asks for it, say so plainly and offer to build it as its own change (a real piece of work, previewed like any other). Never tell the owner it's on.
+
 ## How to turn it on/off
 
 Flag: `blog` in `site.config.json`. Posts are Markdown files in `content/blog/` (filename: `YYYY-MM-DD-slug.md`), rendered to `/blog/` pages at build time.

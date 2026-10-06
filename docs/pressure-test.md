@@ -2,6 +2,21 @@
 
 This document records what happens when the system is used badly, interrupted, neglected, or attacked. Every test below was actually run (or, where marked, reviewed by reading the docs as a stranger would). Fixes are listed with what changed; unresolved findings carry a one-line rationale. Last run: **2026-09-27**, against a fresh scaffold (`new-site.mjs` → `npm install` → `npm run setup` → preset → build → audit: **8/8**).
 
+## Update 2026-10-05: setup and shipping redesign
+
+Findings and changes since the 2026-09-27 run. Earlier sections are history and are not rewritten; where they describe the old model they are marked superseded.
+
+- **Staging branch replaced by one pull request per change.** Every change gets its own branch, pull request, and Cloudflare preview link. "Ship it" merges that pull request; "undo that" prepares a revert as a new preview. No shared staging site, no staging subdomain.
+- **noindex moved from a per-request Function to `_headers`.** The free `pages.dev` address and preview links are hidden from Google by static headers; the middleware Function is gone.
+- **`_headers` comment block fixed.** A comment block in `_headers` was likely parsed as a rule, so the security headers may not have applied. It is fixed.
+- **`CF_ANALYTICS_TOKEN` removed.** Visitor stats are one click in the Cloudflare dashboard (Enable Web Analytics). No key.
+- **Photo GPS stripping.** `npm run optimize-images` strips hidden location data (script), and CI strips it on every change, because the repo is now public.
+- **Public repos with a ruleset on `main`.** Only public repos get GitHub's free ruleset: require a pull request, block force pushes and deletion, empty bypass list. Replaces the old branch-protection advice.
+- **`AGENTS.md` is the single manual.** `CLAUDE.md` is a pointer to it.
+- **Owner-alone, AI-driven setup.** `AI-SETUP.md` and `SETUP.md` let the owner's own AI run setup in about two hours, much of it waiting; a helper is optional. Free plans use the slower browser-only path.
+- **Contact form only sends from the verified domain,** so it needs the owner's own domain and is tested on the live site, never on a preview or `pages.dev`.
+- **Dashboard rollback must be followed by a revert,** or the next ship re-publishes the bad change. It is a helper's emergency brake, not the owner's undo.
+
 ## Robustness tests
 
 ### Setup wizard vs. hostile input
@@ -26,6 +41,8 @@ This document records what happens when the system is used badly, interrupted, n
 | `npm run build` with no `node_modules` | npm prints its own jargon (`vite: not found`). **Not fixed** (see rationale below). |
 
 ### The Saturday 9pm test
+
+*Superseded 2026-10-05: there is no staging branch any more, and the owner's undo is saying "undo that" to their AI (the dashboard rollback is a helper's emergency brake, always followed by a revert). See the update section below. The original run is kept as written.*
 
 Scenario: the owner broke something at 9pm on a Saturday, no developer reachable, docs only.
 
@@ -53,10 +70,10 @@ It simplifies **ownership** at the cost of a concept the owner never sees. The s
 ### Top 5 ways an owner gets stuck, and the mitigation
 
 1. **"I pasted the key and the form still doesn't work."** → `docs/api-keys.md` "If something goes wrong" section (typo'd key, missing CONTACT_TO_EMAIL, spam folder). The audit's INFO line also states the precondition on every run.
-2. **"I said ship it and nothing changed."** → The AI merges staging→main; Cloudflare builds (~1 min). If the owner looks too fast they see the old page. Mitigation: docs say "about a minute"; the AI should confirm the deploy finished.
-3. **"My staging site shows the wrong content."** → `docs/domains-and-dns.md` names the cause: a DNS record flipped to "DNS only" (gray cloud). Check the cloud color first.
+2. **"I said ship it and nothing changed."** → The AI merges the pull request (originally: staging→main); Cloudflare builds (~1 min). If the owner looks too fast they see the old page. Mitigation: docs say "about a minute"; the AI should confirm the deploy finished.
+3. **"My staging site shows the wrong content."** *(superseded 2026-10-05: there is no staging site or staging subdomain any more; each change has its own preview link on its pull request.)* → `template/docs/domains-and-dns.md` named the cause: a DNS record flipped to "DNS only" (gray cloud).
 4. **"I want X and the AI says it can't."** → `rules/` + `features/` bound what the AI will do (no invented prices, no fake testimonials). The owner experience is "the AI asked me for the real price", that's the system working, not failing.
-5. **"Email broke after I moved my DNS."** → The email warning in `docs/domains-and-dns.md` (screenshot records *before* switching nameservers). This is the highest-severity stuck scenario and it's addressed before the step that causes it.
+5. **"Email broke after I moved my DNS."** → The email warning in `template/docs/domains-and-dns.md` (screenshot records *before* switching nameservers). This is the highest-severity stuck scenario and it's addressed before the step that causes it.
 
 ### Honest all-in cost
 
@@ -65,7 +82,7 @@ It simplifies **ownership** at the cost of a concept the owner never sees. The s
 ### The one-year-abandoned test
 
 The owner launches, then ignores the site for a year. What survives?
-- **The static site itself: fully.** HTML/CSS on Cloudflare Pages doesn't rot; there are no servers to patch, no CMS to update. The 16 npm dependencies only matter at build time.
+- **The static site itself: fully.** HTML/CSS on Cloudflare Pages doesn't rot; there are no servers to patch, no CMS to update. The template's 5 devDependencies only matter at build time.
 - **Dependency rot on next edit:** a year-old `package-lock` may fail to install cleanly. Mitigation: `npm install` regenerates; the build is simple enough that upgrades rarely break it. The AI handles this when the owner returns.
 - **Expired/revoked API keys:** Resend key revoked → contact form degrades to showing the email address (graceful, by design). Analytics token revoked → beacon 401s silently; page unaffected.
 - **Platform changes:** if Cloudflare changes Pages behavior, the AI adapts the config on the owner's next request. The site's simplicity is the hedge, there's very little *to* break.
@@ -80,9 +97,9 @@ The owner launches, then ignores the site for a year. What survives?
 
 ## Findings deliberately not fixed
 
-- **Missing images pass the build silently**: the golden loop is the check: the owner sees the broken image on the staging preview before anything ships. A build-time image inventory would add machinery for a problem human eyes catch in seconds.
+- **Missing images pass the build silently**: the golden loop is the check: the owner sees the broken image on the preview link before anything ships (originally "staging preview"; still holds under the 2026-10-05 one-pull-request-per-change model). A build-time image inventory would add machinery for a problem human eyes catch in seconds.
 - **`npm` errors without `node_modules` stay jargon-y**: the documented order (install before build) prevents it, and anyone running npm commands is already past the no-terminal owner path. Rewriting npm's errors isn't our job.
-- **No public GitHub template repo yet (pre-publication limitation, now resolved differently)**: the repo is public, and the intended owner path is chat-first via [connect-your-ai.md](../template/docs/connect-your-ai.md): the AI scaffolds the site folder with the owner, then [setup-guide.md](../template/docs/setup-guide.md) walks through GitHub and Cloudflare. Initial scaffolding still goes smoothest with the helper (or the owner's AI, if it can reach the site folder), which is stated up front instead of pretending it's zero-touch.
+- **No public GitHub template repo yet (pre-publication limitation, now resolved differently)**: the repo is public, and the intended owner path is chat-first via [connect-your-ai.md](../template/docs/connect-your-ai.md): the AI scaffolds the site folder with the owner, then [setup-guide.md](../template/docs/setup-guide.md) walks through GitHub and Cloudflare. Initial scaffolding still goes smoothest with the helper (or the owner's AI, if it can reach the site folder), which is stated up front instead of pretending it's zero-touch. (Superseded 2026-10-05: setup is now owner-alone with the owner's own AI via `AI-SETUP.md` and `SETUP.md`; a helper is optional.)
 
 ## Test log
 
@@ -94,4 +111,10 @@ The owner launches, then ignores the site for a year. What survives?
 | 2026-09-27 | Hostile wizard input battery (empty/emoji/200-char/invalid-then-valid/Ctrl-C) | All pass; 200-char rejection + Ctrl-C safety verified |
 | 2026-09-27 | Corrupt + deleted config builds | Plain-language errors, verified |
 | 2026-09-27 | Audit placeholder INFO | Fires correctly on starter copy; non-failing |
+| 2026-10-05 | Fresh scaffold → setup with all defaults → typecheck → build | All pass |
+| 2026-10-05 | Built output with and without a domain | No domain: no canonical, no `og:url`, no sitemap. With a domain: canonical, `og:url`, and `sitemap.xml` present |
+| 2026-10-05 | GPS-tagged test photo in `public/images` and in `content/brand/photos` | `check-images` flags both; `optimize-images` cleans both and a re-check is clean; `--strip` cleans both in place |
 | 2026-09-27 | Browser-only path live test (disposable private repo, deleted after) | PASS end to end: ZIP download, repo creation, pencil edits, staging branch, Cloudflare connect, production + staging preview deploys, PR merge to production. Fixed 3 doc gaps (folder drag-and-drop, Vite preset None, staging preview appears only after post-connection commit) and corrected "private preview" wording |
+| 2026-10-06 | Live GitHub test on a throwaway public repo (scaffold, push, ruleset and settings via API, then archived) | PASS: a direct push to `main` is refused ("push declined due to repository rule violations"); a PR adding a GPS-tagged photo got CI's "Remove hidden camera data from photos" commit and the file on the branch had no EXIF; squash merge left one commit on `main`, the branch was auto-deleted, and `main`'s CI was green; `pull_request_creation_policy=collaborators_only` applies via the API |
+| 2026-10-06 | GitHub links the docs rely on, as a signed-in owner | The new-file prefill link fills the path and contents (including `#` lines) and keeps them through the sign-in redirect; the upload link on a locked `main` shows "choose your files", "Propose changes", and "Create a new branch for this commit and start a pull request", matching the docs word for word |
+| 2026-10-06 | Claude prefill link in a real browser | Opens with the repository, branch, and starting sentence filled in, then rewrites the address to plain `/code`; led to the site's `/edit/` page for the home-screen button |

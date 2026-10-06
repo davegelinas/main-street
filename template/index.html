@@ -1,49 +1,73 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{site.theme}}" data-closed-on="{{closedOn}}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="only light">
   <title>{{business.name}} | {{business.tagline}}</title>
   <meta name="description" content="{{site.description}}">
-  <link rel="canonical" href="https://{{site.domain}}/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{business.name}}">
   <meta property="og:description" content="{{site.description}}">
+  <!-- feature:liveDomain -->
+  <link rel="canonical" href="https://{{site.domain}}/">
   <meta property="og:url" content="https://{{site.domain}}/">
-  <meta property="og:image" content="https://{{site.domain}}/images/hero.svg">
+  <meta property="og:image" content="https://{{site.domain}}/images/share.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /feature:liveDomain -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- feature:displayFont -->
+  <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- /feature:displayFont -->
   <link rel="stylesheet" href="/src/styles.css">
   {{jsonld}}
-  <!-- feature:analytics -->
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{analyticsToken}}"}'></script>
-  <!-- /feature:analytics -->
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Notices: closures from site.closedOn (each shown from 21 days before
+       until it ends, by the page script), then site.announcement. -->
+  <div class="notices" role="status">
+  {{closureNotices}}
   <!-- feature:announcementBanner -->
-  <div class="announcement" role="status"><strong>Note:</strong> {{site.announcement}}</div>
+  <p class="announcement"><strong>Note:</strong> {{site.announcement}}</p>
   <!-- /feature:announcementBanner -->
+  </div>
 
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="/" aria-label="{{business.name}} home">
-        <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="14" width="32" height="6" rx="2" fill="#b4552d"/><path d="M6 20v-2a2 2 0 0 1 2-2h24a2 2 0 0 1 2 2v2" stroke="#b4552d" stroke-width="2.5" fill="none"/><rect x="10" y="24" width="20" height="12" rx="1.5" fill="#b4552d"/><rect x="22" y="28" width="5" height="8" fill="#faf6ef"/></svg>
-        {{business.name}}
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">{{monogram}}</span>
+        <span class="brand-name">{{business.name}}</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav class="site-nav" id="site-nav" aria-label="Main">
         <ul>
           <li><a href="#about">About</a></li>
+          <!-- feature:menu -->
           <li><a href="#menu">Services</a></li>
+          <!-- /feature:menu -->
           <li><a href="#visit">Visit</a></li>
+          <!-- feature:faq -->
           <li><a href="#faq">FAQ</a></li>
-          <li><a class="nav-cta" href="#contact">Contact</a></li>
+          <!-- /feature:faq -->
+          <!-- feature:contactForm -->
+          <li><a href="#contact">Contact</a></li>
+          <!-- /feature:contactForm -->
         </ul>
       </nav>
+      <a class="header-call" href="{{phoneHref}}" aria-label="Call {{business.phone}}">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.3 1.5a12 12 0 0 0 5.9 5.9l1.5-2.3 4.6 1.8V19a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span class="header-call-label">Call</span>
+        <span class="header-call-number">{{business.phone}}</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <svg class="icon icon-menu" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="icon icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
     </div>
   </header>
 
@@ -53,30 +77,59 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Welcome</p>
+          <p class="eyebrow">{{business.address.city}}, {{business.address.state}}</p>
           <h1 id="hero-title">A clear headline about what you do.</h1>
           <p class="lede">{{business.tagline}}. This short paragraph is placeholder copy. Replace it with two or three sentences about your business: what you offer, who it is for, and why customers choose you.</p>
+          <!-- The first button is the main action; any after it are outlined. -->
           <div class="hero-actions">
             <!-- feature:booking -->
             <a class="btn" href="{{integrations.bookingUrl}}">Book now</a>
             <!-- /feature:booking -->
+            <!-- feature:menu -->
             <a class="btn" href="#menu">See what we offer</a>
-            <a class="btn btn-ghost" href="#visit">Hours and directions</a>
+            <!-- /feature:menu -->
+            <a class="btn" href="{{phoneHref}}">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.3 1.5a12 12 0 0 0 5.9 5.9l1.5-2.3 4.6 1.8V19a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+              Call {{business.phone}}
+            </a>
           </div>
+          <ul class="hero-facts">
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              <a href="#visit" data-today-hours>Hours and location</a>
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <a href="{{directionsUrl}}" target="_blank" rel="noopener">{{business.address.street}}, {{business.address.city}}</a>
+            </li>
+          </ul>
         </div>
-        <figure>
+        <!-- feature:heroPhoto -->
+        <!-- Turn heroPhoto on only with a real photo: swap the file, the alt
+             text, and the caption. Never ship the placeholder picture. -->
+        <figure class="hero-media">
           <img src="/images/hero.svg" alt="Placeholder image: replace with a photo of your business" width="1200" height="900" fetchpriority="high">
           <figcaption>Replace this with a real photo: your storefront, your team, or your work.</figcaption>
         </figure>
+        <!-- /feature:heroPhoto -->
+        <!-- Shown while there is no hero photo: the business's initial as a seal. -->
+        <div class="hero-seal" aria-hidden="true">
+          <span class="hero-seal-mark">{{monogram}}</span>
+          <span class="hero-seal-place">{{business.address.city}}</span>
+        </div>
       </div>
     </section>
 
     <section id="about" aria-labelledby="about-title">
-      <div class="wrap">
-        <p class="eyebrow">About us</p>
-        <h2 id="about-title">{{business.name}}</h2>
-        <p class="lede">This section is placeholder copy. Tell your story here: who you are, how you started, and what makes your business different. A few honest sentences beat a long polished paragraph.</p>
-        <p class="lede">Write like you talk. Customers can tell when the words are yours.</p>
+      <div class="wrap split">
+        <div class="split-head">
+          <p class="eyebrow">About us</p>
+          <h2 id="about-title">{{business.name}}</h2>
+        </div>
+        <div class="prose">
+          <p>This section is placeholder copy. Tell your story here: who you are, how you started, and what makes your business different. A few honest sentences beat a long polished paragraph.</p>
+          <p>Write like you talk. Customers can tell when the words are yours.</p>
+        </div>
       </div>
     </section>
 
@@ -85,9 +138,11 @@
          Prices always come from you, the owner: never let anyone guess them. -->
     <section id="menu" aria-labelledby="menu-title">
       <div class="wrap">
-        <p class="eyebrow">What we offer</p>
-        <h2 id="menu-title">Services and prices</h2>
-        <p class="lede">Replace this list with your real services or products, each with its real price.</p>
+        <div class="section-head">
+          <p class="eyebrow">What we offer</p>
+          <h2 id="menu-title">Services and prices</h2>
+          <p class="lede">Replace this list with your real services or products, each with its real price.</p>
+        </div>
         <div class="menu-grid">
           <div class="menu-card">
             <h3>Category one</h3>
@@ -107,18 +162,21 @@
           </div>
         </div>
         <!-- feature:booking -->
-        <p class="lede" style="margin-top:1.5rem"><a class="btn" href="{{integrations.bookingUrl}}">Book now</a></p>
+        <p class="menu-cta"><a class="btn" href="{{integrations.bookingUrl}}">Book now</a></p>
         <!-- /feature:booking -->
       </div>
     </section>
     <!-- /feature:menu -->
 
     <!-- feature:gallery -->
-    <!-- Replace these placeholders with real photos of your business. -->
+    <!-- Replace these placeholders with real photos of your business.
+         The first photo is shown largest: lead with your best one. -->
     <section id="gallery" aria-labelledby="gallery-title">
       <div class="wrap">
-        <p class="eyebrow">See for yourself</p>
-        <h2 id="gallery-title">A look inside</h2>
+        <div class="section-head">
+          <p class="eyebrow">See for yourself</p>
+          <h2 id="gallery-title">A look inside</h2>
+        </div>
         <div class="gallery-grid">
           <figure>
             <img src="/images/gallery-1.svg" alt="Placeholder gallery image: replace with a real photo" width="800" height="800" loading="lazy">
@@ -140,23 +198,25 @@
     <!-- feature:testimonials -->
     <!-- Quotes must be real: real customers, real words, real permission.
          Never invent or keep placeholder testimonials on a live site. -->
-    <section id="reviews" aria-labelledby="reviews-title">
+    <section id="reviews" class="band-dark" aria-labelledby="reviews-title">
       <div class="wrap">
-        <p class="eyebrow">Kind words</p>
-        <h2 id="reviews-title">What customers say</h2>
+        <div class="section-head">
+          <p class="eyebrow">Kind words</p>
+          <h2 id="reviews-title">What customers say</h2>
+        </div>
         <div class="quotes">
-          <blockquote>
-            <p>Your first real customer quote goes here, in their own words.</p>
-            <footer>A real customer, with their permission</footer>
-          </blockquote>
-          <blockquote>
-            <p>Your second real customer quote goes here, in their own words.</p>
-            <footer>A real customer, with their permission</footer>
-          </blockquote>
-          <blockquote>
-            <p>Your third real customer quote goes here, in their own words.</p>
-            <footer>A real customer, with their permission</footer>
-          </blockquote>
+          <figure>
+            <blockquote><p>Your first real customer quote goes here, in their own words.</p></blockquote>
+            <figcaption>A real customer, with their permission</figcaption>
+          </figure>
+          <figure>
+            <blockquote><p>Your second real customer quote goes here, in their own words.</p></blockquote>
+            <figcaption>A real customer, with their permission</figcaption>
+          </figure>
+          <figure>
+            <blockquote><p>Your third real customer quote goes here, in their own words.</p></blockquote>
+            <figcaption>A real customer, with their permission</figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -164,22 +224,35 @@
 
     <section id="visit" aria-labelledby="visit-title">
       <div class="wrap">
-        <p class="eyebrow">Come say hi</p>
-        <h2 id="visit-title">Hours and location</h2>
+        <div class="section-head">
+          <p class="eyebrow">Come say hi</p>
+          <h2 id="visit-title">Hours and location</h2>
+        </div>
         <div class="visit-grid">
-          <div>
+          <div class="card">
             <h3>Opening hours</h3>
             {{business.hours}}
           </div>
-          <div class="address-card">
+          <div class="card address-card">
             <h3>Find us</h3>
             <address>
               {{business.address.street}}<br>
-              {{business.address.city}}, {{business.address.state}} {{business.address.zip}}<br>
-              <a href="tel:{{business.phone}}">{{business.phone}}</a><br>
-              <a href="mailto:{{business.email}}">{{business.email}}</a>
+              {{business.address.city}}, {{business.address.state}} {{business.address.zip}}
             </address>
-            <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query={{business.address.street}}%20{{business.address.city}}%20{{business.address.state}}%20{{business.address.zip}}" target="_blank" rel="noopener">Get directions</a>
+            <ul class="contact-lines">
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.3 1.5a12 12 0 0 0 5.9 5.9l1.5-2.3 4.6 1.8V19a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+                <a href="{{phoneHref}}">{{business.phone}}</a>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                <a href="mailto:{{business.email}}">{{business.email}}</a>
+              </li>
+            </ul>
+            <div class="card-actions">
+              <a class="btn" href="{{directionsUrl}}" target="_blank" rel="noopener">Get directions</a>
+              <a class="btn btn-ghost" href="{{phoneHref}}">Call us</a>
+            </div>
           </div>
         </div>
       </div>
@@ -188,9 +261,11 @@
     <!-- feature:faq -->
     <!-- Replace these example questions with ones your customers actually ask. -->
     <section id="faq" aria-labelledby="faq-title">
-      <div class="wrap">
-        <p class="eyebrow">Good to know</p>
-        <h2 id="faq-title">Frequently asked questions</h2>
+      <div class="wrap split">
+        <div class="split-head">
+          <p class="eyebrow">Good to know</p>
+          <h2 id="faq-title">Frequently asked questions</h2>
+        </div>
         <div class="faq-list">
           <details>
             <summary>What questions do your customers ask most?</summary>
@@ -198,7 +273,7 @@
           </details>
           <details>
             <summary>Do I have to write these answers myself?</summary>
-            <div><p>You can dictate answers in plain words to your AI assistant and it will tidy them up and put them here. Nothing goes live until you approve it on the staging site.</p></div>
+            <div><p>You can dictate answers in plain words to your AI assistant and it will tidy them up and put them here. Nothing goes live until you look at the preview and say "ship it."</p></div>
           </details>
           <details>
             <summary>How often should this page change?</summary>
@@ -213,26 +288,32 @@
     <!-- feature:contactForm -->
     <section id="contact" aria-labelledby="contact-title">
       <div class="wrap">
-        <p class="eyebrow">Get in touch</p>
-        <h2 id="contact-title">Send us a message</h2>
         <div class="contact-grid">
           <div>
+            <p class="eyebrow">Get in touch</p>
+            <h2 id="contact-title">Send us a message</h2>
             <p class="lede">Questions, quotes, or feedback: send a note and a real person replies, usually within a day.</p>
-            <p>Prefer email or phone?<br>
-              <a href="mailto:{{business.email}}">{{business.email}}</a><br>
-              <a href="tel:{{business.phone}}">{{business.phone}}</a>
-            </p>
+            <p class="contact-alt">Prefer email or phone?</p>
+            <ul class="contact-lines">
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h3.5l1.8 4.6-2.3 1.5a12 12 0 0 0 5.9 5.9l1.5-2.3 4.6 1.8V19a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+                <a href="{{phoneHref}}">{{business.phone}}</a>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                <a href="mailto:{{business.email}}">{{business.email}}</a>
+              </li>
+            </ul>
           </div>
           <form id="contact-form" novalidate>
             <label for="cf-name">Your name</label>
-            <input id="cf-name" name="name" type="text" autocomplete="name" required>
+            <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required>
             <label for="cf-email">Email</label>
-            <input id="cf-email" name="email" type="email" autocomplete="email" required>
+            <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required>
             <label for="cf-message">Message</label>
-            <textarea id="cf-message" name="message" required></textarea>
-            <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <input type="hidden" name="startedAt" value="0">
-            <div style="margin-top:1.2rem"><button class="btn" type="submit">Send message</button></div>
+            <textarea id="cf-message" name="message" maxlength="5000" required></textarea>
+            <input class="hp" type="text" name="leave_blank" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="form-actions"><button class="btn" type="submit">Send message</button></div>
             <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
             <p class="form-note">We only use your details to reply to your message. Nothing is sold, shared, or added to a list.</p>
           </form>
@@ -246,28 +327,38 @@
     <div class="wrap">
       <div class="footer-grid">
         <div>
-          <p class="footer-brand">{{business.name}}</p>
+          <p class="footer-brand"><span class="brand-mark" aria-hidden="true">{{monogram}}</span>{{business.name}}</p>
           <p>{{business.tagline}}.</p>
         </div>
         <div>
           <h3>Visit</h3>
-          <ul>
-            <li>{{business.address.street}}</li>
-            <li>{{business.address.city}}, {{business.address.state}} {{business.address.zip}}</li>
-            <li><a href="tel:{{business.phone}}">{{business.phone}}</a></li>
-          </ul>
+          <address>
+            {{business.address.street}}<br>
+            {{business.address.city}}, {{business.address.state}} {{business.address.zip}}
+          </address>
+          <a href="{{directionsUrl}}" target="_blank" rel="noopener">Get directions</a>
         </div>
         <div>
-          <h3>Site</h3>
+          <h3>Hours</h3>
+          {{business.hours}}
+        </div>
+        <div>
+          <h3>Contact</h3>
           <ul>
-            <li><a href="/privacy-policy/">Privacy policy</a></li>
-            <li><a href="/terms-of-service/">Terms of service</a></li>
+            <li><a href="{{phoneHref}}">{{business.phone}}</a></li>
+            <li><a href="mailto:{{business.email}}">{{business.email}}</a></li>
+            <!-- feature:instagram -->
+            <li><a href="{{instagramUrl}}" rel="noopener">Instagram</a></li>
+            <!-- /feature:instagram -->
+            <!-- feature:facebook -->
+            <li><a href="{{facebookUrl}}" rel="noopener">Facebook</a></li>
+            <!-- /feature:facebook -->
           </ul>
         </div>
       </div>
       <div class="footer-base">
         <span>© {{year}} {{business.name}}. All rights reserved.</span>
-        <span>Built on the Main Street stack.</span>
+        <span><a href="/privacy-policy/">Privacy policy</a> · <a href="/terms-of-service/">Terms of service</a> · Built on the Main Street stack.</span>
       </div>
     </div>
   </footer>

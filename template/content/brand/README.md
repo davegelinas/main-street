@@ -1,32 +1,19 @@
-# The shoebox: everything about your business in one place
+# The shoebox: your photos, logo, and story
 
-This folder is your **shoebox**. Toss everything about your business in here, the way you'd toss photos and notes into a real shoebox, and your AI uses it to build your website.
+This folder is your **shoebox**. Whatever you put here, your AI uses to build your website.
 
-## Shortcut: already have a website?
+- **`photos/`**: pictures of your business. Your storefront, you at work, your products, your team (with their okay), the inside of your shop. Phone photos are perfect.
+- **`logo/`**: your logo file, if you have one. No logo? Your AI sets your business name in nice type instead.
+- **`videos/`**: short clips, if you have any. Phone video is fine: turn location off, and keep each file under 25 MB (or send your AI a link instead).
+- **`brief.md`**: notes about your business. You don't have to write it: your AI fills it in from your answers when it interviews you.
 
-If you have a current site, tell your AI its domain: "Pull everything you can from mysite.com into the shoebox." It will fetch your words, facts, and photos from the old site and file them here for your approval. Everything below still applies for anything the old site didn't have.
+## Adding a photo
 
-## What goes where
+1. **Turn location off first.** This folder is public, like your website, and phone photos can carry the exact spot where they were taken. On iPhone: in the Photos app, open each photo, swipe up, tap **Adjust** next to the little map, and choose **No Location**. On Android: open the photo's details and remove the location.
+   iPhone tip: **Settings** → **Camera** → **Formats** → **Most Compatible** makes new photos JPGs. Websites can't show Apple's HEIC format.
+2. Open `photos`, then click **Add file** → **Upload files** and pick your photos. Tap the green button at the bottom (**Commit changes** or **Propose changes**); if the next page says **Create pull request**, tap that too.
+3. Tell your AI: "I uploaded my photos."
 
-- **`photos/`**: pictures of your business. Your storefront, you at work, your products, your team, the inside of your shop. Taken with your phone is perfect.
-- **`videos/`**: short clips, if you have any. Your shop in motion, a product being made, a happy customer moment. Phone video is fine.
-- **`logo/`**: your logo file, if you have one. Any format. No logo? Skip it, your AI will set your business name in nice type instead.
-- **`brief.md`**: the questionnaire about your business (your story, prices, what makes you different). You can fill it in here, or skip it and answer your AI's questions in chat instead. Your AI fills this in for you either way.
+What to shoot, and more tips: [docs/gather-your-stuff.md](../../docs/gather-your-stuff.md).
 
-## Naming your files
-
-Keep names simple and lowercase: `storefront.jpg`, `team.jpg`, `croissants.jpg`, `shop-tour.mp4`. No spaces if you can help it.
-
-## What makes a good phone photo
-
-- **Daylight wins.** Step outside or stand near a window. Midday sun straight overhead is harsh; morning and late afternoon are kind.
-- **The storefront from the street.** So customers recognize you when they arrive.
-- **You at work.** Hands doing the thing. People trust people.
-- **Products up close.** One great close shot beats ten wide ones.
-- **The inside.** What it feels like to walk in.
-
-Landscape (phone sideways) for wide shots like the storefront. Portrait (phone upright) is fine for people and products.
-
-## Don't have something? Skip it.
-
-No logo, no video, only three photos, half the questions unanswered: all fine. Your AI works around gaps and your site still looks good. The shoebox makes the site *better*; it never blocks it. You can add things later any time, one photo at a time.
+Missing something? Skip it. Your site still works and still looks good; the shoebox makes it better, never holds it up.

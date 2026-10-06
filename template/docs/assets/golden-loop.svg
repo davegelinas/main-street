@@ -21,7 +21,7 @@
 
   <rect x="70" y="204" width="260" height="62" rx="12" class="box"/>
   <text x="200" y="230" class="label">You review on your phone</text>
-  <text x="200" y="250" class="sub">the staging site</text>
+  <text x="200" y="250" class="sub">on the preview link</text>
 
   <rect x="70" y="298" width="260" height="62" rx="12" class="box" style="stroke:#2e7d4f"/>
   <text x="200" y="324" class="label" style="fill:#2e7d4f">You say ship it</text>
