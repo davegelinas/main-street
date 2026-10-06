@@ -2,7 +2,7 @@
 
 Features are switches in `site.config.json` under `"features"`, plus the HTML blocks they control (`<!-- feature:name --> ... <!-- /feature:name -->`). Turning a feature on is a one-line config change plus any content the feature needs. The owner never has to do this themselves: they say "turn on the gallery" to their AI assistant and it handles the rest.
 
-**Defaults:** contactForm, announcementBanner, faq, gallery, menu, testimonials, and analytics are on in the demo. blog, booking, and emailSignup are off. (`analytics` only controls the privacy policy's mention of visitor stats; the stats themselves are one click in Cloudflare, see `rules/analytics.md`.)
+**Defaults:** contactForm, announcementBanner, faq, gallery, menu, testimonials, and analytics are on in the template. blog, booking, and emailSignup are off. (`analytics` only controls the privacy policy's mention of visitor stats; the stats themselves are one click in Cloudflare, see `rules/analytics.md`.)
 
 | Feature | Flag | Doc | What it adds |
 |---|---|---|---|

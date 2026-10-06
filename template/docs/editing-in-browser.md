@@ -26,5 +26,5 @@ Not right yet? Edit again on that pull request's branch (**Files changed** → *
 ## Tips
 
 - One change per pull request while you're learning. Easier to undo.
-- Made a mistake after shipping? Tell your AI "undo that." It prepares the undo as a new preview for you to approve.
+- Made a mistake after shipping? Tell your AI "undo that," and it takes it back.
 - There's no AI double-checking your work on this path, so stick to small text edits. Anything bigger goes through your AI assistant.

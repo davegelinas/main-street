@@ -83,7 +83,7 @@ This makes "nothing goes live until you say ship it" true, even for an AI with f
 1. Ask your AI: "Make my Edit my website button." It sends you a link with your site already filled in. Open it on your phone and use **Share → Add to Home Screen**.
 2. Tap the new button and try a small change: "Add a banner: welcome to our new website!"
 3. Open the preview link it sends. Look at the banner. Say **"ship it."** A minute later, it's on your live site.
-4. Say **"undo that,"** check the preview, say "ship it" again. Now you know you can take anything back.
+4. Say **"undo that."** A minute later the banner is gone. Now you know you can take anything back.
 
 That's the loop, forever: say what you want, look at the preview, say "ship it."
 
@@ -109,7 +109,7 @@ When you're ready to launch, say to your AI: "Walk me through connecting my doma
 2. Check whether your domain receives **email** (Google Workspace, Microsoft 365, or the registrar's mailboxes). Those records must come across exactly.
 3. Have you turn off **DNSSEC** at the registrar if it's on (left on, the domain stops working after the move).
 4. Have you **Add a domain** in Cloudflare and compare what Cloudflare imported against your screenshots.
-5. Have you switch the **nameservers** at your registrar to Cloudflare's two, outside business hours.
+5. Have you switch the **nameservers** at your registrar to Cloudflare's two: outside business hours if the domain already runs email or a website, any time if it doesn't.
 6. Wait for Cloudflare to say **Active** (minutes to a few hours), then test email both ways.
 
 More detail: [domains-and-dns.md](domains-and-dns.md).

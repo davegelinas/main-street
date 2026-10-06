@@ -10,20 +10,19 @@ There is no shared staging site. Two changes never ride together: approving new 
 ## At the start of every session
 
 1. `git fetch origin`.
-2. `gh pr list` (or the repo's Pull requests page). For each change still waiting, tell the owner in one plain sentence and ask: ship it, change it, or toss it? Close the ones they toss.
-3. If the owner keeps working on a waiting change, continue on its branch. Otherwise start fresh from `main`.
-
-Before starting an unrelated change while another is waiting, mention the waiting one once. Don't block on it.
+2. `gh pr list` (or the repo's Pull requests page). Don't quiz the owner about each one. Do what they asked first, then add one line: "Two earlier changes are still waiting. Want to go through them?" If they say yes, go one at a time: ship it, change it, or toss it? Close the ones they toss.
+3. **Removals come first.** If a waiting change takes something off the live site (an undo, a banner coming down), mention it at the *start* of every session until it ships or is tossed: "The parade notice is still on your live site. Say 'ship it' and I'll take it down."
+4. If the owner keeps working on a waiting change, continue on its branch. Otherwise start fresh from `main`.
 
 ## The flow
 
 1. **Branch from the latest `main`.** Short lowercase name with dashes, under 30 characters (`saturday-hours`, `new-gallery-photos`): it becomes part of the preview address. If your platform names branches for you (Codex, Copilot, Jules, Claude in the cloud), that's fine.
 2. **Make the change, build it** (`npm run build` must pass), commit, push.
-3. **Open a pull request.** Title in plain words ("Saturday hours: 9 to 2"). Body: the owner's request in their own words, and one line on what changed.
-4. **Send the preview link in chat.** Cloudflare's comment on the pull request lists a **Branch Preview URL** (`https://<branch>.<project>.pages.dev`). It stays the same as you push more fixes to that branch. Tell the owner what to look at: "Open this on your phone and check the hours in the footer."
+3. **Open a pull request.** Title in plain words ("Saturday hours: 9 to 2"). Body: one plain line on what the owner asked for and what changed. Never paste the owner's message verbatim (it can hold private details, and the repo is public), and never copy pasted or fetched text (reviews, emails, old-site text) into pull request text.
+4. **Send the preview link in chat.** Cloudflare's comment on the pull request lists a **Branch Preview URL** (`https://<branch>.<project>.pages.dev`). It stays the same as you push more fixes to that branch. Tell the owner what to look at: "Open this on your phone and check 'Hours and location'."
 5. **Wait for "ship it."** Never assume. Approval covers the change the owner looked at, nothing else.
-6. **Ship:** confirm the checks passed, then merge (`gh pr merge <n> --squash`; GitHub deletes the branch itself). Cloudflare publishes the live site in about a minute. Then run `npm run audit https://<their-domain>` if you can reach it, and report in one or two plain sentences.
-7. **Teach the undo, one line:** "If anything looks off, just say 'undo that.'"
+6. **Ship:** confirm the checks passed, then merge (`gh pr merge <n> --squash`; GitHub deletes the branch itself). Cloudflare publishes the live site in about a minute. Then run `npm run audit https://<their-domain>` if you can reach it, and report in one or two plain sentences. If other changes are still waiting, name what you shipped: "Shipped the parade notice. The Saturday hours change is separate and still waiting."
+7. **Teach the undo, one line:** "If anything looks off, just say 'undo that' and I'll take it back."
 
 If you can't merge yourself (your platform has no merge permission), give the owner the exact taps: open the pull request link, **Squash and merge**, **Confirm squash and merge**.
 
@@ -35,9 +34,10 @@ If you can't merge yourself (your platform has no merge permission), give the ow
 
 ## When the owner says "undo that"
 
-1. Find which shipped change they mean. If there's any doubt, ask one question ("the hours change from this morning?").
-2. Revert it on a new branch (`git revert` of that merge, or GitHub's **Revert** button on the merged pull request), open a pull request, send the preview link.
-3. "Here's your site with that change undone. If it looks right, say 'ship it.'"
+1. Find which change they mean. If there's any doubt, ask one question ("the hours change from this morning?").
+2. **It never shipped?** Toss it: close its pull request. "That one never went live, so I've thrown it away."
+3. **You shipped it earlier in this same conversation?** Revert it on a new branch, open the pull request, and merge it right away: it restores what they already approved. "Done: it's back the way it was. Live in about a minute."
+4. **It shipped in an earlier session?** Revert it on a new branch (`git revert` of that merge, or GitHub's **Revert** button on the merged pull request), open a pull request, send the preview link: "Here's your site with that change undone. Say 'ship it' and it's gone." Until it ships, it's a removal waiting (see "At the start of every session").
 
 **Emergency brake (live site broken right now):** Cloudflare dashboard → Workers & Pages → the project → Deployments → the last good production deployment → ⋯ → **Rollback**. This fixes the live site in seconds, but the bad change is still on `main`, and the next "ship it" would publish it again. Always follow a rollback with the revert pull request above. The rollback is for helpers and emergencies; the owner's undo is saying "undo that."
 

@@ -29,7 +29,7 @@
   },
   "features": {
     "analytics": true,
-    "announcementBanner": false,
+    "announcementBanner": true,
     "blog": false,
     "booking": false,
     "contactForm": true,

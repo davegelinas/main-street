@@ -26,7 +26,7 @@ If that's you, keep reading. You need about an hour, and later a domain name (ab
 2. **You get a preview link.** Open it on your phone. It looks exactly like your site with the change applied.
 3. **You say "ship it."** Your live site updates in about a minute.
 
-That's the whole system. Nothing goes live until you say "ship it," and every change gets its own preview link first. Made a mistake? Say "undo that" and your AI prepares the undo the same way.
+That's the whole system. Nothing goes live until you say "ship it," and every change gets its own preview link first. Made a mistake? Say "undo that" and your AI takes it back.
 
 ## It doesn't end at launch
 
@@ -88,7 +88,7 @@ Then follow the setup guide inside the new site (`docs/setup-guide.md`, "For hel
 ### The model every site follows
 
 - **One change, one pull request, one preview link.** Cloudflare Pages builds every branch and posts its preview link on the pull request. The owner opens it on their phone.
-- **Owner says "ship it" → the pull request merges → production.** `main` deploys to the live site automatically, and a GitHub ruleset (public repos, free) means nothing reaches `main` any other way. "Undo that" is a revert, shipped the same way.
+- **Owner says "ship it" → the pull request merges → production.** `main` deploys to the live site automatically, and a GitHub ruleset (public repos, free) means nothing reaches `main` any other way. "Undo that" is a revert: published right away for a change shipped in the same conversation, previewed first for older ones.
 - **Deploys only from git.** No manual deploys, ever. They bypass the record and the next merge silently reverts them.
 - **Missing key? The feature degrades, the page never breaks.** The one key (contact form) lives in Cloudflare under Production, never in a repo and never in Preview.
 

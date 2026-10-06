@@ -41,9 +41,10 @@ Say what you checked, even when the answer is "looks fine."
    holiday closures, price changes, new offerings. Ask one question about it.
 7. **Announcement banner.** Still promoting something current, or something
    that ended?
-8. **Analytics (if enabled).** Summarize in plain English: roughly how many
-   visitors, which pages they looked at, one suggestion. No jargon. If
-   analytics is off, say so in one line and move on.
+8. **Analytics (if enabled).** You can't see Cloudflare's numbers yourself.
+   Ask the owner for a screenshot of the project's **Metrics** page, then
+   summarize in plain English: roughly how many visitors, which pages, one
+   suggestion. No screenshot? Skip it in one line. Never estimate.
 9. **Broken bits.** Walk the live site yourself: contact form, tap-to-call
    buttons, map links. If the contact form has its keys set, offer to send a
    test message; never send one unasked.
@@ -53,15 +54,17 @@ Say what you checked, even when the answer is "looks fine."
 
 ## How to report
 
-- One short section per item, in plain words. "Checked, looks fine" is a
-  complete answer.
-- End with a numbered list of **proposed changes**, each one sentence.
+- Lead with the two or three things that matter most, in plain words, and
+  ask one question. Offer the rest on request ("I checked eight other things
+  and they look fine. Want the full list?"). No wall of text.
+- End with a short numbered list of **proposed changes**, each one sentence.
 - The owner approves items one by one, or says "do all of them." Every
   approved change goes through the normal loop: its own preview link, owner
   looks, "ship it."
-- **Never change anything during a checkup on your own authority.** The only
-  exception is something actively broken or embarrassing (site down, wrong
-  phone number): fix it first, then report it immediately in plain words.
+- **Never change anything during a checkup on your own authority.** If
+  something is actively broken or embarrassing (wrong phone number, a notice
+  for an event that's over), prepare the fix first and tell the owner right
+  away. It still needs their "ship it."
 
 ## After the checkup
 

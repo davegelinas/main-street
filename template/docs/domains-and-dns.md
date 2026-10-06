@@ -29,7 +29,7 @@ flowchart TD
 2. **Check for email.** Look for **MX records**. If they exist, your domain receives email (Google Workspace, Microsoft 365, or the registrar's mailboxes) and those records must come across exactly.
 3. **Turn off DNSSEC** at the registrar if it's on. Left on, your domain stops working after the move.
 4. In Cloudflare: **Add domain** (free plan is fine), enter your domain, continue. **Compare** the records Cloudflare imported against your screenshots, and add anything missing by hand.
-5. Cloudflare shows two nameservers, like `ara.ns.cloudflare.com` and `bob.ns.cloudflare.com`. At your registrar, replace the nameservers with those two. Do this **outside business hours**. (Registrars bury it under "DNS", "Nameservers", or "Domain settings"; your AI can walk you through yours.)
+5. Cloudflare shows two nameservers, like `ara.ns.cloudflare.com` and `bob.ns.cloudflare.com`. At your registrar, replace the nameservers with those two. If the domain already runs email or a website, do this **outside business hours**; if it doesn't, any time is fine. (Registrars bury it under "DNS", "Nameservers", or "Domain settings"; your AI can walk you through yours.)
 6. Back in Cloudflare, click **Check nameservers**. Status flips to **Active** once the change propagates (usually minutes, sometimes a few hours). Don't keep changing things while you wait.
 7. **Test email both ways:** send a message to your domain address from another account, and send one from your domain address to another account.
 

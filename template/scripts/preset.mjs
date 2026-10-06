@@ -40,8 +40,8 @@ export const PRESETS = {
   "salon-wellness": {
     type: "HealthAndBeautyBusiness",
     features: {
-      gallery: true, menu: true, faq: true, contactForm: true, booking: true,
-      announcementBanner: true, analytics: true, testimonials: false, blog: false, emailSignup: false,
+      gallery: true, menu: true, faq: true, contactForm: true, booking: true, testimonials: true,
+      announcementBanner: true, analytics: true, blog: false, emailSignup: false,
     },
   },
   professional: {

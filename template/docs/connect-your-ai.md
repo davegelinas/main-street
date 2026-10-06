@@ -51,7 +51,7 @@ Do this once, on your phone, right after setup:
 2. Ask for something small: "Add a banner: welcome to our new website!"
 3. Open the preview link it sends. Look at the banner.
 4. Say **"ship it."** Wait a minute, open the live site, see the banner.
-5. Say **"undo that."** Watch the undo arrive as its own preview, then "ship it" again.
+5. Say **"undo that."** A minute later the banner is gone from the live site. Now you know you can take anything back.
 
 Once you've done that loop once, setup is finished.
 
@@ -62,5 +62,5 @@ Once you've done that loop once, setup is finished.
 - **"The menus look different from this page."** They move. Tell the AI where you are ("I'm on the settings page and I don't see...") and it will guide you.
 - **"Can I send a voice message instead of typing?"** Yes. Your AI says back what it heard in one sentence and takes it from there. If a word is unclear, it asks instead of guessing.
 - **"How do I get the monthly checkup?"** Say "run the monthly checkup." Your AI reviews the whole site for stale hours, old photos, leftover placeholder text, broken links, and changes you never shipped, then proposes fixes. Nothing changes without your yes.
-- **"Something looks wrong after I said ship it."** Say "undo that." Your AI prepares the undo as a new preview; you check it and say "ship it."
+- **"Something looks wrong after I said ship it."** Say "undo that." Your AI takes it back: right away if it just published it, or with a quick preview to approve if it's an older change.
 - **"Should we build a custom GPT or a plugin for the site?"** No. The site's manual plus your AI is the whole interface. Nothing to build, nothing to maintain.

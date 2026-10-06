@@ -43,7 +43,7 @@ You can send a voice note instead of typing. Your AI says back what it heard in 
 
 ## Made a mistake? Say "undo that"
 
-Every version of your site is saved, so nothing is ever lost. Say **"undo that"** and your AI prepares the undo as a new preview: you check it and say "ship it." That's all you need to know.
+Every version of your site is saved, so nothing is ever lost. Say **"undo that"** and your AI takes it back: right away if it just published it, or with a quick preview for you to approve if it's an older change. That's all you need to know.
 
 (If your site is ever broken and your AI isn't available, a helper can use the emergency rollback described in `rules/deploy.md`.)
 

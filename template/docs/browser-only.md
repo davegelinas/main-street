@@ -259,7 +259,7 @@ Put this on a sticky note until it's habit.
 
 **"Cloudflare says the build failed."** In Cloudflare, open the failed deployment, click **View build log**, copy the red error lines, and paste them to the AI. It will tell you the exact fix.
 
-**"I published something bad."** Say "undo that" to your AI. It prepares the undo as a new pull request with its own preview link; check it and say "ship it." (If the live site is badly broken right now, a helper can use Cloudflare's Rollback as an emergency brake, but the undo pull request must still follow, or the next ship re-publishes the bad change.)
+**"I published something bad."** Say "undo that" to your AI. On this path it gives you the clicks: GitHub's **Revert** button on the change you published makes a new pull request with its own preview link; check it and click **Squash and merge**. (If the live site is badly broken right now, a helper can use Cloudflare's Rollback as an emergency brake, but the undo pull request must still follow, or the next ship re-publishes the bad change.)
 
 **"I can't find my preview link."** Open the pull request on github.com (**Pull requests** in the top menu). Cloudflare's comment on that page has the link. Give it a minute or two after saving.
 

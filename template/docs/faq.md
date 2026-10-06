@@ -13,7 +13,7 @@ No. Your AI works on the chat subscription you already pay for, so the AI itself
 Correct. No service here bills by usage on the tiers we use. The domain renews yearly; that's the only charge.
 
 **What if I break something?**
-Say "undo that" to your AI. It prepares the undo as a new preview link; check it, say "ship it," and you're back. Every change goes through a preview link you approve first, so breakage is rare.
+Say "undo that" to your AI and it takes it back: right away if it just published it, or with a quick preview for an older change. Every change goes through a preview link you approve first, so breakage is rare.
 
 **Do I own my website?**
 Yes. It's your GitHub repo (public, since your website is public anyway, and locked so nothing goes live without your "ship it"), your Cloudflare account, your domain. The template is just the starting point. If you stop using it, everything stays yours.

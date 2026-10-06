@@ -10,8 +10,8 @@ This checklist tracks the one-time setup. **Owner:** your AI works through it wi
 - [ ] **4. Visitor stats on.** One click: Cloudflare → Workers & Pages → the project → Metrics → Enable. (Cloudflare adds its script on the next deployment, so stats start after the next change ships.)
 - [ ] **5. Live site locked.** The GitHub ruleset and settings (setup guide, Step 6). From now on every change goes through its own preview.
 - [ ] **6. Edit my website button** on the owner's phone home screen (setup guide, Step 7). Link format for Claude: `docs/connect-your-ai.md`, step 5. Other AIs: a home-screen bookmark to wherever the owner starts a chat about this repository.
-- [ ] **7. First change shipped, and one undo.** A small change (a welcome banner), preview link, "ship it," then "undo that" and "ship it" again.
-- [ ] **8. Site card written down:** logins and GitHub recovery codes, kept somewhere safe (setup guide, "Your site card").
+- [ ] **7. First change shipped, and one undo.** A small change (a welcome banner), preview link, "ship it," then "undo that" (it comes off right away, since it shipped in the same conversation).
+- [ ] **8. Site card written down:** logins and GitHub recovery codes, kept somewhere safe (setup guide, "Your site card"). Do this before step 7's undo, and tick boxes 6, 7 and 8 together in that undo's pull request, so nothing is left dangling.
 
 Domain they already own (if any): _____
 

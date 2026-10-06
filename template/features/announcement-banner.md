@@ -1,6 +1,6 @@
 # Announcement banner
 
-A one-sentence banner at the top of every page. The owner's megaphone. **On by default.**
+A one-sentence banner at the top of the homepage. The owner's megaphone. **On by default** (it only shows when `site.announcement` has text).
 
 ## How to turn it on/off
 
@@ -14,7 +14,7 @@ Flag: `announcementBanner` in `site.config.json`. The text is `site.announcement
 
 ## Owner workflow
 
-The owner says "put up a banner: closed next week." The assistant updates `site.announcement`, ships via preview, and asks: "Want me to take it down Monday morning, or will you tell me?" Stale banners are the #1 way a site looks abandoned. Proactively offer removal dates.
+The owner says "put up a banner: closed next week." The assistant writes the dates into the words ("Closed Nov 24 to 28, back Monday Dec 1"), updates `site.announcement`, and ships via preview. Stale banners are the #1 way a site looks abandoned: because the date is in the words, any later session (and the monthly checkup) can see when it has passed and offer to take it down.
 
 ## Customization
 

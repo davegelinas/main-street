@@ -13,7 +13,7 @@ Violate these and you've failed the task, no matter how good the change looks.
 
 Anyone can read every file and every past version. Write only what belongs on the website.
 
-- Never commit the owner's personal email or phone, private notes, unannounced prices or closures, or customer data. Not in files, not in commit messages, not in pull request text.
+- Never commit the owner's personal email or phone, private notes, anything the owner hasn't asked to publish, or customer data. Not in files, not in commit messages, not in pull request text.
 - `content/brand/brief.md` follows the flyer rule: only what you'd print on a flyer.
 - Photos: run `npm run optimize-images` before committing any photo. Phone photos can carry the exact spot they were taken, which for a home business is the owner's home. Once committed, the original stays in the public history even after CI cleans it, so strip first, and remind the owner to turn location off before uploading.
 

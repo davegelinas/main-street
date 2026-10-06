@@ -25,7 +25,7 @@ Nothing goes live without the owner seeing and approving it first.
 ## Key vocabulary
 
 - **Preview link**: every change gets its own, built by Cloudflare from its pull request. There is no shared staging site. The live site is locked: GitHub blocks direct changes to `main`.
-- **Ship it**: the owner's approval phrase. It means merge that pull request to production. **Undo that** means the AI prepares a revert as a new preview.
+- **Ship it**: the owner's approval phrase. It means merge that pull request to production. **Undo that** means the AI reverts the change: right away if it shipped in the same conversation, otherwise as a new preview for the owner to approve.
 - **The $12/year stack**: the cost model. About $12 a year for the domain name; hosting, CDN, and analytics run on free tiers (Cloudflare Pages, Resend, Cloudflare Web Analytics). The hands-free AI loop needs a paid AI plan (about $20/month, Claude Pro or ChatGPT Plus).
 - **Graceful degradation**: if the contact form's one key is missing, the feature quietly steps back (visitors see an email address instead of a form) and the page never breaks.
 
