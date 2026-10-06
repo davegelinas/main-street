@@ -8,7 +8,7 @@ Flag: `contactForm` in `site.config.json`. The form posts to `functions/api/cont
 
 ## What the owner needs to do
 
-After their own domain is connected: verify the domain in Resend, then add `RESEND_API_KEY` and `CONTACT_TO_EMAIL` in Cloudflare (Pages → Settings → Environment variables → **Production** only). Step-by-step in `docs/api-keys.md`.
+After their own domain is connected: verify the domain in Resend, then add `RESEND_API_KEY` and `CONTACT_TO_EMAIL` in Cloudflare (Pages → Settings → Variables and Secrets → **Production** only). Step-by-step in `docs/api-keys.md`.
 
 Until then, the section always shows the business phone and email next to the form, and anyone who submits sees "Email is not set up yet. Please email us directly." Nothing breaks. Preview links never have the key (on purpose), so they always show this note: test real delivery on the live site after shipping.
 

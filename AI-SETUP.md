@@ -12,12 +12,16 @@ Read `template/rules/beginner-mode.md` in this toolkit before your first message
 2. Copy **everything inside** `/tmp/main-street/template/` into the root of the owner's repository, **including hidden files** (`.github/`, `.gitignore`, `.node-version`). Never copy `node_modules/` or `dist/`.
 3. Set `"name"` in `package.json` to the repository's name (lowercase, dashes).
 4. `npm install`, then `npm run build` to prove the copy works.
-5. **Push to `main`, first.** The repository is empty, and the first branch pushed becomes its default branch, which Cloudflare and GitHub's lock both rely on. Commit on a local branch named `main` and push it before you push any other branch: `git checkout -B main && git commit -m "Site files" && git push -u origin main`. Then confirm `git ls-remote --symref origin HEAD` shows `refs/heads/main`. If another branch got there first, ask the owner to switch the default: repository **Settings** → **General** → **Default branch** → `main`.
-6. **The CI file may need the owner's help.** Some cloud AIs aren't allowed to push files under `.github/workflows/` (GitHub requires a special `workflow` permission). Leave `.github/workflows/ci.yml` out of that first commit, then try pushing it as its own commit. If GitHub refuses, undo that commit and give the owner a one-tap link that creates the file for them:
+5. **Hold the CI file back.** Some cloud AIs can't push files under `.github/workflows/` (GitHub's `workflow` permission), and a refused push refuses everything in it. Move it out of the checkout before the first commit: `mv .github/workflows/ci.yml /tmp/ci.yml`.
+6. **Push to `main`, first.** The repository is empty, and the first branch pushed becomes its default branch, which Cloudflare and GitHub's lock both rely on: `git checkout -B main && git add -A && git commit -m "Site files" && git push -u origin main`. Then confirm `git ls-remote --symref origin HEAD` shows `refs/heads/main`. If another branch got there first, ask the owner to switch the default: repository **Settings** → **General** → **Default branch** → `main`.
+7. **Now the CI file.** `mkdir -p .github/workflows && mv /tmp/ci.yml .github/workflows/ && git add .github && git commit -m "Add checks" && git push`. If GitHub refuses, run `git reset --hard HEAD~1` (this also removes the local copy, so the owner's version arrives cleanly), then build the owner's one-tap link with exactly this, which checks that it round-trips:
 
-   `https://github.com/OWNER/REPO/new/main?filename=.github/workflows/ci.yml&value=` followed by the file's contents, URL-encoded.
+   ```bash
+   node -e 'const b=require("fs").readFileSync("/tmp/ci.yml","utf8");const u="https://github.com/OWNER/REPO/new/main?filename=.github/workflows/ci.yml&value="+encodeURIComponent(b);if(new URL(u).searchParams.get("value")!==b)throw "bad link";console.log(u)'
+   ```
 
-   They open it, tap **Commit changes**, done. This file strips hidden GPS data from photos on every change, so don't skip it.
+   Never use `encodeURI`: the file contains `#`, which cuts it off and commits a broken workflow. Send it as a short markdown link ("[Add the photo safety check](...)"), never the raw URL. Tell the owner: GitHub may ask you to sign in first; then tap **Commit changes...** and **Commit changes** again in the box. When they say done, `git pull` and check `git ls-tree origin/main .github/workflows/ci.yml`. This file strips hidden GPS data from photos on every change, so don't skip it.
+8. Tick `SETUP.md` box 1 once the site files and `ci.yml` are both on `main`.
 
 Their repo now holds the complete site. From here on, follow **their** `AGENTS.md` and `SETUP.md`, not this toolkit.
 

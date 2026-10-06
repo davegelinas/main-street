@@ -60,5 +60,5 @@ Done once during setup (`docs/setup-guide.md`, Step 6; `SETUP.md` step 5):
 Things that pass locally and fail live:
 
 - **`public/_headers` and `public/_redirects`** only apply on Cloudflare, not on `npm run dev`. Verify redirects and headers against a preview link or the live site, not localhost.
-- **Environment variables** (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`) live in Cloudflare, not the repo. A new or changed variable takes effect on the next deployment: retry the latest deployment, or ship any change.
+- **Variables and secrets** (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`) live in Cloudflare, not the repo. A new or changed variable takes effect on the next deployment: retry the latest deployment, or ship any change.
 - **Build-time tokens** (`{{business.name}}` etc.) resolve during `npm run build`. If a token shows up literally on a page, the build transform missed it: check the plugin, don't hardcode the value.

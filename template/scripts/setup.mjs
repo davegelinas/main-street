@@ -105,7 +105,7 @@ console.log("The page copy is neutral placeholder text.");
 console.log("Ask your AI assistant: \"rewrite the homepage copy for my business, keeping the layout.\"");
 
 // ---- Integrations status ----
-// API keys live in Cloudflare (Pages -> Settings -> Environment variables,
+// API keys live in Cloudflare (Pages -> Settings -> Variables and Secrets,
 // Production only) and in .dev.vars for local testing. Never in this repo,
 // never in chat. A missing key never breaks a page: the feature degrades.
 console.log("\nIntegrations status (details: docs/api-keys.md):");
@@ -122,7 +122,7 @@ function statusLine(name, state, note) {
 if (!feat.contactForm) {
   statusLine("Contact form email (Resend)", "SKIPPED", "the contact form feature is off. Turn it on in site.config.json to use it.");
 } else if (hasResendKey) {
-  statusLine("Contact form email (Resend)", "WORKING", "key found in .dev.vars for local testing. Also add it in Cloudflare Pages -> Settings -> Environment variables (Production) for the live site.");
+  statusLine("Contact form email (Resend)", "WORKING", "key found in .dev.vars for local testing. Also add it in Cloudflare Pages -> Settings -> Variables and Secrets (Production) for the live site.");
 } else {
   statusLine("Contact form email (Resend)", "NOT SET UP", "it needs your own domain first. Until then visitors see your phone and email instead; the page never breaks. See docs/api-keys.md.");
 }

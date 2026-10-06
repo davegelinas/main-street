@@ -4,7 +4,7 @@ Violate these and you've failed the task, no matter how good the change looks.
 
 ## Secrets
 
-- **Never commit secrets.** API keys, tokens, and private keys live in Cloudflare (Pages → Settings → Environment variables, **Production only**) and in `.dev.vars` locally. Never in this repo, never in chat logs you can't control, never in a screenshot.
+- **Never commit secrets.** API keys, tokens, and private keys live in Cloudflare (Pages → Settings → Variables and Secrets, **Production only**) and in `.dev.vars` locally. Never in this repo, never in chat logs you can't control, never in a screenshot.
 - **Never add keys to the Preview environment.** Preview builds run whatever is on a branch before anyone approved it. A key there can be read by an unreviewed change.
 - If you see a secret committed in history, stop and tell the owner immediately: what was exposed, and that the key must be rotated. Don't just quietly fix it.
 - `.dev.vars` is gitignored. Keep it that way.
