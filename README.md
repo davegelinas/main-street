@@ -20,6 +20,10 @@ https://github.com/user-attachments/assets/65639c52-fde4-4f93-94ea-3bd3e551e4b2
 
 About two hours, much of it waiting, and you can do it yourself. Your AI walks you through every step, and you can stop and pick up later.
 
+It starts with this button, after two free accounts (the guide's Step 2 says what to type on the next page):
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/davegelinas/main-street/tree/main/template)
+
 ## Is this for you?
 
 - You run a small business: a shop, a salon, a trade, a bakery, a studio.
