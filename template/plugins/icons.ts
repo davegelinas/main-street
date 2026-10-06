@@ -8,7 +8,9 @@
 // - Only while public/favicon.svg is the template's stock icon (it carries the
 //   STOCK_MARK comment). Once the owner has a real logo icon there, the build
 //   leaves both icons alone.
-// - If anything fails, the plain icons from public/ stay in place.
+// - Accents are dropped (É uses E). An initial with no traced letter (CJK,
+//   for example), or a missing sharp, keeps the plain icons from public/, so
+//   the icons always match each other and never show an empty box.
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { themeColors } from "./share-image.ts";
@@ -18,17 +20,13 @@ type Glyphs = { serif: Record<string, Glyph>; sans: Record<string, Glyph> };
 
 export const STOCK_MARK = "main-street:stock-icon";
 
-const xml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-
 // The letter, scaled so a capital H would be `cap` tall, centered in a
-// size x size box. Letters outside A-Z and 0-9 fall back to live text.
-function letter(glyphs: Glyphs, ch: string, sans: boolean, size: number, cap: number, color: string): string {
+// size x size box. Only pre-traced letters: live text would depend on the
+// build server's fonts and can come out as an empty box.
+function letter(glyphs: Glyphs, ch: string, sans: boolean, size: number, cap: number, color: string): string | null {
   const face = sans ? glyphs.sans : glyphs.serif;
-  const g = face[ch];
-  if (!g) {
-    const family = sans ? "system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif" : "Georgia, 'Times New Roman', serif";
-    return `<text x="${size / 2}" y="${size / 2}" dy="0.35em" text-anchor="middle" font-family="${family}" font-weight="700" font-size="${cap * 1.35}" fill="${color}">${xml(ch)}</text>`;
-  }
+  const g = face[ch.normalize("NFD").replace(/\p{M}/gu, "").toUpperCase()];
+  if (!g) return null;
   const [x0, y0, x1, y1] = g.b;
   const h = face.H.b[3] - face.H.b[1];
   const s = Math.min(cap / h, (size * 0.72) / (x1 - x0));
@@ -57,16 +55,19 @@ async function writeMonogramIcons(root: string, outDir: string, cfg: Record<stri
 
     // Tab icon: the same badge as the header, round (or a rounded square in
     // sans themes, like their brand mark).
+    const tabLetter = letter(glyphs, initial, sans, 64, 34, ink);
+    const touchLetter = letter(glyphs, initial, sans, 180, 84, ink);
+    if (!tabLetter || !touchLetter) return; // no traced letter: keep the plain icons
     const shape = sans ? `<rect width="64" height="64" rx="14" fill="${accent}"/>` : `<circle cx="32" cy="32" r="32" fill="${accent}"/>`;
-    writeFileSync(
-      resolve(outDir, "favicon.svg"),
-      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${shape}${letter(glyphs, initial, sans, 64, 34, ink)}</svg>\n`,
-    );
 
-    // Home-screen icon: a full square (iPhones round the corners themselves).
+    // Home-screen icon first: a full square (iPhones round the corners
+    // themselves). Only if it renders does the tab icon change too, so the
+    // two always match.
     const sharp = (await import("sharp")).default;
-    const touch = `<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180"><rect width="180" height="180" fill="${accent}"/>${letter(glyphs, initial, sans, 180, 84, ink)}</svg>`;
-    await sharp(Buffer.from(touch)).png().toFile(resolve(outDir, "apple-touch-icon.png"));
+    const touch = `<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180"><rect width="180" height="180" fill="${accent}"/>${touchLetter}</svg>`;
+    const touchPng = await sharp(Buffer.from(touch)).png().toBuffer();
+    writeFileSync(resolve(outDir, "apple-touch-icon.png"), touchPng);
+    writeFileSync(resolve(outDir, "favicon.svg"), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${shape}${tabLetter}</svg>\n`);
   } catch (err) {
     console.warn(`site-config: could not make the site icons (favicon.svg, apple-touch-icon.png): ${(err as Error).message}`);
   }
