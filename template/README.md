@@ -12,6 +12,8 @@ This is **your website**: the files, the words, the photos. It costs about $12 a
 2. **Open the preview link** your AI sends. It's your site with the change, on your phone.
 3. **Say "ship it."** Your live site updates in about a minute.
 
+Using ChatGPT? It works the same way, with two taps instead of words: when Codex finishes, tap **Create PR**; the preview link is in Cloudflare's comment on that page, and "ship it" is **Squash and merge**. Details: [docs/connect-your-ai.md](docs/connect-your-ai.md).
+
 Nothing goes live until you say "ship it." Not right yet? Just say what to change, and you get a new preview.
 
 ## What to say

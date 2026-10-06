@@ -35,6 +35,13 @@ There is no shared staging site. Two changes never ride together: approving new 
 
 If you can't merge yourself (your platform has no merge permission), give the owner the exact taps: open the pull request link, **Squash and merge**, **Confirm squash and merge**.
 
+**Pull-request-only platforms (Codex cloud, for example).** You may not be able to push, merge, or even see the pull request: the owner turns your finished work into one by tapping **Create PR**. Then:
+
+- When a change is ready, say so in one line and give the next taps: "Tap **Create PR** and open the pull request. Cloudflare's comment there has your preview link. If it looks right, tap **Squash and merge**." If you can't see the preview link yourself, say exactly where it is.
+- "Ship it" is the owner's merge. "Undo that" is a revert you prepare and they merge the same way. Never say "Done" or "it's live" until they've merged.
+- Can't list pull requests (no `gh`)? Don't guess what's waiting. Ask, and send `https://github.com/OWNER/REPO/pulls`.
+- Keep follow-up fixes for a change in the same task where you can, so the owner has one pull request to merge, not three.
+
 ## Previews: what to know
 
 - Preview links are hidden from search engines (`public/_headers`) and not linked anywhere, but they are **not private**: anyone with the link can open one. Fine for previews; never put anything secret on one.

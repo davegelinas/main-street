@@ -2,11 +2,12 @@
 """Build the end-to-end video: one bakery, from no website to a live one.
 
 What it shows (about 70 seconds, no sound): the owner of Maple Street Bakery
-sets up their website alone, with no helper and no terminal. Two free
-accounts and an empty home for the site, one setup link, the AI's interview,
-the first version on a phone, online at a free address, the live site
-locked, the Edit my website button (the site's own Edit page on the home
-screen, whose "Open my AI" opens the chat), and the first change shipped.
+sets up their website alone, with Claude or ChatGPT, no helper and no
+terminal. Two free accounts and a home for the site, connecting their AI and
+sending the setup message, the AI's interview, the first version on a phone,
+online at a free address, the live site locked, the Edit my website button
+(the site's own Edit page on the home screen, whose "Open my AI" opens the
+chat), and the first change shipped.
 
 How it is made: programmatic kinetic typography. Every on-screen word is an
 exact string in this file (TITLE, STEPS, CLOSE, the chats and cards, DEMO_*),
@@ -1161,11 +1162,11 @@ CLOSE = dict(
 # One entry per step. Headline {braces} are drawn in the accent color.
 STEPS = [
     dict(key="accounts", dur=6.5,
-         head="Two free accounts,\none empty home",
-         sub="Both free, both with your own email. Then one empty home for your site, set to public."),
+         head="Two free accounts,\nand your site's home",
+         sub="Both free, both with your own email.\nThen a home for your site on GitHub, set to public."),
     dict(key="link", dur=6.5,
-         head="Connect Claude,\nthen tap one link",
-         sub="Sign in at claude.ai/code and let it use your new home. Then tap \u201cStart my website setup.\u201d"),
+         head="Connect your AI,\nthen start setup",
+         sub="Claude or ChatGPT: connect it to your new home\non GitHub, then send the setup message."),
     dict(key="interview", dur=9.0,
          head="Your AI asks, one\nquestion at a time",
          sub="Name, hours, what you sell, in plain words. No answer yet? Say \u201cskip it.\u201d"),
@@ -1183,7 +1184,7 @@ STEPS = [
          sub="Your AI makes you an Edit page.\nPut it on your home screen, and \u201cOpen my AI\u201d\nstarts a chat with your site already chosen."),
     dict(key="change", dur=11.0,
          head="The first change,\n{shipped}",
-         sub="Say what you want, open the preview link, and say \u201cship it.\u201d Live in about a minute."),
+         sub="Say what you want, look at the preview, and ship it.\nLive in about a minute."),
 ]
 TITLE_LEN = 4.0
 CLOSE_LEN = 5.0
@@ -1191,17 +1192,17 @@ CLOSE_LEN = 5.0
 ACCOUNT_CARDS = [
     ("GitHub", "Free. Keeps your website's files."),
     ("Cloudflare", "Free. Puts your website online."),
-    ("maple-street-bakery", "Your site's empty home, set to public."),
+    ("maple-street-bakery", "Your site's home, set to public."),
 ]
 
 # The setup guide's own step names (template/docs/setup-guide.md).
 GUIDE = dict(
     title="Set up your website",
     sub="Your AI walks you through every step.",
-    done=["Make two free accounts", "Make an empty home for your site", "Connect Claude to GitHub"],
+    done=["Make two free accounts", "Make a home for your site", "Connect your AI to GitHub"],
     card_kicker="STEP 4",
     card_title="Your AI builds your site",
-    button="Start my website setup",
+    button="Send the setup message",
     next=["Put it on the internet", "Lock your live site"],
 )
 
