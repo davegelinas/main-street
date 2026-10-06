@@ -126,7 +126,7 @@ if (gitOk) {
     console.log("\n  One-time git setup (so you can save versions of your site):");
     console.log('    git config user.name "Your Name"');
     console.log('    git config user.email "you@example.com"');
-    console.log("  Then: git commit -m \"First version of my site\"");
+    console.log("  Then step 5 below can save your first version.");
   }
 }
 console.log("\nNext steps (each takes a few minutes):");
@@ -134,6 +134,7 @@ console.log("  1. cd " + targetArg);
 console.log("  2. npm install        (downloads the build tools, one time only)");
 console.log("  3. npm run setup      (the friendly wizard: your business details)");
 console.log("  4. npm run dev        (see your site at http://localhost:5173)");
+console.log("  5. git add -A && git commit -m \"First version of the site\"   (saves the wizard's answers)");
 console.log("\nWhen it looks right, follow docs/setup-guide.md inside your new site");
 console.log("(\"For helpers who prefer a terminal\"), in the owner's own accounts.");
 console.log("\nThe golden rule: every change gets its own preview link first,");

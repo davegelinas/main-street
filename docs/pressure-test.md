@@ -13,7 +13,7 @@ Findings and changes since the 2026-09-27 run. Earlier sections are history and 
 - **Photo GPS stripping.** `npm run optimize-images` strips hidden location data (script), and CI strips it on every change, because the repo is now public.
 - **Public repos with a ruleset on `main`.** Only public repos get GitHub's free ruleset: require a pull request, block force pushes and deletion, empty bypass list. Replaces the old branch-protection advice.
 - **`AGENTS.md` is the single manual.** `CLAUDE.md` is a pointer to it.
-- **Owner-alone, AI-driven setup.** `AI-SETUP.md` and `SETUP.md` let the owner's own AI run setup in about an hour; a helper is optional. Free plans use the slower browser-only path.
+- **Owner-alone, AI-driven setup.** `AI-SETUP.md` and `SETUP.md` let the owner's own AI run setup in about two hours, much of it waiting; a helper is optional. Free plans use the slower browser-only path.
 - **Contact form only sends from the verified domain,** so it needs the owner's own domain and is tested on the live site, never on a preview or `pages.dev`.
 - **Dashboard rollback must be followed by a revert,** or the next ship re-publishes the bad change. It is a helper's emergency brake, not the owner's undo.
 

@@ -14,7 +14,7 @@ The brief and the real assets are the design material. Use them.
 - Don't lecture and don't dump the whole questionnaire at once. Ask the brief questions **in chat, a few at a time, conversationally**, the way the owner answers in real life.
 - After each round of answers, write them into `content/brand/brief.md` yourself. The brief is the durable record; chat is the interview.
 - Start with story and services (the highest value), then voice, then the rest. Stop when you have enough to build; don't interrogate.
-- The owner can also fill in `brief.md` directly or attach files in chat. All paths lead to the same filled-in brief.
+- The owner can also fill in `brief.md` directly, and upload photos or files on GitHub to `content/brand/` (send them the direct link: `https://github.com/OWNER/REPO/upload/main/content/brand/photos`). All paths lead to the same filled-in brief.
 
 ## If the owner already has a website: harvest it
 

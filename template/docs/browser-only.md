@@ -39,7 +39,7 @@ Your site starts as a folder of files called the **template**. You will download
 **Step 2: Create your repository.**
 
 1. Go to github.com (signed in). Click the **+** at the top right, then **New repository**.
-2. **Repository name:** your business name plus `-site`, all lowercase with dashes. Example: `maple-street-bakery-site`. (No spaces. Dashes are fine.)
+2. **Repository name:** your business name, lowercase, with dashes. Example: `maple-street-bakery`. (No spaces.)
 3. Choose **Public**. Your website is public anyway, and only a public repository gets GitHub's free lock that protects your live site (Part 7). Nothing private ever goes in it.
 4. **Important:** leave **Add a README file** unchecked. An empty repository makes the next step easy.
 5. Click **Create repository**.
@@ -158,7 +158,7 @@ This connects your GitHub repository to the service that publishes your site.
 **Step 1: Start the connection.**
 
 1. Go to dash.cloudflare.com (signed in). Click **Workers & Pages** in the left menu.
-2. Click **Create**, then choose the **Pages** option (the website option, not Worker). Then **Import an existing Git repository** → **Get started**, which takes you to **Connect to Git**.
+2. Click **Create application**, then choose **Pages** (the website option, not Workers), then **Connect to Git** (it may say **Import an existing Git repository**).
 3. GitHub will ask to authorize Cloudflare. Choose your GitHub account. When it asks for repository access, pick **Only select repositories** and choose your site repository (not everything). Click **Save** or **Install**.
 4. Back in Cloudflare, select your site repository from the list and click **Begin setup**.
 
@@ -181,17 +181,7 @@ Your free `pages.dev` address is hidden from Google on purpose. It is a working 
 
 ## Part 7: Lock your live site (5 minutes)
 
-This makes "nothing goes live until you say ship it" true. On github.com, in your repository:
-
-1. **Settings** → **Rules** → **Rulesets** → **New ruleset** → **New branch ruleset**.
-   - **Name:** `Protect live site`. **Enforcement:** Active. Leave the **bypass list empty**.
-   - **Target branches:** **Add target** → **Include default branch**.
-   - Keep **Restrict deletions** and **Block force pushes** checked. Check **Require a pull request before merging**, with required approvals at **0** (your "ship it" is the approval).
-   - Click **Create**.
-2. **Settings** → **General**:
-   - **Features:** turn off **Issues**, and set pull requests to **collaborators only**.
-   - **Pull Requests:** leave only **Allow squash merging** checked (uncheck merge commits and rebase merging), and check **Automatically delete head branches**.
-3. Your account (your picture → **Settings** → **Emails**): check **Keep my email addresses private**.
+This makes "nothing goes live until you say ship it" true. Do **[Step 6 of the setup guide](setup-guide.md#step-6-lock-your-live-site-15-minutes)** exactly as written, then come back here. It's the fiddliest screen of the whole setup: go slowly, and send your AI a screenshot before you click **Create**.
 
 From now on GitHub will not let anyone save straight to the live site. Every change goes through a pull request, which is exactly what Part 8 does.
 
@@ -265,7 +255,7 @@ Put this on a sticky note until it's habit.
 
 **"I tried to edit the live site and GitHub won't let me."** That is the lock from Part 7 doing its job. Edit the file again and choose **Create a new branch for this commit and start a pull request** when you commit. If you already made a branch, tell the AI what you did and it will tell you the clicks that fix it. Nothing is unfixable; every change is remembered and reversible.
 
-**"My AI seems lost."** Start a fresh message say: "Read AGENTS.md again. I am browser-only: no commands, browser steps with complete paste text." If you started a brand-new chat, re-attach `AGENTS.md`, `rules/beginner-mode.md`, and `rules/deploy.md` first.
+**"My AI seems lost."** Start a fresh message and say: "Read AGENTS.md again. I am browser-only: no commands, browser steps with complete paste text." If you started a brand-new chat, re-attach `AGENTS.md`, `rules/beginner-mode.md`, and `rules/deploy.md` first.
 
 ---
 

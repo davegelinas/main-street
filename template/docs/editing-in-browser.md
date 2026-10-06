@@ -4,7 +4,7 @@ You don't need anything installed to fix a few words. GitHub's website has an ed
 
 ## How it works
 
-1. Go to your repo on **github.com** and click through to the file (e.g. `index.html`, or `site.config.json`).
+1. Go to your repo on **github.com** and click through to the file (like `index.html` or `site.config.json`).
 2. Click the **pencil icon** (Edit this file) at the top right, and make your change in the text box.
 3. Click **Commit changes**. Choose **Create a new branch for this commit and start a pull request**, then **Propose changes**, then **Create pull request**.
 4. Wait a minute. Cloudflare comments on the pull request with a **preview link**. Open it on your phone and check your change.
@@ -14,7 +14,7 @@ Not right yet? Edit again on that pull request's branch (**Files changed** → *
 
 ## What's safe to edit this way
 
-- **Words on pages** (`index.html`): headlines, paragraphs, service descriptions. Change the text between the tags, leave the tags alone.
+- **Words on pages** (`index.html`): headlines, paragraphs, service descriptions. Change the words between the tags (the bits in angle brackets, like `<p>`), and leave the tags alone.
 - **Business facts** (`site.config.json`): hours, phone, address, announcement banner text. Match the existing format exactly (quotes, commas). One misplaced comma breaks the file; if the preview looks broken, ask your AI to fix it.
 - **FAQ entries** (`index.html`): copy an existing question block, change the words.
 

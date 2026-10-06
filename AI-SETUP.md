@@ -20,7 +20,7 @@ Read `template/rules/beginner-mode.md` in this toolkit before your first message
    node -e 'const b=require("fs").readFileSync("/tmp/ci.yml","utf8");const u="https://github.com/OWNER/REPO/new/main?filename=.github/workflows/ci.yml&value="+encodeURIComponent(b);if(new URL(u).searchParams.get("value")!==b)throw "bad link";console.log(u)'
    ```
 
-   Never use `encodeURI`: the file contains `#`, which cuts it off and commits a broken workflow. Send it as a short markdown link ("[Add the photo safety check](...)"), never the raw URL. Tell the owner: GitHub may ask you to sign in first; then tap **Commit changes...** and **Commit changes** again in the box. When they say done, `git pull` and check `git ls-tree origin/main .github/workflows/ci.yml`. This file strips hidden GPS data from photos on every change, so don't skip it.
+   Never use `encodeURI`: the file contains `#`, which cuts it off and commits a broken workflow. Send it as a short markdown link (`[Add the photo safety check](<the link>)`), never the raw URL. Tell the owner: GitHub may ask you to sign in first; then tap **Commit changes...** and **Commit changes** again in the box. When they say done, `git pull` and check `git ls-tree origin/main .github/workflows/ci.yml`. This file strips hidden GPS data from photos on every change, so don't skip it.
 8. Tick `SETUP.md` box 1 once the site files and `ci.yml` are both on `main`.
 
 Their repo now holds the complete site. From here on, follow **their** `AGENTS.md` and `SETUP.md`, not this toolkit.
