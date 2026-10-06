@@ -38,6 +38,7 @@ cfg.site.closedOn = [
   { dates: "2020-01-01", note: "long gone" },
 ];
 cfg.site.domain = "joes.example.org";
+cfg.site.editUrl = "https://claude.ai/code?repositories=joe/joes-site&prompt=Read%20AGENTS.md%20first.%20";
 
 try {
   writeFileSync(configPath, JSON.stringify(cfg, null, 2) + "\n");
@@ -82,6 +83,15 @@ try {
   const sitemap = readFileSync(resolve(site, "dist/sitemap.xml"), "utf8");
   assert.ok(sitemap.includes("<loc>https://joes.example.org/privacy-policy/</loc>"), "sitemap misses a page");
   assert.ok(!sitemap.includes("404"), "sitemap lists the 404 page");
+
+  // The owner's edit page: one escaped link, out of search, the sitemap,
+  // and the site's own menu and footer.
+  const edit = readFileSync(resolve(site, "dist/edit/index.html"), "utf8");
+  assert.ok(edit.includes('href="https://claude.ai/code?repositories=joe/joes-site&amp;prompt=Read%20AGENTS.md%20first.%20"'), "edit page link missing or not escaped");
+  assert.ok(!edit.includes("edit-missing"), "edit page still asks for setup with editUrl set");
+  assert.ok(/<meta name="robots" content="noindex">/.test(edit), "edit page is not noindex");
+  assert.ok(!sitemap.includes("/edit/"), "sitemap lists the edit page");
+  assert.ok(!html.includes('href="/edit/"'), "the homepage links to the edit page");
   console.log("\nTricky business details: all checks passed.");
 } finally {
   writeFileSync(configPath, original);

@@ -330,6 +330,17 @@ function faqJsonLd(html: string): string {
 // Themes whose headings use the system sans instead of Fraunces (src/styles.css).
 const SANS_THEMES = new Set(["harbor"]);
 
+// site.editUrl: the owner's AI chat with this site already chosen (for
+// Claude, the prefill link in docs/connect-your-ai.md). Empty, or anything
+// that isn't a full https link, counts as not set up yet.
+function editUrl(cfg: Config, warn?: (msg: string) => void): string {
+  const v = String(cfg.site?.editUrl ?? "").trim();
+  if (!v) return "";
+  if (/^https:\/\/\S+$/i.test(v)) return v;
+  warn?.(`site.editUrl should be a full https link, like the one in docs/connect-your-ai.md. The edit page asks the AI to set it up until it is.`);
+  return "";
+}
+
 function stripFeatures(html: string, cfg: Config, warn: (msg: string) => void): string {
   // The body pattern refuses to cross another feature opener, so innermost
   // blocks are stripped first; loop until no blocks remain (handles nesting).
@@ -347,6 +358,10 @@ function stripFeatures(html: string, cfg: Config, warn: (msg: string) => void): 
     // display-font download, and a social link shows only once it's filled in.
     if (name === "displayFont") return SANS_THEMES.has(String(cfg.site?.theme ?? "")) ? "" : body;
     if (name === "instagram" || name === "facebook") return socialUrl(cfg, name) ? body : "";
+    // The owner's edit page (edit/): the "Open my AI" button needs a real
+    // link in site.editUrl; until then the page asks the AI to set it up.
+    if (name === "editUrl") return editUrl(cfg, warn) ? body : "";
+    if (name === "noEditUrl") return editUrl(cfg) ? "" : body;
     if (!(name in (cfg.features ?? {}))) warn(`<!-- feature:${name} --> has no matching flag in site.config.json "features", so the block is hidden.`);
     return on ? body : "";
   });

@@ -190,6 +190,10 @@
           "description": "Your domain, like acmeplumbing.com. Leave empty until you connect one; the site runs on its free Cloudflare address until then.",
           "type": "string"
         },
+        "editUrl": {
+          "description": "The owner's Edit my website link: the full address of their AI chat with this site already chosen. For Claude, the prefill link in docs/connect-your-ai.md; for Codex, https://chatgpt.com/codex. The page at /edit/ turns it into one big button the owner keeps on their home screen. Empty until set up.",
+          "type": "string"
+        },
         "theme": {
           "description": "The site's look: colors, heading font, and corners. terracotta (warm, food and craft), harbor (navy and blue, trades and offices), sage (green, florists and wellness), plum (salons and spas). Set by the preset; the colors themselves live in src/styles.css.",
           "enum": [

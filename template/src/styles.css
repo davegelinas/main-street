@@ -774,6 +774,36 @@ address { font-style: normal; }
 .legal li { margin-bottom: 0.6rem; }
 .legal .updated { color: var(--ink-soft); font-size: 0.92rem; }
 
+/* Edit page (edit/): the owner's "Edit my website" home-screen button */
+.edit-page { padding: clamp(2rem, 1rem + 4vw, 4.5rem) 0; }
+.edit-card {
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 1rem + 3vw, 2.5rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.edit-card h1 { font-size: clamp(2rem, 1.5rem + 2.5vw, 2.75rem); margin-bottom: 0.8em; }
+.edit-open { width: 100%; min-height: 3.75rem; font-size: 1.15rem; }
+.edit-open .icon { width: 1.35em; height: 1.35em; }
+.edit-missing { margin: 0; padding: 1rem 1.1rem; border-radius: var(--radius-sm); background: var(--accent-soft); }
+.edit-card h2 { font-size: 1.2rem; margin: 2.25rem 0 1rem; }
+.edit-howto { display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; align-items: start; }
+.edit-icon { display: grid; justify-items: center; gap: 0.4rem; width: 4.75rem; margin: 0; }
+.edit-icon img { border-radius: 14px; box-shadow: var(--shadow); }
+.edit-icon figcaption { width: 100%; font-size: 0.72rem; line-height: 1.2; color: var(--ink-soft); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.edit-steps { margin: 0; padding-left: 1.1rem; }
+.edit-steps li { margin-bottom: 0.6rem; }
+.edit-then { margin: 1.25rem 0 0; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--ink-soft); }
+@media (max-width: 600px) {
+  .edit-card { padding: 1.5rem 1.25rem; }
+  .edit-howto { gap: 0.9rem; }
+  .edit-icon { width: 4.25rem; }
+  .edit-steps { font-size: 1rem; line-height: 1.5; }
+}
+
 /* 404 */
 .not-found { text-align: center; }
 .not-found .wrap { max-width: 42rem; }

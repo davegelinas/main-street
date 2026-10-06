@@ -8,7 +8,7 @@ This is **your website**: the files, the words, the photos. It costs about $12 a
 
 ![The golden loop, animated: you ask your AI, it prepares a preview, you review it on your phone, you say ship it, the live site updates](docs/assets/golden-loop.svg)
 
-1. **Tap your Edit my website button** and say what you want, the way you'd say it to a person.
+1. **Tap your Edit my website button** (your site's `/edit/` page, saved to your home screen) and say what you want, the way you'd say it to a person.
 2. **Open the preview link** your AI sends. It's your site with the change, on your phone.
 3. **Say "ship it."** Your live site updates in about a minute.
 

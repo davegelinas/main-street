@@ -28,13 +28,15 @@ Any AI that can open pull requests on GitHub can run your site, because it reads
 
 One tap opens your AI with your site already chosen and a sentence already started, so you just finish it ("...change Saturday hours to 9 to 2") and send. The easy way: ask your AI, "make my Edit my website button."
 
-To make it by hand for Claude, replace `OWNER/REPO` with your site's GitHub address (like `maria-lopez/maple-street-bakery`) and make this link:
+How it works: your site has a page just for you at **/edit/** (like `maplestreetbakery.com/edit/`). It's kept out of Google and off your menu, and its one big button opens your AI. You put that page on your home screen: open it in **Safari**, tap **Share** → **Add to Home Screen** → **Add**. On Android, open it in Chrome and use the menu → **Add to Home screen**. (Don't make the button from your AI's own link: the AI's page changes its address as it opens, so the button would forget your site and your sentence.)
+
+The button's link lives in `site.editUrl` in `site.config.json`. For Claude, it's this, with `OWNER/REPO` replaced by your site's GitHub address (like `maria-lopez/maple-street-bakery`):
 
 ```
 https://claude.ai/code?repositories=OWNER/REPO&prompt=Read%20AGENTS.md%20first.%20Here%27s%20what%20I%27d%20like%20to%20change%20on%20my%20website%3A%20
 ```
 
-On an iPhone, don't tap the link: tapping opens the Claude app, which can't make home-screen buttons. Press and hold it, tap **Copy**, paste it into **Safari**, and go. Sign in to Claude there if it asks (one time only), then tap **Share** → **Add to Home Screen** → **Add**. On Android, use Chrome's menu → **Add to Home screen**. For another AI, a home-screen bookmark to wherever you start a chat about your site works the same way.
+For Codex, it's `https://chatgpt.com/codex`. For another AI, wherever you start a chat about your site. The first time you tap the button, sign in to your AI in Safari if it asks (one time only).
 
 ## If something's confusing
 

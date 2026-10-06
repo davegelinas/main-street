@@ -117,7 +117,7 @@ Your AI sends you a link to your repository's rules page (it looks like `github.
 
 Switch to your phone for this one, and open your setup chat in the Claude app (same account: the chat is there too).
 
-1. Ask your AI: "Make my Edit my website button." Press and hold the link it sends, tap **Copy**, open **Safari**, paste it into the address bar, and go. (Tapping the link opens the Claude app, which can't make home-screen buttons.) If Safari asks you to sign in to Claude, do it; that's a one-time thing. Then tap **Share** → **Add to Home Screen** → **Add**. On Android, use Chrome's menu → **Add to Home screen**.
+1. Ask your AI: "Make my Edit my website button." It sets up a page on your site just for you, with one big button that opens your AI (if it sends a preview link first, say **"ship it"**). Then open **Safari** and go to your site's address with **/edit/** on the end (your AI tells you the exact address, like `maplestreetbakery.com/edit/`). Tap **Share** → **Add to Home Screen** → **Add**. On Android, open it in Chrome and use the menu → **Add to Home screen**. The first time you use the button, Safari may ask you to sign in to Claude; that's a one-time thing.
 2. Tap your new button and try a small change: "Add a banner: welcome to our new website!"
 3. Open the preview link your AI sends and look at the banner. Then say **"ship it."** A minute later, it's on your live site.
 4. Write your site card (below). Your AI walks you through it.
