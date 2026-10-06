@@ -120,3 +120,8 @@ Workers custom domains need the domain to be an **active Cloudflare zone**: name
 3. Confirm dropping Resend entirely?
 4. Pin the button to a release tag instead of `main`?
 5. Keep the Pages rescue path supported?
+
+## Before merging Phase 1
+
+- Re-render `template/docs/assets/end-to-end.mp4` (`python3 scripts/make-end-to-end-video.py`) with the Deploy to Cloudflare opening: its storyboard still shows Phase 0's empty-repo-plus-setup-link start. Update its scene strings, regenerate, check frames, and re-upload both videos as GitHub attachments if the README embeds them inline.
+- Re-check README, START-HERE and setup-guide screenshots against the live Deploy flow.
