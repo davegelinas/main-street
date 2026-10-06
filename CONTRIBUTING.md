@@ -20,8 +20,10 @@ AI-SETUP.md          Bootstrap instructions for an owner's AI setting up a new s
 START-HERE.md        Terminal setup for helpers
 scripts/
   new-site.mjs       The scaffolder: template/ → new customer repo
-  make-journey-video.py      Regenerates the 36-second walkthrough video (PIL + ffmpeg)
-  make-end-to-end-video.py   Regenerates the 70-second idea-to-live-site video (PIL + ffmpeg)
+  make-journey-video.py      Regenerates the 36-second everyday-loop video
+  make-end-to-end-video.py   Regenerates the 70-second owner-alone setup video
+                             (both: Pillow + ffmpeg; they build a demo site with
+                             Node and screenshot it with Chrome's headless shell)
 docs/
   the-12-dollar-stack.md   The honest bill
   for-agencies.md          The per-client playbook

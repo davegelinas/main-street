@@ -8,9 +8,11 @@ No page builder. No monthly website fee. No developer to wait on.
 
 <img src="template/docs/assets/demo-phone.png" alt="A finished Main Street website on a phone: Cedar and Pine Barbershop, with its headline, story, and a button to see services and prices" width="260">
 
-**Watch it work** (36 seconds, no sound needed):
+**Watch it work** (36 seconds, no sound needed): tap Edit my website, say what you want, look at the preview, say "ship it."
 
-https://github.com/user-attachments/assets/752e5e89-482f-40f9-b1c0-d4fab41c60b9
+[![The everyday loop: tap Edit my website, say what you want, get a preview link, say ship it](template/docs/assets/journey-poster.png)](template/docs/assets/journey.mp4?raw=true)
+
+**Watch a whole setup** (70 seconds): one bakery, from no website to live, done by the owner with their AI. [Play the setup video](template/docs/assets/end-to-end.mp4?raw=true)
 
 ### [Set up my website →](template/docs/setup-guide.md)
 

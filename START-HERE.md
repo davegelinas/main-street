@@ -4,9 +4,9 @@
 
 This page is for **helpers who prefer a terminal**: an agency, a freelancer, or a tech-savvy friend setting a site up in the owner's accounts. Doing this for paying clients? Also read [docs/for-agencies.md](docs/for-agencies.md).
 
-**Watch the full build** (70 seconds, no sound needed): one barbershop, idea to live site, set up from a terminal.
+**Watch the owner-alone setup** (70 seconds, no sound needed): one bakery, from no website to live, with the owner's own AI doing the technical parts. This page covers the terminal alternative for helpers.
 
-https://github.com/user-attachments/assets/a0c8180d-cec6-4d3b-bd72-366a873c2776
+[![The owner-alone setup: two accounts, one setup link, an AI interview, live site, Edit my website button](template/docs/assets/end-to-end-poster.png)](template/docs/assets/end-to-end.mp4?raw=true)
 
 ## How it fits together
 
