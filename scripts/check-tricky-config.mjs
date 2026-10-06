@@ -30,6 +30,8 @@ cfg.business.hours = [
   { days: "Holidays" },
 ];
 cfg.site.description = "";
+const nextYear = new Date().getFullYear() + 1;
+cfg.site.closedOn = [`${nextYear}-12-24 to ${nextYear}-12-26`, "next tuesday"];
 cfg.site.domain = "joes.example.org";
 
 try {
@@ -40,6 +42,9 @@ try {
   // Quotes in the name never break out of an attribute.
   assert.ok(html.includes('<meta property="og:title" content="Joe&#39;s &quot;Best&quot; Bakery &amp; Café 🍞">'), "og:title attribute is not escaped");
   assert.ok(!html.includes('"Best" Bakery'), "an unescaped quote reached the HTML");
+  // Closed dates reach the page script and Google; unreadable ones are skipped.
+  assert.ok(html.includes(`data-closed-on="${nextYear}-12-24,${nextYear}-12-25,${nextYear}-12-26"`), "closed dates not on <html>");
+  assert.ok(html.includes(`"validFrom":"${nextYear}-12-24","validThrough":"${nextYear}-12-26","opens":"00:00","closes":"00:00"`), "closed dates missing from structured data");
   // An empty description falls back to name + tagline.
   assert.ok(html.includes('<meta name="description" content="Joe&#39;s &quot;Best&quot; Bakery &amp; Café 🍞: Bread, &quot;buns&quot; &amp; more.">'), "meta description fallback missing");
   // A dialable phone link and a fully encoded directions link.

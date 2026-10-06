@@ -39,8 +39,9 @@ Say what you checked, even when the answer is "looks fine."
    it lands somewhere real.
 6. **Seasonal.** What's coming in the next 60 to 90 days? Seasonal services,
    holiday closures, price changes, new offerings. Ask one question about it.
-7. **Announcement banner.** Still promoting something current, or something
-   that ended?
+7. **Announcement banner and closed dates.** Still promoting something
+   current, or something that ended? Any `site.closedOn` dates in the past?
+   Offer to take both down in one change.
 8. **Analytics (if enabled).** You can't see Cloudflare's numbers yourself.
    Ask the owner for a screenshot of the project's **Metrics** page, then
    summarize in plain English: roughly how many visitors, which pages, one

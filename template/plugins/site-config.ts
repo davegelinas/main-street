@@ -201,6 +201,36 @@ function prune(v: any): any {
   return v ?? undefined;
 }
 
+// One-off closures: site.closedOn lists dates ("2026-11-04") or ranges
+// ("2026-12-24 to 2026-12-26"). The page uses them for "Closed today";
+// Google gets them as special hours. Weekly hours stay as they are.
+const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
+const DAY_MS = 864e5;
+function closedRanges(cfg: Config, warn?: (msg: string) => void): Array<{ from: string; to: string }> {
+  const out: Array<{ from: string; to: string }> = [];
+  for (const raw of Array.isArray(cfg.site?.closedOn) ? cfg.site.closedOn : []) {
+    const [from, to = from] = String(raw).split(/\s+to\s+/i).map((s) => s.trim());
+    const start = Date.parse(`${from}T00:00:00Z`);
+    const end = Date.parse(`${to}T00:00:00Z`);
+    if (!ISO_DAY.test(from) || !ISO_DAY.test(to) || !(end >= start) || end - start > 62 * DAY_MS) {
+      warn?.(`site.closedOn: could not read "${raw}" (write 2026-11-04, or "2026-12-24 to 2026-12-26", up to two months). Skipped.`);
+      continue;
+    }
+    out.push({ from, to });
+  }
+  return out;
+}
+
+function closedDays(cfg: Config, warn?: (msg: string) => void): string {
+  const days = new Set<string>();
+  for (const { from, to } of closedRanges(cfg, warn)) {
+    for (let t = Date.parse(`${from}T00:00:00Z`); t <= Date.parse(`${to}T00:00:00Z`); t += DAY_MS) {
+      days.add(new Date(t).toISOString().slice(0, 10));
+    }
+  }
+  return [...days].join(",");
+}
+
 function ldScript(data: unknown): string {
   return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
 }
@@ -225,6 +255,11 @@ function jsonLd(cfg: Config): string {
       postalCode: a.zip,
     },
     openingHoursSpecification: openingHours(hoursList(cfg)),
+    // Closed all day, per schema.org: opens and closes at midnight. Past
+    // closures are left out so Google never sees stale ones.
+    specialOpeningHoursSpecification: closedRanges(cfg)
+      .filter(({ to }) => to >= new Date(Date.now() - DAY_MS).toISOString().slice(0, 10))
+      .map(({ from, to }) => ({ "@type": "OpeningHoursSpecification", validFrom: from, validThrough: to, opens: "00:00", closes: "00:00" })),
   }));
 }
 
@@ -387,6 +422,7 @@ function replaceTokens(html: string, cfg: Config, warn: (msg: string) => void): 
     if (path === "jsonld") return jsonLd(cfg);
     if (path === "business.hours") return hoursHtml(hoursList(cfg));
     if (path === "faqJsonld") return match; // filled below, from the finished page
+    if (path === "closedOn") return esc(closedDays(cfg, warn));
     const v = tokenValue(path, cfg);
     if (v === undefined) warn(`${match} matches nothing in site.config.json, so it renders empty.`);
     return esc(v ?? "");

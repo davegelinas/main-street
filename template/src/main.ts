@@ -51,13 +51,20 @@ function coversToday(label: string, today: number): boolean {
   }
   return days.includes(today);
 }
-const today = new Date().getDay();
-let todayHours = "";
-document.querySelectorAll<HTMLElement>(".hours > div").forEach((row) => {
-  if (!coversToday(row.querySelector("dt")?.textContent ?? "", today)) return;
-  row.classList.add("is-today");
-  todayHours ||= row.querySelector("dd")?.textContent?.trim() ?? "";
-});
+const now = new Date();
+const today = now.getDay();
+// One-off closures (site.closedOn, on <html data-closed-on>) beat the weekly
+// hours: a banner saying "Closed Nov 4" must never sit above "Today: 9 to 5".
+const isoToday = [now.getFullYear(), now.getMonth() + 1, now.getDate()].map((n) => String(n).padStart(2, "0")).join("-");
+const closedToday = (document.documentElement.dataset.closedOn ?? "").split(",").includes(isoToday);
+let todayHours = closedToday ? "Closed" : "";
+if (!closedToday) {
+  document.querySelectorAll<HTMLElement>(".hours > div").forEach((row) => {
+    if (!coversToday(row.querySelector("dt")?.textContent ?? "", today)) return;
+    row.classList.add("is-today");
+    todayHours ||= row.querySelector("dd")?.textContent?.trim() ?? "";
+  });
+}
 const todayLink = document.querySelector<HTMLElement>("[data-today-hours]");
 if (todayLink && todayHours) {
   todayLink.textContent = /closed/i.test(todayHours) ? "Closed today" : `Today: ${todayHours}`;

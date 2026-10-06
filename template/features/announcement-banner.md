@@ -14,7 +14,7 @@ Flag: `announcementBanner` in `site.config.json`. The text is `site.announcement
 
 ## Owner workflow
 
-The owner says "put up a banner: closed next week." The assistant writes the dates into the words ("Closed Nov 24 to 28, back Monday Dec 1"), updates `site.announcement`, and ships via preview. Stale banners are the #1 way a site looks abandoned: because the date is in the words, any later session (and the monthly checkup) can see when it has passed and offer to take it down.
+The owner says "put up a banner: closed next week." The assistant adds the dates to `site.closedOn` (so the page says "Closed today" on those days), writes the dates into the words ("Closed Nov 24 to 28, back Monday Dec 1"), updates `site.announcement`, and ships via preview. Stale banners are the #1 way a site looks abandoned: because the date is in the words, any later session (and the monthly checkup) can see when it has passed and offer to take it down.
 
 ## Customization
 
