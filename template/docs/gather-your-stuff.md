@@ -1,6 +1,6 @@
 # Gather your stuff: photos and your story
 
-Your website looks its best when it's built from **your** business: your photos, your words, your prices. Gathering them takes an afternoon at most, mostly with your phone. None of it is required, and you can add things any time.
+Your website looks its best when it's built from **your** business: your photos, your words, your prices. Gathering them takes a short while at most, mostly with your phone. None of it is required, and you can add things any time.
 
 ## Your story: just tell your AI
 

@@ -1,6 +1,6 @@
 # For agencies and freelancers
 
-Main Street is owner-first: an owner can set it up alone with their own AI in about two hours. It's also a great way to deliver client sites for owners who'd rather hand it off. Set up a professional site in under an hour, hand the client something they can actually run themselves, and stop being their webmaster for every hours change.
+Main Street is owner-first: an owner can set it up alone with their own AI in about two hours. It's also a great way to deliver client sites for owners who'd rather hand it off. Set up a professional site for each client, hand the client something they can actually run themselves, and stop being their webmaster for every hours change.
 
 ## The per-client playbook
 
