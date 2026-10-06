@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/a089af2c-e9e5-4ef4-9e1f-6efad7cdfd39
 
 **Watch a whole setup** (70 seconds): one bakery, from no website to live, done by the owner with their AI.
 
-https://github.com/user-attachments/assets/d84e840e-50ad-4bf6-ab4c-a339280051ed
+https://github.com/user-attachments/assets/65639c52-fde4-4f93-94ea-3bd3e551e4b2
 
 ### [Set up my website →](template/docs/setup-guide.md)
 
