@@ -108,7 +108,7 @@ try {
       if (r.ok) ready = Boolean((await r.json()).ready);
     } catch { /* no contact code answering (a plain file server) */ }
     if (ready === true) {
-      console.log("  INFO  contact form is on and email is set up here. Send one test message to prove it arrives (the inbox must be verified in Cloudflare Email Routing).");
+      console.log("  INFO  contact form is on and ready to try here (its settings are in place). That isn't proof email works: send one test message, which only arrives once the inbox is verified in Cloudflare Email Routing.");
     } else if (ready === false) {
       console.log("  INFO  contact form is on, but email is not set up here, so visitors are asked to email you directly. Expected on preview links, on the free address, and before your domain has Email Routing. The page never breaks.");
     } else {

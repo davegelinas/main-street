@@ -15,7 +15,7 @@ Before the lock (`SETUP.md` step 5), setup work goes straight to `main`. Work ou
 
 ## Step 0: Which opening is this?
 
-- **The repository already has `AGENTS.md`, `SETUP.md` and `wrangler.jsonc`:** the owner pressed **Deploy to Cloudflare**. It copied `template/` in, built the site, and put it on a free `workers.dev` address. You don't need this toolkit's files for this path. Check that `.github/workflows/ci.yml` arrived (if not, do item 7 below for that one file), tick `SETUP.md` box 1, and go to Step 2.
+- **The repository already has `AGENTS.md`, `SETUP.md` and `wrangler.jsonc`:** the owner pressed **Deploy to Cloudflare**. It copied `template/` in, built the site, and put it on a free `workers.dev` address. You don't need this toolkit's files for this path, except to fix a missing `ci.yml`. Check that `.github/workflows/ci.yml` arrived. If it didn't: get the toolkit (Step 1, item 1, which also covers having no internet), run `cp /tmp/main-street/template/.github/workflows/ci.yml /tmp/ci.yml`, then do item 7 below for that one file. Tick `SETUP.md` box 1 (on a pull-request platform, in the pull request the owner merges) and go to Step 2.
 - **The repository is empty** (or has only GitHub's README): do Step 1. The owner then connects Cloudflare by hand (`SETUP.md` box 3).
 
 ## Step 1 (empty repository only): Copy the template into their repository

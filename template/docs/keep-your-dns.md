@@ -18,7 +18,7 @@ You can switch to the recommended setup later by moving your DNS; nothing about 
 Say to your AI: **"I'm keeping my DNS where it is. Set my site up on Pages."** It walks you through this:
 
 1. Cloudflare → **Workers & Pages** → **Create application** → **Pages** → **Connect to Git** → your site's repository. Settings: production branch `main`, framework preset **None**, build command `npm run build`, build output directory `dist`. **Save and Deploy.** (Pages ignores `wrangler.jsonc`: on Pages your site is just its files.)
-2. Turn off the Workers copy, so two copies don't build every change: your Workers site → **Settings** → **Build** → **Disconnect**.
+2. Once the Pages copy is live, **delete the Workers copy**: your Workers site → **Settings** → **Delete**. Otherwise its `workers.dev` address keeps serving an old version of your site (old hours and all), and two copies build every change.
 3. Your AI turns the contact form off (`contactForm: false`) as a normal change.
 4. Pages project → **Custom domains** → **Set up a custom domain** → `www.yourbusiness.com`. Cloudflare shows one **CNAME** record to add where your DNS lives now (`www` pointing at `<project>.pages.dev`). Add exactly that, nothing else. Your AI can read it off a screenshot.
 5. At your registrar, forward `yourbusiness.com` to `https://www.yourbusiness.com` (most call it "domain forwarding" or "redirect").

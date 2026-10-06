@@ -1,6 +1,6 @@
 # Contact form
 
-A contact section with a working form. Submissions are emailed to the owner through Cloudflare Email Routing (free, no key). **On by default.**
+A contact section with a working form. Submissions are emailed to the owner through Cloudflare Email Routing (free, no key). **Off until Email Routing is set up** on the owner's domain: setup's first version turns it off (`SETUP.md` step 2), and it comes back on in its own change once email works.
 
 ## How to turn it on/off
 
@@ -10,13 +10,13 @@ Flag: `contactForm` in `site.config.json`. The form posts to `/api/contact`, han
 
 After their own domain is connected: turn on Email Routing and verify their inbox there, and make sure `CONTACT_TO_EMAIL` (a Cloudflare secret the Deploy button asked for) is that same inbox. Step-by-step in `docs/api-keys.md`; the rules are in `rules/email.md`.
 
-Until then, the section always shows the business phone and email next to the form, and anyone who submits sees "Email is not set up yet. Please email us directly." Nothing breaks. Preview links never have email settings (on purpose), so they always show this note: test real delivery on the live site after shipping.
+While it's off, the contact section still shows the business phone and email (tap-to-call and tap-to-email). If the form is on before email works, anyone who submits sees "Email is not set up yet. Please email us directly." Nothing breaks, but it's a dead end, so keep it off until then. Preview links never have email settings (on purpose), so they always show this note: test real delivery on the live site after shipping.
 
 ## How it works
 
 - Frontend validates (name, valid email, message), includes a honeypot field and a submission timer.
 - `src/worker.ts` checks the fields, rejects bots (honeypot filled, sent in under 3 seconds by the browser's own clock), then sends with the `send_email` binding: from `noreply@<site domain>` (or `CONTACT_FROM_EMAIL`), to `CONTACT_TO_EMAIL`, `Reply-To` set to the visitor.
-- `GET /api/contact` answers `{"ready": true|false}`, so the audit can tell whether email is set up without sending anything.
+- `GET /api/contact` answers `{"ready": true|false}`, so the audit can tell whether the form is ready to try (its settings are in place) without sending anything. Ready isn't proof: only a test message proves Email Routing delivers.
 - On success the visitor sees a plain-words confirmation. On failure they see the direct email address. Never a stack trace.
 
 ## Costs and limits
