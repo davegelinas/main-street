@@ -45,7 +45,7 @@ Say what you checked, even when the answer is "looks fine."
    visitors, which pages they looked at, one suggestion. No jargon. If
    analytics is off, say so in one line and move on.
 9. **Broken bits.** Walk the live site yourself: contact form, tap-to-call
-   buttons, map links. If the contact form has its keys set, offer to send a
+   buttons, map links. If `GET /api/contact` says `"ready": true`, offer to send a
    test message; never send one unasked.
 10. **Waiting changes.** List open pull requests. Anything older than 14 days:
     ask ship it, change it, or toss it, one at a time. Close the ones they

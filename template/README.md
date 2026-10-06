@@ -90,4 +90,4 @@ Questions: [docs/faq.md](docs/faq.md).
 
 ## For the technically curious
 
-A static build (Vite, plain HTML/CSS, no framework) deployed on Cloudflare Pages. `main` is the live site; every other branch gets its own preview link, and a GitHub ruleset makes sure changes reach `main` only through a pull request. The contact form runs on a Pages Function and degrades gracefully without its key. `AGENTS.md` + `rules/` are the operating manual for any AI.
+A static build (Vite, plain HTML/CSS, no framework) served by Cloudflare Workers (static assets, `wrangler.jsonc`). `main` is the live site; every other branch gets its own preview link, and a GitHub ruleset makes sure changes reach `main` only through a pull request. The contact form is a few lines in `src/worker.ts` that email you through Cloudflare Email Routing (no key), and it degrades gracefully until email is set up. `AGENTS.md` + `rules/` are the operating manual for any AI.

@@ -26,58 +26,35 @@ Write your three logins somewhere safe. You will sign in to GitHub and Cloudflar
 
 ---
 
-## Part 2: Get the website files onto GitHub (20 minutes)
+## Part 2: Put your starter site online with one button (10 minutes)
 
-Your site starts as a folder of files called the **template**. You will download it and upload it to your own GitHub repository (think of a repository as a folder with a memory: it remembers every change).
+One button makes your site's repository on GitHub (think of a repository as a folder with a memory: it remembers every change) and puts a starter website on the internet. You'll make it yours in the next parts.
 
-**Step 1: Download the template.**
+**Step 1: Press the button.** Open this link, and sign in to Cloudflare if asked:
 
-1. Open this page in your browser: `https://github.com/davegelinas/main-street`
-2. Click the green **Code** button, then click **Download ZIP**. Save the file.
-3. Find the ZIP in your Downloads and **double-click it**. Your computer unzips it with built-in software; nothing to install. You now have a folder named `main-street-main`. Open it, then open the **`template`** folder inside it. Leave this window open; you will come back to it.
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/davegelinas/main-street/tree/main/template)
 
-**Step 2: Create your repository.**
+**Step 2: Connect GitHub.** When Cloudflare asks to connect GitHub, approve it. This lets Cloudflare create your site's repository in your GitHub account.
 
-1. Go to github.com (signed in). Click the **+** at the top right, then **New repository**.
-2. **Repository name:** your business name plus `-site`, all lowercase with dashes. Example: `maple-street-bakery-site`. (No spaces. Dashes are fine.)
-3. Choose **Public**. Your website is public anyway, and only a public repository gets GitHub's free lock that protects your live site (Part 7). Nothing private ever goes in it.
-4. **Important:** leave **Add a README file** unchecked. An empty repository makes the next step easy.
-5. Click **Create repository**.
+**Step 3: Fill in the page.**
 
-**Step 3: Upload the template's contents.**
+- **Name** (for the project and the repository): your business name, all lowercase with dashes. Example: `maple-street-bakery`. Keep it short. It becomes your free web address: `maple-street-bakery.<your-account>.workers.dev`.
+- If there's a choice to make the repository **private**, leave it **public**. Your website is public anyway, and only a public repository gets GitHub's free lock that protects your live site (Part 7). Nothing private ever goes in it.
+- **CONTACT_TO_EMAIL:** the inbox where your contact form messages should go (usually your everyday Gmail). It is never shown on your site.
+- Leave the build settings as they are.
 
-1. On your new (empty) repository page, click the **uploading an existing file** link.
-2. Go back to the `template` folder window from Step 1. Select everything inside it (Ctrl+A on Windows, Cmd+A on Mac): the folders AND the loose files, all at once.
-3. **Drag that whole selection into the GitHub upload area.** Use drag and drop, not the "choose your files" link: the link uploads every file as one flat pile and the folders are lost; dragging keeps the inside of each folder intact. (You are uploading the *contents* of the template folder, not the folder itself.)
-4. Wait until every file finishes uploading (there are about 88; give it a minute or two).
-5. **Check the staged list before you commit.** You should see folder paths like `docs/browser-only.md` and `content/brand/photos/`. If you see bare filenames with "dup" markers instead (two `index.html`, three `README.md`), the folders did not come along: remove every file and re-drag, making sure you drag the folders themselves, not a file picker selection.
-6. Click **Commit changes** (the green button). Leave the message as is.
+If Cloudflare first asks you to choose a **workers.dev subdomain**, pick something short like your business name.
 
-Note: the hidden `.github` folder often does not come along in a drag (your computer hides it even from itself). Step 4 checks for it.
+**Step 4: Deploy and wait.** Click **Create and deploy** (or **Deploy**). Cloudflare builds your site (two or three minutes). When it's done, it shows your free address. Write it down: this is your website for now.
 
-**Step 4: Check the hidden folder made it.**
+**Step 5: Check your repository.** On github.com, click your picture → **Your repositories** → your new repository.
 
-Scroll through your repository's file list. You should see a folder named **`.github`** (with a dot in front). It runs automatic safety checks on your changes. (Cloudflare also builds a preview link for every change automatically, with no extra settings.)
+- Next to its name it should say **Public**. If it says **Private**: **Settings** → **General** → scroll to the bottom → **Change visibility** → **Change to public**.
+- In the file list you should see a folder named **`.github`** (with a dot in front). It runs automatic safety checks on your changes. If it's missing, tell your AI in Part 3; it will give you one link that adds it.
 
-- **If you see `.github`:** you are done with this part.
-- **If you don't see it:** your computer hid it during the upload. This is normal and fixable in two minutes:
-  1. In your repository, click **Add file** (top right), then **Create new file**.
-  2. In the **name** box at the top, type exactly: `.github/workflows/ci.yml` (the slashes create the folders).
-  3. Open the downloaded ZIP's copy of this file on your computer (in the template folder, `.github/workflows/ci.yml`). On a Mac, open TextEdit first, then use File > Open and press Cmd+Shift+Period to reveal hidden files. On Windows, in File Explorer open the folder and choose View > Show > Hidden items. Select all, copy.
-  4. Paste into the big text box on GitHub. Click **Commit changes**.
+**A word about the checks.** After each save, GitHub runs an automatic check on your files, and Cloudflare rebuilds your site. A green check mark means everything is fine. A red X means something in the files is broken. Do not panic: copy the error text into your chat and your AI will hand you the fix. Most fixes are one paste.
 
-**Step 5: Add the last hidden file.**
-
-One more tiny file almost never survives the upload: `.node-version`. It tells the automatic checks which tools to use, and without it every change shows a confusing red X.
-
-1. Click **Add file** (top right), then **Create new file**.
-2. In the **name** box, type exactly: `.node-version`
-3. In the big text box, type exactly: `22`
-4. Click **Commit changes**.
-
-**A word about the checks.** After each save, GitHub runs an automatic check on your files. A green check mark means everything is fine. A red X means something in the files is broken. Do not panic: copy the error text into your chat and your AI will hand you the fix. Most fixes are one paste.
-
-Your repository now holds your entire website. During setup, saving straight to `main` (the live copy) is fine; Part 7 locks it. Nothing is on the internet yet; you have not connected anything.
+During setup, saving straight to `main` (the live copy) is fine; Part 7 locks it.
 
 ---
 
@@ -87,7 +64,7 @@ Your AI has not seen your site yet. Give it the site's operating manual, then te
 
 **Step 1: Start a new conversation** at claude.ai or chatgpt.com.
 
-**Step 2: Attach three files.** Click the **paperclip** (attach) button in the chat box and upload these files from the `template` folder you downloaded:
+**Step 2: Attach three files.** First download them from your repository: on github.com, open each file below, then click the **Download raw file** button (a small arrow pointing down, above the file's text). Then click the **paperclip** (attach) button in the chat box and upload all three:
 
 - `AGENTS.md`
 - `rules/beginner-mode.md`
@@ -98,10 +75,11 @@ Your AI has not seen your site yet. Give it the site's operating manual, then te
 **Step 3: Send this message.** Copy and paste it exactly:
 
 ```
-I just put my new business website on GitHub. I only have this browser chat:
-I cannot run commands, install anything, or use a terminal. For every task,
-give me steps I can do in the browser on github.com, with the complete text
-to copy and paste. Never ask me to run a command.
+I just made my new business website with the Deploy to Cloudflare
+button. I only have this browser chat: I cannot run commands, install
+anything, or use a terminal. For every task, give me steps I can do in
+the browser on github.com, with the complete text to copy and paste.
+Never ask me to run a command.
 
 Start by interviewing me for the site setup, one question at a time: business
 name, tagline, address, phone, email, hours, services, prices, and anything
@@ -151,31 +129,14 @@ Real photos beat everything. Use your phone.
 
 ---
 
-## Part 6: Connect Cloudflare (15 minutes)
+## Part 6: See your site (2 minutes)
 
-This connects your GitHub repository to the service that publishes your site.
+Every time you saved a file to `main` in Parts 4 and 5, Cloudflare rebuilt your site by itself. Open your free address (from Part 2) on your phone. You should see your business name, your hours, your photos.
 
-**Step 1: Start the connection.**
+- **Still the starter text?** Give it two minutes and reload, or open it in a private/incognito window.
+- **Still not right?** In Cloudflare: **Workers & Pages** → your site → **Deployments**. If the newest build has a red mark, open it, copy the red error lines, and paste them to your AI.
 
-1. Go to dash.cloudflare.com (signed in). Click **Workers & Pages** in the left menu.
-2. Click **Create**, then choose the **Pages** option (the website option, not Worker). Then **Import an existing Git repository** → **Get started**, which takes you to **Connect to Git**.
-3. GitHub will ask to authorize Cloudflare. Choose your GitHub account. When it asks for repository access, pick **Only select repositories** and choose your site repository (not everything). Click **Save** or **Install**.
-4. Back in Cloudflare, select your site repository from the list and click **Begin setup**.
-
-**Step 2: Enter the build settings exactly as follows.**
-
-- **Project name:** your business name in lowercase with dashes (this becomes your first web address, like `maple-street-bakery.pages.dev`).
-- **Production branch:** `main`
-- **Framework preset:** leave at **None**. (There is no plain Vite option in the list; the similar-looking VitePress and React (Vite) are different things. Do not pick them.)
-- **Build command:** `npm run build` (typing this into the box on the website is fine; the thing you never do is type into a black terminal window)
-- **Build output directory:** `dist`
-- Leave everything else as is. Click **Save and Deploy**.
-
-**Step 3: Wait.** Cloudflare builds your site (one to three minutes). When you see a green checkmark, your site is live at the address shown, something like `https://maple-street-bakery.pages.dev`.
-
-**Step 4: Turn on visitor stats.** In Cloudflare, click your project → **Metrics** → **Enable** under Web Analytics. One click.
-
-Your free `pages.dev` address is hidden from Google on purpose. It is a working site you can check and share, not your launch. The launch is your own domain, later (Part 10).
+Your free `workers.dev` address is hidden from Google on purpose. It is a working site you can check and share, not your launch. The launch is your own domain, later (Part 10).
 
 ---
 
@@ -221,7 +182,7 @@ When the preview looks right, you publish it. A "pull request" is just GitHub's 
 
 1. On github.com, in your repository, click **Pull requests** (top menu) and open the one you checked.
 2. Click **Squash and merge**, then **Confirm squash and merge**. If the button is stuck saying "Checking for the ability to merge" for more than a minute, reload the page.
-3. Wait about a minute. Open your `pages.dev` address: your site is live.
+3. Wait about a minute. Open your free `workers.dev` address: your site is live.
 
 From now on, **"ship it"** means those clicks. You can also just tell your AI "ship it" and it will walk you through them.
 
@@ -229,13 +190,13 @@ From now on, **"ship it"** means those clicks. You can also just tell your AI "s
 
 ## Part 10: Your own domain (whenever you're ready)
 
-The `pages.dev` address works, but customers expect `yourbusiness.com`. A domain costs about $10 to $15 per year, and that is the only money this whole project costs.
+The `workers.dev` address works, but customers expect `yourbusiness.com`. A domain costs about $10 to $15 per year, and that is the only money this whole project costs.
 
-**The simple version:** buy the domain inside Cloudflare so everything stays in one place: dash.cloudflare.com → **Domain Registration** → search and buy. Then in your Pages project → **Custom domains** → **Set up a custom domain** → enter your domain → Activate. Cloudflare handles the rest.
+**The simple version:** buy the domain inside Cloudflare so everything stays in one place: dash.cloudflare.com → **Domain Registration** → search and buy. Then **Workers & Pages** → your site → **Settings** → **Domains & Routes** → **Add** → **Custom domain** → enter your domain → **Add domain**. Do it again for `www.` plus your domain. Then your domain → **SSL/TLS** → **Edge Certificates** → turn on **Always Use HTTPS**. Cloudflare handles the rest.
 
-**Read this before you touch DNS or email:** if you already own a domain, or your business email runs on your domain (like `you@yourbusiness.com`), **do not change DNS records without reading [domains-and-dns.md](domains-and-dns.md) first**, or ask your AI: "I have email on my domain. What do I need to protect before connecting it?" Done wrong, this can stop your email from working. Done right, it takes ten minutes.
+**Already own a domain somewhere else?** Your site can only use it once Cloudflare runs its DNS ("nameservers"). **Read [domains-and-dns.md](domains-and-dns.md) first**, or ask your AI: "I have a domain at another company. What do I need to protect before connecting it?" If your business email runs on that domain, done wrong this can stop your email from working; done right, it takes ten minutes. If you'd rather not move your DNS at all, that page has a fallback.
 
-**Contact form emails** (so the form sends inquiries to your inbox) need your own domain first. Once it is connected, [api-keys.md](api-keys.md) walks through the one free Resend key, all in the browser, or ask your AI: "walk me through the Resend key, step by step, browser only."
+**Contact form emails** (so the form sends inquiries to your inbox) start working once your domain is connected and Cloudflare Email Routing is on with your inbox verified. No keys, no other accounts. [api-keys.md](api-keys.md) walks through it, all in the browser, or ask your AI: "walk me through turning on my contact form, step by step, browser only."
 
 ---
 
@@ -253,11 +214,11 @@ Put this on a sticky note until it's habit.
 
 ## When something goes wrong
 
-**"I uploaded the template folder itself instead of its contents."** You'll know because your repository's file list shows a single folder named `template` instead of files like `site.config.json` and `index.html`. Easiest fix: delete the repository and start Part 2 over (repository page → **Settings** → scroll to **Danger Zone** → **Delete this repository**). Nothing is lost; nothing was connected yet.
+**"The Deploy to Cloudflare page shows an error."** Take a screenshot and send it to your AI. The usual causes: GitHub wasn't connected (approve it and try again), or the name is taken or too long (pick a shorter one). Nothing is half-made that you need to clean up, but if a repository did get created, delete it before retrying: repository page → **Settings** → scroll to **Danger Zone** → **Delete this repository**.
 
 **"I pasted and the site looks broken."** Almost always a missing comma or quote in `site.config.json`. Open the file on GitHub, copy its contents into the chat, and say: "I broke it, here's the file." The AI will hand you a fixed complete file to paste back.
 
-**"Cloudflare says the build failed."** In Cloudflare, open the failed deployment, click **View build log**, copy the red error lines, and paste them to the AI. It will tell you the exact fix.
+**"Cloudflare says the build failed."** In Cloudflare: **Workers & Pages** → your site → **Deployments** → open the failed build and its log, copy the red error lines, and paste them to the AI. It will tell you the exact fix.
 
 **"I published something bad."** Say "undo that" to your AI. It prepares the undo as a new pull request with its own preview link; check it and say "ship it." (If the live site is badly broken right now, a helper can use Cloudflare's Rollback as an emergency brake, but the undo pull request must still follow, or the next ship re-publishes the bad change.)
 

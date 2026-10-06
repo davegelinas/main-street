@@ -26,12 +26,12 @@ Nothing goes live without the owner seeing and approving it first.
 
 - **Preview link**: every change gets its own, built by Cloudflare from its pull request. There is no shared staging site. The live site is locked: GitHub blocks direct changes to `main`.
 - **Ship it**: the owner's approval phrase. It means merge that pull request to production. **Undo that** means the AI prepares a revert as a new preview.
-- **The $12/year stack**: the cost model. About $12 a year for the domain name; hosting, CDN, and analytics run on free tiers (Cloudflare Pages, Resend, Cloudflare Web Analytics). The hands-free AI loop needs a paid AI plan (about $20/month, Claude Pro or ChatGPT Plus).
-- **Graceful degradation**: if the contact form's one key is missing, the feature quietly steps back (visitors see an email address instead of a form) and the page never breaks.
+- **The $12/year stack**: the cost model. About $12 a year for the domain name; hosting, CDN, contact form email, and analytics run on free tiers (Cloudflare Workers static assets, Cloudflare Email Routing, Cloudflare Web Analytics). The hands-free AI loop needs a paid AI plan (about $20/month, Claude Pro or ChatGPT Plus).
+- **Graceful degradation**: until the contact form's email is set up, the feature quietly steps back (visitors see an email address instead of a form) and the page never breaks.
 
 ## Technical facts
 
 - Static site built with Vite; plain HTML/CSS, no framework.
-- Deploys on Cloudflare Pages: `main` is production, every other branch gets its own preview link. The repository is public, with a GitHub ruleset on `main` that requires a pull request.
-- Contact form runs on a Cloudflare Pages Function with spam protection optional.
+- Runs on Cloudflare Workers with static assets, built by Workers Builds: `main` is production, every other branch gets its own preview link. A Deploy to Cloudflare button creates the owner's repository and live site in one step. The repository is public, with a GitHub ruleset on `main` that requires a pull request.
+- Contact form is a tiny Worker that emails the owner through Cloudflare Email Routing's `send_email` binding: no API key, no third-party account.
 - MIT licensed. Repository: https://github.com/davegelinas/main-street

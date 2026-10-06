@@ -1,64 +1,63 @@
-# The contact form key, in plain English
+# Contact form and visitor stats, in plain English
 
-Your site has exactly **one** optional key: the one that lets the contact form email you. It's free. Without it nothing breaks: visitors who use the form are asked to email you directly, and your phone number and email address are always right there on the page.
+Good news: your site needs **no API keys**. The contact form and the visitor stats both run on your free Cloudflare account. Without them nothing breaks: visitors who use the form are asked to email you directly, and your phone number and email address are always right there on the page.
 
-**This key is not for your AI.** Your AI runs on your AI plan and never needs an API key.
+**Do this with your AI.** Paste a prompt from the bottom into your chat and it will walk you through each screen, click by click.
 
-**Do this with your AI.** Paste the prompt at the bottom into your chat and it will walk you through each screen, click by click.
+## The contact form
 
-(Visitor stats need no key at all: Cloudflare dashboard → **Workers & Pages** → your project → **Metrics** → **Enable** under Web Analytics. One click.)
+### How it works
 
-## The one rule about keys
+When a visitor sends the form, your site emails the message to your inbox through **Cloudflare Email Routing**, the same free feature that forwards `hello@yourbusiness.com` to your Gmail. Replying in your inbox answers the visitor directly.
 
-A key is like a house key: whoever has it can act as you. So:
+It can only send to inboxes you have verified with Cloudflare, so nobody can use your form to email anyone else.
 
-- Keys go in **Cloudflare's dashboard only**, under **Production** (the exact spot is below). Never in your website's files, never in a chat message, never in email, and never under **Preview**.
-- If a key ever leaks, don't panic: go back to Resend, delete it, and make a new one. Two minutes, problem solved.
+### What it needs (once)
 
-## Before you start: you need your own domain
+1. **Your own domain, connected** ([setup-guide.md](setup-guide.md), "Your own domain"). On the free `workers.dev` address the form shows "please email us directly." That's expected.
+2. **Email Routing turned on, with your inbox verified** ([setup-guide.md](setup-guide.md), "Business email and the contact form"). Cloudflare emails your inbox a link; click it.
+3. **The same inbox in your site's settings.** You typed it as **CONTACT_TO_EMAIL** when you pressed Deploy. To check or change it: Cloudflare → **Workers & Pages** → your site → **Settings** → **Variables and Secrets** → `CONTACT_TO_EMAIL` → edit → **Deploy**. (It shows as hidden; that's normal. If it's missing, **Add** → type **Secret**, name `CONTACT_TO_EMAIL`.)
 
-The form sends from an address at your domain (like `noreply@yourbusiness.com`), and Resend only sends from a domain it has verified. So this step comes after your domain is connected ([setup-guide.md](setup-guide.md), "Your own domain"). On the free `pages.dev` address the form can't send yet; that's expected.
+That's all. No account anywhere else, nothing to renew.
 
-## Resend: the service that delivers your form messages
+### Test it
 
-**1. Sign up and verify your domain (about 10 minutes, mostly waiting):**
+On your live site at your own domain, fill in the contact form and send. The message should arrive within a minute (check spam the first time). Preview links never send, on purpose; they show the "email us directly" note.
 
-1. Go to **resend.com** and click **Sign up**. Use your business email.
-2. In Resend's sidebar, click **Domains** → **Add Domain** → type your domain.
-3. Resend shows you a few DNS records. Add them in Cloudflare (**your domain** → **DNS** → **Records** → **Add record**), copying each one exactly. Your AI can read them off a screenshot and walk you through it.
-4. Wait for Resend to show the domain as **Verified** (minutes to an hour).
+### If your domain already has email
 
-**2. Create the key:**
+If your business email already runs on your domain (Google Workspace, Microsoft 365, or your registrar's mailboxes), don't turn on Email Routing for your main domain: it would take over that mail. Instead, your AI turns Email Routing on for a **subdomain** only, like `mail.yourbusiness.com`, which leaves your existing email alone, and sets your form to send from it. Ask your AI before clicking anything; it will explain each screen.
 
-1. In Resend's sidebar, click **API Keys** → **Create API Key**. Name it `website-contact-form`. Permission: **Sending access**.
-2. Resend shows the key **once**. It starts with `re_`. Copy it; you'll paste it in the next step and can forget it after.
+### If something goes wrong
 
-**3. Put it in Cloudflare:**
+- **The form says email isn't set up:** check that `CONTACT_TO_EMAIL` exists (above), that your domain is connected, and that you're testing on your own domain, not a preview link.
+- **Nothing arrives:** check spam. Then check Cloudflare → **Compute** → **Email Service** → **Email Routing** → **Destination Addresses**: your inbox must say **Verified**, and it must be exactly the address in `CONTACT_TO_EMAIL`.
+- **Still nothing:** Cloudflare → **Workers & Pages** → your site → **Observability** → look for "contact form send failed." Send your AI a screenshot.
+- **It used to work and stopped:** someone may have removed the verified address or turned off Email Routing. To catch this early, send yourself a test message once a month (the monthly checkup reminds you).
 
-1. Cloudflare dashboard → **Workers & Pages** → your project → **Settings** → **Environment variables**.
-2. Under **Production** (not Preview), click **Add variable** and add two, marked **Encrypt**:
-   - `RESEND_API_KEY`: the key from step 2.
-   - `CONTACT_TO_EMAIL`: the address where form messages should land (usually your business email).
-3. Click **Save**. Then make it take effect: **Deployments** → ⋯ on the latest production deployment → **Retry deployment** (or just ship any small change).
+## Visitor stats
 
-**4. Test it on your live site:** fill in the contact form at your own domain and send. The message should arrive within a minute (check spam the first time). The form won't send from a preview link; previews have no keys, on purpose.
+Cloudflare Web Analytics: free, no cookies, no consent banner. It counts visitors, page views, where they came from, and which countries. Turn it on when your own domain is connected (before that, the site is hidden from Google, so there's little to count).
 
-## If something goes wrong
+1. Cloudflare dashboard → **Web Analytics** (in the left menu, under Analytics & Logs) → **Add a site**.
+2. Type your domain (like `maplestreetbakery.com`) and click **Done**.
+3. Cloudflare shows a short piece of code with a **token** in it: a long string of letters and numbers. Copy the whole piece of code and paste it into your chat.
 
-- **Form says email isn't set up:** check both variables exist under **Production**, then retry the latest deployment.
-- **"Invalid API key":** probably a missing character. Delete the variable, create a fresh key in Resend, paste again.
-- **Nothing arrives:** check `CONTACT_TO_EMAIL` for a typo, check spam, and check your domain still shows **Verified** in Resend.
-- **It used to work and stopped:** the key may have been deleted in Resend. Make a new one and replace `RESEND_API_KEY`. To catch this early, send yourself a test message once a month (the monthly checkup reminds you).
+Your AI puts the token in your site's settings (`site.config.json`) as a normal change with a preview link. Say "ship it," and counting starts. The token isn't secret: it's visible in every web page anyway.
 
 ## Testing on your own computer (helpers only)
 
-To make the form send while running the site locally (`npm run dev`), create a file named `.dev.vars` in the site folder with `RESEND_API_KEY=re_your_key_here`. It's on the never-commit list, so it can't reach GitHub. The setup wizard can create it for you.
+`npm run serve` builds the site and runs it the way Cloudflare does, on your machine, with no login. The contact form is simulated: instead of sending, it prints the email in the terminal. To try a "ready" form, create a file named `.dev.vars` in the site folder with `CONTACT_TO_EMAIL=you@example.com`. It's on the never-commit list, so it can't reach GitHub.
 
-## Copy-paste prompt for your AI
+## Copy-paste prompts for your AI
 
 ```
-My domain is connected. Walk me through setting up the contact form:
-verify my domain in Resend, create the key, and put it in Cloudflare
-under Production. I'm not technical: tell me exactly what to click,
-one step at a time.
+My domain is connected. Walk me through turning on my contact form:
+Email Routing, verifying my inbox, and checking CONTACT_TO_EMAIL.
+I'm not technical: tell me exactly what to click, one step at a time.
+```
+
+```
+Turn on my visitor stats. Walk me through Cloudflare Web Analytics
+one step at a time, then put the token in my site.
 ```

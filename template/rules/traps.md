@@ -18,13 +18,15 @@ Read this before debugging anything weird. Each entry cost someone real time.
 
 ## Email
 
-- **Forwarding receives, Resend sends.** If "email isn't working," figure out which direction is broken before touching anything.
+- **Both directions run on Email Routing, but they break differently.** Forwarding (`hello@` to Gmail) is a routing rule; the contact form is `src/worker.ts` sending to `CONTACT_TO_EMAIL`. If "email isn't working," figure out which direction is broken before touching anything.
+- **`npm run serve` only simulates the contact form.** It prints the email in the terminal and never checks the sender domain or the verified address. Real delivery is only provable on the live site.
 - **A form that fails on every submission** is worse than no form. The graceful-degradation path (show the direct email address) must be tested, not assumed.
 
 ## DNS and domains
 
 - **DNS changes take time.** Up to a few hours. Don't keep "fixing" something that's just propagating; check with a DNS lookup tool first.
-- **The Cloudflare dashboard is the source of truth** for DNS, redirects at the edge, and email routing. The repo can't show you those. Say so when the answer lives there.
+- **The Cloudflare dashboard is the source of truth** for DNS, custom domains, email routing, and the site's settings (`CONTACT_TO_EMAIL`). The repo can't show you those. Say so when the answer lives there.
+- **The site can only use a domain whose nameservers are on Cloudflare.** A CNAME at another DNS provider pointing at `workers.dev` does not work. Read `docs/domains-and-dns.md` before promising anything.
 
 ## Git
 

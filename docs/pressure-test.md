@@ -14,7 +14,7 @@ Findings and changes since the 2026-09-27 run. Earlier sections are history and 
 - **Public repos with a ruleset on `main`.** Only public repos get GitHub's free ruleset: require a pull request, block force pushes and deletion, empty bypass list. Replaces the old branch-protection advice.
 - **`AGENTS.md` is the single manual.** `CLAUDE.md` is a pointer to it.
 - **Owner-alone, AI-driven setup.** `AI-SETUP.md` and `SETUP.md` let the owner's own AI run setup in about an hour; a helper is optional. Free plans use the slower browser-only path.
-- **Contact form only sends from the verified domain,** so it needs the owner's own domain and is tested on the live site, never on a preview or `pages.dev`.
+- **Contact form only sends from the verified domain,** so it needs the owner's own domain and is tested on the live site, never on a preview or `pages.dev`. (Phase 1, October 2026: the form now sends through Cloudflare Email Routing with no key; same rule, see `docs/phase-1-plan.md`.)
 - **Dashboard rollback must be followed by a revert,** or the next ship re-publishes the bad change. It is a helper's emergency brake, not the owner's undo.
 
 ## Robustness tests
@@ -77,21 +77,21 @@ It simplifies **ownership** at the cost of a concept the owner never sees. The s
 
 ### Honest all-in cost
 
-~$12/year is **domain-only**, under current free tiers. Registrar prices vary by TLD ($10–15 typical at Cloudflare Registrar). What can cost extra: an email *mailbox* (forwarding is free; Google Workspace is not), higher usage on paid-optional services, premium AI chat plans, paid booking/payment tools linked from the site, or a designer. Free tiers can also change; Cloudflare and Resend set their own terms. The $12 figure is honest today, not a contract.
+~$12/year is **domain-only**, under current free tiers. Registrar prices vary by TLD ($10–15 typical at Cloudflare Registrar). What can cost extra: an email *mailbox* (forwarding is free; Google Workspace is not), higher usage on paid-optional services, premium AI chat plans, paid booking/payment tools linked from the site, or a designer. Free tiers can also change; Cloudflare sets its own terms. The $12 figure is honest today, not a contract.
 
 ### The one-year-abandoned test
 
 The owner launches, then ignores the site for a year. What survives?
-- **The static site itself: fully.** HTML/CSS on Cloudflare Pages doesn't rot; there are no servers to patch, no CMS to update. The template's 5 devDependencies only matter at build time.
+- **The static site itself: fully.** HTML/CSS on Cloudflare (Workers static assets since Phase 1) doesn't rot; there are no servers to patch, no CMS to update. The template's 5 devDependencies only matter at build time.
 - **Dependency rot on next edit:** a year-old `package-lock` may fail to install cleanly. Mitigation: `npm install` regenerates; the build is simple enough that upgrades rarely break it. The AI handles this when the owner returns.
-- **Expired/revoked API keys:** Resend key revoked → contact form degrades to showing the email address (graceful, by design). Analytics token revoked → beacon 401s silently; page unaffected.
+- **Expired/revoked settings:** since Phase 1 there is no email key. If the owner's verified Email Routing address is removed or `CONTACT_TO_EMAIL` is deleted, the contact form degrades to showing the email address (graceful, by design). Analytics token revoked → beacon 401s silently; page unaffected.
 - **Platform changes:** if Cloudflare changes Pages behavior, the AI adapts the config on the owner's next request. The site's simplicity is the hedge, there's very little *to* break.
-- **Domain lapse:** if the card on the Cloudflare account expires, the domain lapses and the site goes dark (the `*.pages.dev` address still works). Recovery: update the card, renew the domain, and give DNS up to a day to settle. The site itself is untouched.
+- **Domain lapse:** if the card on the Cloudflare account expires, the domain lapses and the site goes dark (the free `*.workers.dev` address still works). Recovery: update the card, renew the domain, and give DNS up to a day to settle. The site itself is untouched.
 
 ### Security once-over
 
-- **Contact-form abuse:** the endpoint has a honeypot field and a time-to-submit check (bots that fill everything instantly are rejected). There is **no IP-based rate limiting** in the default install. A determined attacker could send repeated messages and burn the Resend free quota (3,000/month). Cloudflare's edge absorbs volumetric junk; if form spam becomes real, the documented next step is Cloudflare Turnstile (free, already in the cost table). Deliberately not on by default: it adds friction for real visitors.
-- **Environment variables:** secrets live in Cloudflare Pages settings and `.dev.vars` locally. Both are gitignored; `new-site.mjs` and the setup wizard never print a key. The repo contains no secret-shaped strings by default (verified: no `cloudflareAnalyticsToken` anywhere after the refactor).
+- **Contact-form abuse:** the endpoint has a honeypot field and a time-to-submit check (bots that fill everything instantly are rejected). There is **no IP-based rate limiting** in the default install. A determined attacker could send repeated messages; since Phase 1 they can only ever land in the owner's own verified inbox (Email Routing refuses any other recipient), and sends to verified addresses have no quota to burn. The form's code has 100,000 free runs a day; past that, only the form stops, never the pages. Cloudflare's edge absorbs volumetric junk; if form spam becomes real, the documented next step is Cloudflare Turnstile (free, already in the cost table). Deliberately not on by default: it adds friction for real visitors.
+- **Environment variables:** secrets live in the Cloudflare site's settings (`CONTACT_TO_EMAIL` since Phase 1) and `.dev.vars` locally. Both are gitignored; `new-site.mjs` and the setup wizard never print a key. The repo contains no secret-shaped strings by default (Phase 1 brought back `cloudflareAnalyticsToken` in `site.config.json`, but as a public beacon token that ships in every page anyway, because Workers has no one-click analytics switch).
 - **Spam/honeypot limitations:** honeypot + speed check stop dumb bots, not humans or smart bots. Stated honestly in `docs/api-keys.md`'s troubleshooting, not oversold.
 - **Default install attack surface:** a static site plus one serverless endpoint (contact form). No database, no auth, no admin panel, no CMS login to brute-force. The smallest surface this kind of site can have.
 

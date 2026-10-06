@@ -6,7 +6,7 @@ Features are switches in `site.config.json` under `"features"`, plus the HTML bl
 
 | Feature | Flag | Doc | What it adds |
 |---|---|---|---|
-| Contact form | `contactForm` | [contact-form.md](contact-form.md) | Contact section + Pages Function that emails via Resend |
+| Contact form | `contactForm` | [contact-form.md](contact-form.md) | Contact section + Worker that emails the owner via Cloudflare Email Routing |
 | Announcement banner | `announcementBanner` | [announcement-banner.md](announcement-banner.md) | One-sentence banner for closures, news, specials |
 | Photo gallery | `gallery` | [gallery.md](gallery.md) | Photo grid, lazy-loaded, optimized |
 | Testimonials | `testimonials` | [testimonials.md](testimonials.md) | Customer quotes section |

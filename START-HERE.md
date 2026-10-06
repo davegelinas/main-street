@@ -1,8 +1,8 @@
 # START HERE
 
-**Setting up your own business's website?** You don't need this page or a terminal. Follow the [setup guide](template/docs/setup-guide.md): two free accounts, an empty repository, one link, and your AI does the rest with you (about an hour).
+**Setting up your own business's website?** You don't need this page or a terminal. Follow the [setup guide](template/docs/setup-guide.md): two free accounts, one **Deploy to Cloudflare** button, and your AI does the rest with you (about an hour).
 
-This page is for **helpers who prefer a terminal**: an agency, a freelancer, or a tech-savvy friend setting a site up in the owner's accounts. If a step confuses you, ask your AI: "walk me through this step."
+This page is for **helpers who prefer a terminal**: an agency, a freelancer, or a tech-savvy friend setting a site up in the owner's accounts. (The Deploy button is still the easiest start, even for you.) If a step confuses you, ask your AI: "walk me through this step."
 
 ## 0. Understand what this is
 
@@ -26,9 +26,9 @@ npm install
 npm run setup
 ```
 
-The wizard asks plain questions (business name, phone, email, address, domain, kind of business) and configures everything. No domain yet? Press Enter: the site starts on a free address.
+The wizard asks plain questions (business name, phone, email, address, domain, kind of business) and configures everything. No domain yet? Press Enter: the site starts on a free address. The scaffolder already set `"name"` in `wrangler.jsonc` to the folder name: it becomes the free address and must match the name typed in Cloudflare, so keep the folder name short.
 
-Check it with `npm run dev` (usually http://localhost:5173). Then tick boxes 1 and 2 in the site's `SETUP.md`.
+Check it with `npm run dev` (usually http://localhost:5173), or `npm run serve` to run it exactly the way Cloudflare will (no login needed). Then tick box 2 in the site's `SETUP.md`.
 
 ## 3. Put it on GitHub, in the owner's account (5 minutes)
 
@@ -43,14 +43,15 @@ git push -u origin main
 
 ## 4. Finish setup with the owner (30 minutes)
 
-Follow the site's `docs/setup-guide.md` in the owner's accounts, with the owner beside you: **Step 3** (connect the owner's AI to GitHub), then **Step 5** on:
+Follow the site's `docs/setup-guide.md` in the owner's accounts, with the owner beside you:
 
-- **Step 5:** connect Cloudflare Pages and turn on visitor stats.
+- **"If the Deploy button doesn't work for you," part 2:** import the repository in Cloudflare (Workers & Pages → Create application → Import a repository, same name as `wrangler.jsonc`), then add the `CONTACT_TO_EMAIL` secret. Tick box 1.
+- **Step 4:** connect the owner's AI to GitHub.
 - **Step 6:** lock the live site (GitHub ruleset and settings).
 - **Step 7:** make the owner's **Edit my website** button, and have the owner ship one change and one undo themselves.
 - **Your site card:** make sure the owner writes down their logins and recovery codes.
 
-The owner's domain, business email, and contact form are in the same guide under "Later," whenever they're ready.
+The owner's domain, business email (which also turns on the contact form), and visitor stats are in the same guide under "Later," whenever they're ready. Never `wrangler deploy` from your machine: deploys come from git.
 
 ## If something looks wrong
 

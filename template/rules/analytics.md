@@ -3,8 +3,9 @@
 ## Default: Cloudflare Web Analytics (free, cookieless)
 
 - No cookies, no consent banner needed, GDPR-friendly by design. That's why it's the default.
-- Enable: Cloudflare dashboard → **Workers & Pages** → the project → **Metrics** → **Enable** under Web Analytics. Cloudflare adds its script on the next deployment. No token, no code, nothing in the repo.
-- `features.analytics` in `site.config.json` only controls whether the privacy policy mentions analytics. Keep it `true` when analytics is on in Cloudflare, `false` when it's off.
+- Enable: the owner goes to Cloudflare → **Web Analytics** → **Add a site**, types their domain, and copies the snippet Cloudflare shows (steps in `docs/api-keys.md`, "Visitor stats"). Put the `token` value from that snippet in `integrations.cloudflareAnalyticsToken` in `site.config.json`, as a normal pull request. The build adds the beacon to every page. The token is public by design (it ships in every page); it is not a secret.
+- Workers sites have no one-click "Enable" switch (that was a Pages feature), so don't send the owner looking for one under **Metrics**.
+- The beacon only loads when `features.analytics` is `true` **and** the token is set. `features.analytics` also controls whether the privacy policy mentions analytics: keep it `true` when stats are on, `false` when they're off.
 - What it tells the owner: visitors, page views, referrers, countries. Enough for a small business. Explain it in those terms, not in metrics-jargon.
 
 ## Don't add Google Analytics unless asked

@@ -7,7 +7,7 @@ No. The setup wizard asks plain-language questions, and day-to-day updates happe
 About $10–12/year for the domain name. Everything else is free-tier. Your AI chat subscription (Claude, ChatGPT, or similar) is separate, but a paid plan (about $20/month, Claude Pro or ChatGPT Plus) is needed for the hands-free loop where your AI makes the changes for you. Most owners already pay for one, and this system never adds API usage charges on top of it. (A free plan still works through the slower [browser-only path](browser-only.md).)
 
 **Do I need to buy API access for the AI?**
-No. Your AI works on the chat subscription you already pay for, so the AI itself can never run up a usage charge. The site needs at most one optional free key (the contact form's email service), and only once you have your own domain; see [api-keys.md](api-keys.md). Visitor stats are one click in Cloudflare, no key.
+No. Your AI works on the chat subscription you already pay for, so the AI itself can never run up a usage charge. The site needs no keys at all: the contact form and visitor stats run on your free Cloudflare account, once you have your own domain; see [api-keys.md](api-keys.md).
 
 **Can I really not get a surprise bill?**
 Correct. No service here bills by usage on the tiers we use. The domain renews yearly; that's the only charge.
@@ -28,7 +28,7 @@ Yes. The booking feature links to Acuity, Calendly, Square, Vagaro, whatever you
 Not really, and that's deliberate. This is for businesses where the website earns the visit or the call: restaurants, trades, salons, professional services. Real e-commerce (carts, payments, inventory) is a different product with different costs.
 
 **Will my site show up on Google?**
-Your free `pages.dev` address is hidden from Google on purpose; your own domain is the launch. The template handles the technical side (structured data, sitemap, speed, mobile). The human side matters more: claim your Google Business Profile, keep hours accurate, get reviews. See `rules/seo.md`.
+Your free `workers.dev` address is hidden from Google on purpose; your own domain is the launch. The template handles the technical side (structured data, sitemap, speed, mobile). The human side matters more: claim your Google Business Profile, keep hours accurate, get reviews. See `rules/seo.md`.
 
 **Can someone build this for me and hand it over?**
 Yes. That's the normal way it happens. A helper is optional, though: you can do the setup yourself with your own AI in about an hour, and your AI walks you through every step. If you'd rather hand it off, a freelancer (or a tech-savvy friend) can do it in your accounts and teach you the update flow in ten minutes. Either way, it's yours.

@@ -43,9 +43,15 @@ About $12 a year for the domain name. Hosting and everything else run on free ti
 
 ## You don't need to be technical, or a helper
 
-- **Setup: about an hour, done by you and your AI.** Make two free accounts (GitHub and Cloudflare) and an empty repository, then tap one link. Your AI copies the website in, interviews you about your business, writes your homepage, and walks you through the remaining clicks. It keeps a checklist, so you can stop and pick up later. Start here: [setup guide](template/docs/setup-guide.md). A technical helper is welcome but optional.
+- **Setup: about an hour, done by you and your AI.** Make two free accounts (GitHub and Cloudflare), press **Deploy to Cloudflare**, and a starter site is online in minutes. Then your AI (Claude, ChatGPT, or another) interviews you about your business, writes your homepage, and walks you through the remaining clicks. It keeps a checklist, so you can stop and pick up later. Start here: [setup guide](template/docs/setup-guide.md). A technical helper is welcome but optional.
 - **Day to day: no code, no terminal, no jargon.** Tap your **Edit my website** button and say what you want. Your AI handles the technical parts; you make the decisions.
 - **On a free AI plan?** There is a slower path where your AI writes the change and you paste it in on GitHub: [browser-only setup](template/docs/browser-only.md).
+
+**The first click** (after your two free accounts; the [setup guide](template/docs/setup-guide.md), Step 2, says what to type on the next page):
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/davegelinas/main-street/tree/main/template)
+
+It copies the website into a new repository in your GitHub account, puts it online at a free address, and asks for one thing: the inbox where your contact form messages should go. Then your AI makes it yours.
 
 See what a finished site looks like and how easy everyday updates are: [template/docs/examples.md](template/docs/examples.md).
 
@@ -79,18 +85,18 @@ npm install
 npm run setup
 ```
 
-`new-site.mjs` copies `template/` into the target folder, names the package after the directory, verifies the copy, and initializes git. It refuses to overwrite a non-empty directory without `--force`, refuses to build inside the toolkit folder (your site lives **next to** the toolkit as `../acme-plumbing`, so it can become its own GitHub repo), and it never touches the network.
+`new-site.mjs` copies `template/` into the target folder, names the package and the Cloudflare site after the directory, verifies the copy, and initializes git. It refuses to overwrite a non-empty directory without `--force`, refuses to build inside the toolkit folder (your site lives **next to** the toolkit as `../acme-plumbing`, so it can become its own GitHub repo), and it never touches the network.
 
-Then follow the setup guide inside the new site (`docs/setup-guide.md`, "For helpers who prefer a terminal"), in the **owner's** accounts. An owner with Claude Pro can skip the scaffolder entirely: their AI follows [AI-SETUP.md](AI-SETUP.md) to copy the template into an empty repository and run setup with them.
+Then follow the setup guide inside the new site (`docs/setup-guide.md`, "For helpers who prefer a terminal"), in the **owner's** accounts. Most owners skip the scaffolder entirely: the **Deploy to Cloudflare** button (top of this page) creates their repository and live site, and their AI follows the site's own `SETUP.md`. [AI-SETUP.md](AI-SETUP.md) covers both openings, including copying the template into an empty repository.
 
-> **Heads-up from real experience:** when you connect the repo in Cloudflare Pages, the Cloudflare Pages GitHub App may only have access to some of your repos, and the repo picker will say "No repositories matching." Fix: on GitHub, go to Settings → Applications → Cloudflare Pages → Configure, and grant it access to the new repo (or all repositories). Then the repo appears in the picker.
+> **Heads-up from real experience:** when you import a repo in Cloudflare by hand, the Cloudflare Workers and Pages GitHub App may only have access to some of your repos, and the repo picker will say "No repositories matching." Fix: on GitHub, go to Settings → Applications → Cloudflare Workers and Pages → Configure, and grant it access to the new repo. Then the repo appears in the picker.
 
 ### The model every site follows
 
-- **One change, one pull request, one preview link.** Cloudflare Pages builds every branch and posts its preview link on the pull request. The owner opens it on their phone.
+- **One change, one pull request, one preview link.** Cloudflare (Workers Builds) builds every branch and posts its preview link on the pull request. The owner opens it on their phone.
 - **Owner says "ship it" → the pull request merges → production.** `main` deploys to the live site automatically, and a GitHub ruleset (public repos, free) means nothing reaches `main` any other way. "Undo that" is a revert, shipped the same way.
 - **Deploys only from git.** No manual deploys, ever. They bypass the record and the next merge silently reverts them.
-- **Missing key? The feature degrades, the page never breaks.** The one key (contact form) lives in Cloudflare under Production, never in a repo and never in Preview.
+- **Not set up yet? The feature degrades, the page never breaks.** There are no API keys. The contact form's one setting (`CONTACT_TO_EMAIL`, the owner's inbox) is a Cloudflare secret, never in the repo and never on previews.
 
 ### What's in this repo
 
@@ -105,7 +111,8 @@ template/            The pristine generated site. Scaffold it, don't edit it in 
   features/          One doc per toggleable feature
   presets/           Business-type bundles (bakery, restaurant, home-services, ...)
   docs/              Owner-facing guides: setup, connect your AI, examples, FAQ
-  functions/         Cloudflare Pages Function for the contact form
+  wrangler.jsonc     How Cloudflare serves the site (static assets + one tiny Worker)
+  src/worker.ts      The contact form: emails the owner via Cloudflare Email Routing
 AI-SETUP.md          Bootstrap instructions for an owner's AI setting up a new site
 scripts/
   new-site.mjs       The scaffolder: template/ → new customer repo
@@ -115,6 +122,7 @@ docs/
   the-12-dollar-stack.md   The honest bill: what's free, what the domain costs
   for-agencies.md          The per-client playbook
   pressure-test.md         The adversarial review (see below)
+  phase-1-plan.md          The move from Pages to Workers: what changed, what to smoke-test
 ```
 
 The knowledge base (`rules/`, `features/`, `presets/`) lives **only** in `template/`: every customer site carries its own copy, so each site is self-sufficient and its AI never needs this toolkit.
