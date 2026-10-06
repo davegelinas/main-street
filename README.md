@@ -10,9 +10,11 @@ No page builder. No monthly website fee. No developer to wait on.
 
 **Watch it work** (36 seconds, no sound needed): tap Edit my website, say what you want, look at the preview, say "ship it."
 
-[![The everyday loop: tap Edit my website, say what you want, get a preview link, say ship it](template/docs/assets/journey-poster.png)](template/docs/assets/journey.mp4?raw=true)
+https://github.com/user-attachments/assets/f405af3e-8596-4f05-a47b-826585c7cbfe
 
-**Watch a whole setup** (70 seconds): one bakery, from no website to live, done by the owner with their AI. [Play the setup video](template/docs/assets/end-to-end.mp4?raw=true)
+**Watch a whole setup** (70 seconds): one bakery, from no website to live, done by the owner with their AI.
+
+https://github.com/user-attachments/assets/dcb65631-03ed-4e0b-bfb5-f95be3692ee1
 
 ### [Set up my website →](template/docs/setup-guide.md)
 
