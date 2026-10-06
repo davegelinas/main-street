@@ -31,7 +31,12 @@ cfg.business.hours = [
 ];
 cfg.site.description = "";
 const nextYear = new Date().getFullYear() + 1;
-cfg.site.closedOn = [`${nextYear}-12-24 to ${nextYear}-12-26`, "next tuesday"];
+cfg.site.closedOn = [
+  `${nextYear}-12-24 to ${nextYear}-12-26`,
+  "next tuesday",
+  { dates: `${nextYear}-11-04`, note: `for the "Fall" parade & fair.` },
+  { dates: "2020-01-01", note: "long gone" },
+];
 cfg.site.domain = "joes.example.org";
 
 try {
@@ -43,8 +48,19 @@ try {
   assert.ok(html.includes('<meta property="og:title" content="Joe&#39;s &quot;Best&quot; Bakery &amp; Café 🍞">'), "og:title attribute is not escaped");
   assert.ok(!html.includes('"Best" Bakery'), "an unescaped quote reached the HTML");
   // Closed dates reach the page script and Google; unreadable ones are skipped.
-  assert.ok(html.includes(`data-closed-on="${nextYear}-12-24,${nextYear}-12-25,${nextYear}-12-26"`), "closed dates not on <html>");
+  assert.ok(html.includes(`data-closed-on="${nextYear}-12-24,${nextYear}-12-25,${nextYear}-12-26,${nextYear}-11-04,2020-01-01"`), "closed dates not on <html>");
   assert.ok(html.includes(`"validFrom":"${nextYear}-12-24","validThrough":"${nextYear}-12-26","opens":"00:00","closes":"00:00"`), "closed dates missing from structured data");
+  assert.ok(html.includes(`"validFrom":"${nextYear}-11-04","validThrough":"${nextYear}-11-04"`), "a closure with a note is missing from structured data");
+  assert.ok(!html.includes(`"validFrom":"2020-01-01"`), "an ended closure reached structured data");
+  // Each closure gets its own notice line, dates in words, soonest first,
+  // notes escaped; ended ones are left out.
+  const words = (iso) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+  const parade = `<p class="announcement closure" data-from="${nextYear}-11-04" data-to="${nextYear}-11-04" hidden><strong>Closed</strong> ${words(`${nextYear}-11-04`)}, for the &quot;Fall&quot; parade &amp; fair.</p>`;
+  const holidays = `<p class="announcement closure" data-from="${nextYear}-12-24" data-to="${nextYear}-12-26" hidden><strong>Closed</strong> ${words(`${nextYear}-12-24`)} to ${words(`${nextYear}-12-26`)}.</p>`;
+  assert.ok(html.includes(parade), "closure notice with a note is missing or not escaped");
+  assert.ok(html.includes(holidays), "closure notice for a range is missing");
+  assert.ok(html.indexOf(parade) < html.indexOf(holidays), "closure notices are not in date order");
+  assert.ok(!html.includes('data-from="2020-01-01"'), "an ended closure still has a notice");
   // An empty description falls back to name + tagline.
   assert.ok(html.includes('<meta name="description" content="Joe&#39;s &quot;Best&quot; Bakery &amp; Café 🍞: Bread, &quot;buns&quot; &amp; more.">'), "meta description fallback missing");
   // A dialable phone link and a fully encoded directions link.

@@ -202,16 +202,21 @@ a:hover { color: var(--accent-text); text-decoration-thickness: 2px; }
 }
 .skip-link:focus { left: 0; }
 
-/* Announcement banner */
+/* Notices band: closure lines (site.closedOn), then the announcement. One
+   short line each; the band has no padding of its own, so it takes no space
+   when every line is hidden. */
+.notices { background: var(--band); color: var(--on-band); }
 .announcement {
-  background: var(--band);
-  color: var(--on-band);
+  margin: 0;
   text-align: center;
-  padding: 0.6rem 1.25rem;
-  font-size: 0.92rem;
+  text-wrap: pretty;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
   line-height: 1.45;
 }
+.announcement:not([hidden]) ~ .announcement:not([hidden]) { border-top: 1px solid rgb(255 255 255 / 0.12); }
 .announcement strong { color: var(--highlight); }
+.closure { text-wrap: balance; } /* the dates split evenly over two lines */
 
 /* Header */
 .site-header {
@@ -846,7 +851,7 @@ address { font-style: normal; }
 
 /* Print */
 @media print {
-  .site-header, .announcement, .hero-actions, .contact-grid form, .nav-toggle { display: none; }
+  .site-header, .notices, .hero-actions, .contact-grid form, .nav-toggle { display: none; }
   body { background: #fff; }
   main > section { padding: 1.5rem 0; background: none !important; color: inherit !important; }
 }

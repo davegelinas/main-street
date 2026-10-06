@@ -201,24 +201,57 @@ function prune(v: any): any {
   return v ?? undefined;
 }
 
-// One-off closures: site.closedOn lists dates ("2026-11-04") or ranges
-// ("2026-12-24 to 2026-12-26"). The page uses them for "Closed today";
-// Google gets them as special hours. Weekly hours stay as they are.
+// One-off closures: site.closedOn lists dates ("2026-11-04"), ranges
+// ("2026-12-24 to 2026-12-26"), or either with a short note:
+// { "dates": "2026-12-24 to 2026-12-26", "note": "for the holidays" }.
+// The page uses them for "Closed today" and a notice line at the top of the
+// homepage; Google gets them as special hours. Weekly hours stay as they are.
 const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 const DAY_MS = 864e5;
-function closedRanges(cfg: Config, warn?: (msg: string) => void): Array<{ from: string; to: string }> {
-  const out: Array<{ from: string; to: string }> = [];
+type Closure = { from: string; to: string; note: string };
+function closedRanges(cfg: Config, warn?: (msg: string) => void): Closure[] {
+  const out: Closure[] = [];
   for (const raw of Array.isArray(cfg.site?.closedOn) ? cfg.site.closedOn : []) {
-    const [from, to = from] = String(raw).split(/\s+to\s+/i).map((s) => s.trim());
+    const isObject = typeof raw === "object" && raw !== null;
+    const dates = String(isObject ? raw.dates ?? "" : raw);
+    const note = isObject ? String(raw.note ?? "").trim().replace(/[.!\s]+$/, "") : "";
+    const [from, to = from] = dates.split(/\s+to\s+/i).map((s) => s.trim());
     const start = Date.parse(`${from}T00:00:00Z`);
     const end = Date.parse(`${to}T00:00:00Z`);
     if (!ISO_DAY.test(from) || !ISO_DAY.test(to) || !(end >= start) || end - start > 62 * DAY_MS) {
-      warn?.(`site.closedOn: could not read "${raw}" (write 2026-11-04, or "2026-12-24 to 2026-12-26", up to two months). Skipped.`);
+      warn?.(`site.closedOn: could not read ${isObject ? JSON.stringify(raw) : `"${raw}"`} (write 2026-11-04, or "2026-12-24 to 2026-12-26", up to two months; with a note: { "dates": "2026-11-04", "note": "for the parade" }). Skipped.`);
       continue;
     }
-    out.push({ from, to });
+    if (note.length > 60) warn?.(`site.closedOn: the note "${note}" is long. A few words ("for the holidays") keep the notice to one line on a phone.`);
+    out.push({ from, to, note });
   }
   return out;
+}
+
+// Closures that haven't ended (with a day's grace for time zones), soonest
+// first. Past ones drop off the page and out of Google's data by themselves.
+function upcomingClosures(cfg: Config, warn?: (msg: string) => void): Closure[] {
+  const yesterday = new Date(Date.now() - DAY_MS).toISOString().slice(0, 10);
+  return closedRanges(cfg, warn)
+    .filter(({ to }) => to >= yesterday)
+    .sort((a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to));
+}
+
+// "2026-12-24" -> "Thursday, December 24" (en-US, the date as written).
+function dayInWords(iso: string): string {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+}
+
+// One short line per closure: "Closed Thursday, December 24 to Saturday,
+// December 26, for the holidays." Hidden until the page script shows the ones
+// that start within 21 days (by the visitor's date) and haven't ended.
+function closureNotices(cfg: Config, warn?: (msg: string) => void): string {
+  return upcomingClosures(cfg, warn)
+    .map(({ from, to, note }) => {
+      const when = from === to ? dayInWords(from) : `${dayInWords(from)} to ${dayInWords(to)}`;
+      return `<p class="announcement closure" data-from="${from}" data-to="${to}" hidden><strong>Closed</strong> ${esc(when)}${note ? `, ${esc(note)}` : ""}.</p>`;
+    })
+    .join("\n  ");
 }
 
 function closedDays(cfg: Config, warn?: (msg: string) => void): string {
@@ -257,8 +290,7 @@ function jsonLd(cfg: Config): string {
     openingHoursSpecification: openingHours(hoursList(cfg)),
     // Closed all day, per schema.org: opens and closes at midnight. Past
     // closures are left out so Google never sees stale ones.
-    specialOpeningHoursSpecification: closedRanges(cfg)
-      .filter(({ to }) => to >= new Date(Date.now() - DAY_MS).toISOString().slice(0, 10))
+    specialOpeningHoursSpecification: upcomingClosures(cfg)
       .map(({ from, to }) => ({ "@type": "OpeningHoursSpecification", validFrom: from, validThrough: to, opens: "00:00", closes: "00:00" })),
   }));
 }
@@ -423,6 +455,7 @@ function replaceTokens(html: string, cfg: Config, warn: (msg: string) => void): 
     if (path === "business.hours") return hoursHtml(hoursList(cfg));
     if (path === "faqJsonld") return match; // filled below, from the finished page
     if (path === "closedOn") return esc(closedDays(cfg, warn));
+    if (path === "closureNotices") return closureNotices(cfg);
     const v = tokenValue(path, cfg);
     if (v === undefined) warn(`${match} matches nothing in site.config.json, so it renders empty.`);
     return esc(v ?? "");

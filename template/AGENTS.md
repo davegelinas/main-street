@@ -9,7 +9,7 @@ Read [rules/beginner-mode.md](rules/beginner-mode.md) before your first real tas
 ## Start every session the same way
 
 1. `git fetch origin`, so you work from the latest `main`.
-2. Look, quietly: changes still waiting for the owner (`gh pr list`), unchecked boxes in `SETUP.md`'s main list, and an announcement or `site.closedOn` date that has passed.
+2. Look, quietly: changes still waiting for the owner (`gh pr list`), unchecked boxes in `SETUP.md`'s main list, and an announcement whose date has passed. (Closures in `site.closedOn` show and expire by themselves; tidy away past entries in your next change, no need to ask.)
 3. **Do what the owner asked first.** Then, at most one line about what's waiting: "(Two earlier changes are still waiting for your 'ship it'. Want to go through them after this?)" Never answer a one-line request with a list of questions.
 4. Two things go *before* their request, every session until resolved: something live that should come down (an undo or take-down waiting for "ship it", or an announcement whose date has passed), asked as a yes/no ("Take it down now?"), and unfinished setup their request depends on.
 

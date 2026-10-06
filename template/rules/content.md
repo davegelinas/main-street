@@ -11,10 +11,11 @@
 ## Announcements and holiday hours
 
 - The announcement banner is the owner's megaphone: `site.announcement` in `site.config.json` (and `features.announcementBanner` must be `true`). One sentence, plain words. Empty string = no banner. It shows at the top of the homepage.
-- Typical uses: holiday closures, special hours, "we moved", limited-time offerings.
-- **Short closures** (a day, a week, a holiday) go in two places, never in `business.hours`: add the date or range to `site.closedOn` (`"2026-11-04"` or `"2026-12-24 to 2026-12-26"`), which makes the page say "Closed today" on those days and tells Google, and write the banner. Change `business.hours` only when the regular weekly hours change.
+- Typical uses: special hours, "we moved", limited-time offerings, news. **Not closures** (next bullet).
+- **Closures** (a day, a week, a holiday) go in `site.closedOn` only, never in `business.hours` and never in the announcement: `{ "dates": "2026-12-24 to 2026-12-26", "note": "for the holidays" }` (or just `"2026-11-04"`). The site does the rest: a "Closed ..." line appears at the top of the homepage three weeks ahead, the page says "Closed today" on the day, Google gets the special hours, and the line disappears by itself afterwards. Several closures stack as separate short lines. Keep notes short ("for Thanksgiving"). Change `business.hours` only when the regular weekly hours change.
 - **Read dates back before building:** "Thursday, December 24 to Saturday, December 26?" Typed or spoken, "the 24th" is ambiguous (in October it could mean October 24). Always say the weekday and the month.
-- **Put the end date in the words** ("Closed Friday, July 4 for the parade"). You won't remember to take it down, but any later session can see the date has passed and offer to (`AGENTS.md`, session start). Never promise "I'll take it down Monday."
+- **Announcements with a date: put the end date in the words** ("Pre-orders close Sunday, November 22"). You won't remember to take it down, but any later session can see the date has passed and offer to (`AGENTS.md`, session start). Never promise "I'll take it down Monday."
+- **"Take the closure down"** means remove that one `site.closedOn` entry, leaving the others.
 
 ## Images
 

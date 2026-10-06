@@ -29,9 +29,14 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Notices: closures from site.closedOn (each shown from 21 days before
+       until it ends, by the page script), then site.announcement. -->
+  <div class="notices" role="status">
+  {{closureNotices}}
   <!-- feature:announcementBanner -->
-  <div class="announcement" role="status"><strong>Note:</strong> {{site.announcement}}</div>
+  <p class="announcement"><strong>Note:</strong> {{site.announcement}}</p>
   <!-- /feature:announcementBanner -->
+  </div>
 
   <header class="site-header">
     <div class="header-inner">

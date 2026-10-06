@@ -55,7 +55,8 @@ const now = new Date();
 const today = now.getDay();
 // One-off closures (site.closedOn, on <html data-closed-on>) beat the weekly
 // hours: a banner saying "Closed Nov 4" must never sit above "Today: 9 to 5".
-const isoToday = [now.getFullYear(), now.getMonth() + 1, now.getDate()].map((n) => String(n).padStart(2, "0")).join("-");
+const iso = (d: Date) => [d.getFullYear(), d.getMonth() + 1, d.getDate()].map((n) => String(n).padStart(2, "0")).join("-");
+const isoToday = iso(now);
 const closedToday = (document.documentElement.dataset.closedOn ?? "").split(",").includes(isoToday);
 let todayHours = closedToday ? "Closed" : "";
 if (!closedToday) {
@@ -65,6 +66,12 @@ if (!closedToday) {
     todayHours ||= row.querySelector("dd")?.textContent?.trim() ?? "";
   });
 }
+// Closure notices: each line shows from 21 days before its first day until
+// its last, by the visitor's own date. The build already dropped past ones.
+const noticeHorizon = iso(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 21));
+document.querySelectorAll<HTMLElement>(".closure[data-from][data-to]").forEach((line) => {
+  line.hidden = !((line.dataset.to ?? "") >= isoToday && (line.dataset.from ?? "") <= noticeHorizon);
+});
 const todayLink = document.querySelector<HTMLElement>("[data-today-hours]");
 if (todayLink && todayHours) {
   todayLink.textContent = /closed/i.test(todayHours) ? "Closed today" : `Today: ${todayHours}`;
