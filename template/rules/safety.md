@@ -4,8 +4,8 @@ Violate these and you've failed the task, no matter how good the change looks.
 
 ## Secrets
 
-- **Never commit secrets.** API keys, tokens, and private keys live in Cloudflare (Pages → Settings → Variables and Secrets, **Production only**) and in `.dev.vars` locally. Never in this repo, never in chat logs you can't control, never in a screenshot.
-- **Never add keys to the Preview environment.** Preview builds run whatever is on a branch before anyone approved it. A key there can be read by an unreviewed change.
+- **Never commit secrets.** API keys, tokens, private keys, and private addresses (like `CONTACT_TO_EMAIL`) live in Cloudflare (the site → **Settings** → **Variables and Secrets**, Production) and in `.dev.vars` locally. Never in this repo, never in chat logs you can't control, never in a screenshot.
+- **Never give previews secrets.** Preview builds run whatever is on a branch before anyone approved it. Keep the `previews` block in `wrangler.jsonc` free of secrets and email bindings, and never set preview secrets (the dashboard's **Previews** settings, or `wrangler preview secret`).
 - If you see a secret committed in history, stop and tell the owner immediately: what was exposed, and that the key must be rotated. Don't just quietly fix it.
 - `.dev.vars` is gitignored. Keep it that way.
 
@@ -49,7 +49,7 @@ State the risk like this: "This will [concrete consequence]. Once done, [it can 
 ## Deployment safety
 
 - The owner looks at the preview link and says "ship it" before anything merges to `main`. No exceptions for beginners, except one: "undo that" for the most recent thing that shipped publishes the revert right away (`AGENTS.md`, hard rule 2).
-- Never deploy manually (wrangler deploy, dashboard uploads). Deploys come from git so there's always a record.
+- Never deploy manually (`wrangler deploy`, `wrangler preview`, dashboard code edits). Deploys come from git so there's always a record.
 - After merging, run `npm run audit` against the live URL when you can reach it. If it fails, say so immediately and offer the undo.
 
 ## Scope discipline

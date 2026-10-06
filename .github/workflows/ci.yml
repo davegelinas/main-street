@@ -31,18 +31,25 @@ jobs:
         run: cd /tmp/site && npm run build
 
       - name: Audit
-        # python3 http.server returns true 404s like Cloudflare Pages does.
-        # (vite preview serves index.html for unknown routes, so the 404
-        # check would fail against it. The audit is meant for deployed URLs.)
+        # wrangler dev serves dist/ the way Cloudflare does (real 404s,
+        # _headers, _redirects) and runs the contact form code. Everything is
+        # simulated on this machine: no Cloudflare login.
         run: |
-          cd /tmp/site/dist
-          (python3 -m http.server 4173 >/tmp/preview.log 2>&1 &)
-          for i in $(seq 1 30); do
-            curl -sf http://localhost:4173/ >/dev/null && break
+          cd /tmp/site
+          (npx wrangler dev --port 4173 --ip 127.0.0.1 >/tmp/wrangler.log 2>&1 &)
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:4173/ >/dev/null && break
             sleep 1
           done
-          cd /tmp/site
-          node scripts/audit-site.mjs http://localhost:4173
+          node scripts/audit-site.mjs http://127.0.0.1:4173
+          # With no email settings the form says "email us directly" (503).
+          curl -s http://127.0.0.1:4173/api/contact | grep -q '"ready":false'
+          code=$(curl -s -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' \
+            -d '{"name":"CI","email":"ci@example.org","message":"hi","leave_blank":"","elapsed":5000}' \
+            http://127.0.0.1:4173/api/contact)
+          test "$code" = 503
+          # Preview links are hidden from search engines.
+          curl -s -D - -o /dev/null -H 'Host: x-my-website.acct.workers.dev' http://127.0.0.1:4173/ | grep -qi '^x-robots-tag: noindex'
 
       - name: Tricky business details
         # Quotes, ampersands, emoji, loosely written hours and missing fields

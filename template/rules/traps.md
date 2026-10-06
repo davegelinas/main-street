@@ -8,7 +8,7 @@ Read this before debugging anything weird. Each entry cost someone real time.
 - **A token showing literally** (`{{business.name}}` visible on the page) means the build transform didn't run on that file. Check `plugins/site-config.ts` (pages are found automatically: any folder with an `index.html`, plus `404.html`). Don't hardcode the value as a "fix."
 - **A feature block visible when it should be off** means the `<!-- feature:name -->` comment syntax drifted (extra spaces, wrong name). The strip is literal: match it exactly.
 - **Stale preview:** Cloudflare preview URLs cache aggressively. Hard-refresh (or open in a private window) before declaring something broken.
-- **The contact form "doesn't work" on a preview link.** Expected: previews have no secret keys, so the form shows its "email us directly" note. Test it on the live site.
+- **The contact form "doesn't work" on a preview link.** Expected: previews have no email settings, so the form shows its "email us directly" note. Test it on the live site.
 - **A dashboard rollback is not an undo.** It changes what's live, not what's on `main`. The next merge publishes the bad change again unless you also revert it (`rules/deploy.md`).
 
 ## Content
@@ -18,7 +18,9 @@ Read this before debugging anything weird. Each entry cost someone real time.
 
 ## Email
 
-- **Forwarding receives, Resend sends.** If "email isn't working," figure out which direction is broken before touching anything.
+- **Both directions are Email Routing, but they break differently.** Forwarding (`hello@` to Gmail) is a routing rule; the contact form is `src/worker.ts` sending to `CONTACT_TO_EMAIL`. If "email isn't working," figure out which direction is broken before touching anything.
+- **`npm run serve` only simulates the contact form.** It prints the email in the terminal and never checks the verified inbox. Real delivery is only provable on the live site.
+- **The site can only use a domain whose DNS is on Cloudflare.** A CNAME at another DNS company pointing at `workers.dev` doesn't work. If the owner won't move it: `docs/keep-your-dns.md`.
 - **A form that fails on every submission** is worse than no form. The graceful-degradation path (show the direct email address) must be tested, not assumed.
 
 ## DNS and domains

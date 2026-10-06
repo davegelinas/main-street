@@ -15,7 +15,8 @@ template/            The pristine generated site. Scaffold it, don't edit it in 
   features/          One doc per toggleable feature
   presets/           Business-type bundles (bakery, restaurant, home-services, ...)
   docs/              Owner guides: setup, your AI, examples, FAQ
-  functions/         Cloudflare Pages Function for the contact form
+  wrangler.jsonc     How Cloudflare serves the site (static assets + one small Worker)
+  src/worker.ts      The contact form: emails the owner through Cloudflare Email Routing
 AI-SETUP.md          Bootstrap instructions for an owner's AI setting up a new site
 START-HERE.md        Terminal setup for helpers
 scripts/

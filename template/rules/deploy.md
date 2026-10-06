@@ -2,8 +2,8 @@
 
 One branch is the live site. Everything else is a preview. Simple on purpose:
 
-- **`main` is the live site** (the owner's domain, or the free `<project>.pages.dev` address until a domain is connected). It only changes when a pull request is merged after the owner says "ship it."
-- **Every change gets its own branch and pull request.** Cloudflare builds each branch into its own **preview link** and posts it on the pull request. The owner looks at that link on their phone. That look is the approval step.
+- **`main` is the live site** (the owner's domain, or the free `<name>.<account>.workers.dev` address until a domain is connected; `<name>` is the `name` in `wrangler.jsonc`). It only changes when a pull request is merged after the owner says "ship it."
+- **Every change gets its own branch and pull request.** Cloudflare (Workers Builds) builds each branch into its own **preview link** and posts it on the pull request. The owner looks at that link on their phone. That look is the approval step.
 
 There is no shared staging site. Two changes never ride together: approving new hours can never accidentally publish half of last week's redesign.
 
@@ -25,10 +25,10 @@ There is no shared staging site. Two changes never ride together: approving new 
 
 ## The flow
 
-1. **Branch from the latest `main`.** Short lowercase name with dashes, under 30 characters (`saturday-hours`, `new-gallery-photos`): it becomes part of the preview address. If your platform names branches for you (Codex, Copilot, Jules, Claude in the cloud), that's fine.
+1. **Branch from the latest `main`.** Short lowercase name with dashes, under 30 characters (`saturday-hours`, `new-gallery-photos`): it becomes part of the preview address, and branch plus site name must fit in 63 characters. If your platform names branches for you (Codex, Copilot, Jules, Claude in the cloud), that's fine; if a preview never appears, a long branch name is the first suspect.
 2. **Make the change, build it** (`npm run build` must pass), commit, push.
 3. **Open a pull request.** Title in plain words ("Saturday hours: 9 to 2"). Body: one plain line on what the owner asked for and what changed. Never paste the owner's message verbatim (it can hold private details, and the repo is public), and never copy pasted or fetched text (reviews, emails, old-site text) into pull request text.
-4. **Send the preview link in chat.** Cloudflare's comment on the pull request lists a **Branch Preview URL** (`https://<branch>.<project>.pages.dev`). It stays the same as you push more fixes to that branch. Tell the owner what to look at: "Open this on your phone and check 'Hours and location'."
+4. **Send the preview link in chat.** Cloudflare's comment on the pull request lists a **Preview URL** (`https://<branch>-<name>.<account>.workers.dev`). It stays the same as you push more fixes to that branch. (The comment also lists a Deployment URL for one exact build; send the Preview URL.) Tell the owner what to look at: "Open this on your phone and check 'Hours and location'."
 5. **Wait for "ship it."** Never assume. Approval covers the change the owner looked at, nothing else.
 6. **Ship:** confirm the checks passed, then merge (`gh pr merge <n> --squash`; GitHub deletes the branch itself). Cloudflare publishes the live site in about a minute. Then run `npm run audit https://<their-domain>` if you can reach it, and report in one or two plain sentences. If other changes are still waiting, name what you shipped: "Shipped the parade notice. The Saturday hours change is separate and still waiting." If two are waiting and the owner just says "ship it", ask: "Both, or just the new hours?"
 7. **Teach the undo, one line:** "If anything looks off, just say 'undo that' and I'll take it back."
@@ -44,8 +44,8 @@ If you can't merge yourself (your platform has no merge permission), give the ow
 
 ## Previews: what to know
 
-- Preview links are hidden from search engines (`public/_headers`) and not linked anywhere, but they are **not private**: anyone with the link can open one. Fine for previews; never put anything secret on one.
-- Previews have **no secret keys** on purpose (keys live in Production only), so the contact form shows its "please email us directly" note there. That's expected. Test the form on the live site after shipping.
+- Preview links are hidden from search engines (Cloudflare marks `workers.dev` previews `noindex`, and so does `public/_headers`) and not linked anywhere, but they are **not private**: anyone with the link can open one. Fine for previews; never put anything secret on one.
+- Previews get **no settings and no email** on purpose: the `previews` block in `wrangler.jsonc` is empty, and Cloudflare never copies live settings to previews. So the contact form shows its "please email us directly" note there. That's expected. Test the form on the live site after shipping.
 - The first preview on a new branch takes a minute or two to appear. If the owner sees an old version, ask them to reload or open the link in a private window.
 
 ## When the owner says "undo that"
@@ -57,13 +57,14 @@ If you can't merge yourself (your platform has no merge permission), give the ow
 
 **Undoing photos?** A revert also empties the owner's originals in `content/brand/photos`. Keep them: after `git revert`, run `git checkout HEAD~1 -- content/brand/photos` and commit, so only the site goes back.
 
-**Emergency brake (live site broken right now):** Cloudflare dashboard → Workers & Pages → the project → Deployments → the last good production deployment → ⋯ → **Rollback**. This fixes the live site in seconds, but the bad change is still on `main`, and the next "ship it" would publish it again. Always follow a rollback with the revert pull request above. The rollback is for helpers and emergencies; the owner's undo is saying "undo that."
+**Emergency brake (live site broken right now):** Cloudflare dashboard → **Workers & Pages** → the site → **Deployments** → ⋯ next to the last good version → **Rollback**. This fixes the live site in seconds, but the bad change is still on `main`, and the next "ship it" would publish it again. Always follow a rollback with the revert pull request above. The rollback is for helpers and emergencies; the owner's undo is saying "undo that."
 
 ## Never
 
 - Never push or force-push to `main`, and never ask anyone to loosen the lock on it. If a merge is blocked (failing checks), fix the change on its branch.
 - Never merge without the owner's "ship it" for that change. (The one exception: "undo that" for the most recent thing that shipped, which publishes right away; see above.)
-- Never deploy manually (`wrangler deploy`, `wrangler pages deploy`, dashboard uploads). They ship whatever is on your machine with no record, and the next merge silently reverts them. Retrying the latest deployment in the dashboard is fine: it rebuilds the same commit.
+- Never deploy manually (`wrangler deploy`, `wrangler versions upload`, `wrangler preview`, editing code in the dashboard). They ship whatever is on your machine with no record, and the next merge silently reverts them. Retrying a build in the dashboard is fine: it rebuilds the same commit.
+- Never add a `deploy` or `preview` script to `package.json`: Cloudflare's builds would pick it up instead of their own commands.
 - Never hand-edit production. Never "fix it live and commit later."
 
 ## First-time setup (once per site)
@@ -71,12 +72,15 @@ If you can't merge yourself (your platform has no merge permission), give the ow
 Done once during setup (`docs/setup-guide.md`, Step 6; `SETUP.md` step 5):
 
 1. The repo is **public** and GitHub's **ruleset** on `main` requires a pull request, blocks force pushes, and blocks deletion, with nobody on the bypass list. This is what makes "nothing goes live without a preview" real, even for an AI with write access.
-2. Cloudflare Pages builds previews for every branch (the default). No branch settings to change.
+2. The **Deploy to Cloudflare** button connected the builds (Workers Builds): production branch `main`, and every other branch gets a preview (the site → **Settings** → **Build** → **Branch control** → **Enable Preview Builds** stays on).
+
+**A site kept on Cloudflare Pages** (the owner kept their domain's DNS elsewhere, `docs/keep-your-dns.md`) works the same way, with Pages' names: the preview is the **Branch Preview URL** (`https://<branch>.<project>.pages.dev`), the rollback is under the Pages project's **Deployments**, and there's no contact form email.
 
 ## Production differs from local
 
 Things that pass locally and fail live:
 
-- **`public/_headers` and `public/_redirects`** only apply on Cloudflare, not on `npm run dev`. Verify redirects and headers against a preview link or the live site, not localhost.
-- **Variables and secrets** (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`) live in Cloudflare, not the repo. A new or changed variable takes effect on the next deployment: retry the latest deployment, or ship any change.
+- **`public/_headers`, `public/_redirects`, and the contact form code** don't run under `npm run dev`. `npm run serve` builds the site and runs it the way Cloudflare does, on your machine with no login (the contact form only prints the email instead of sending it). Verify against that, a preview link, or the live site.
+- **Settings** (`CONTACT_TO_EMAIL`, a secret; optional `CONTACT_FROM_EMAIL`) live in Cloudflare, not the repo: the site → **Settings** → **Variables and Secrets**. Saving one there deploys it right away; `keep_vars` in `wrangler.jsonc` stops the next build from wiping it.
+- **The site's name** (`name` in `wrangler.jsonc`) must match the name in the Cloudflare dashboard, or every build fails. Never change it casually.
 - **Build-time tokens** (`{{business.name}}` etc.) resolve during `npm run build`. If a token shows up literally on a page, the build transform missed it: check the plugin, don't hardcode the value.

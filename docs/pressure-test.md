@@ -2,6 +2,10 @@
 
 This document records what happens when the system is used badly, interrupted, neglected, or attacked. Every test below was actually run (or, where marked, reviewed by reading the docs as a stranger would). Fixes are listed with what changed; unresolved findings carry a one-line rationale. Last run: **2026-09-27**, against a fresh scaffold (`new-site.mjs` → `npm install` → `npm run setup` → preset → build → audit: **8/8**).
 
+## Phase 1 prototype (not yet live-tested): Workers and keyless email
+
+The template moves from Cloudflare Pages to Cloudflare Workers static assets, setup starts with a Deploy to Cloudflare button, and the contact form sends through Cloudflare Email Routing with no Resend key. Where the sections below talk about Pages, `pages.dev`, or Resend, they describe the model they tested. What changes for abuse: the form can only email the owner's own verified inbox, so there's no third-party quota to burn, and past the free 100,000 code runs a day only the form stops, never the pages. Evidence and the live checklist: [phase-1-plan.md](phase-1-plan.md).
+
 ## Update 2026-10-05: setup and shipping redesign
 
 Findings and changes since the 2026-09-27 run. Earlier sections are history and are not rewritten; where they describe the old model they are marked superseded.

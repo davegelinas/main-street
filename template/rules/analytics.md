@@ -3,7 +3,8 @@
 ## Default: Cloudflare Web Analytics (free, cookieless)
 
 - No cookies, no consent banner needed, GDPR-friendly by design. That's why it's the default.
-- Enable: Cloudflare dashboard → **Workers & Pages** → the project → **Metrics** → **Enable** under Web Analytics. Cloudflare adds its script on the next deployment. No token, no code, nothing in the repo.
+- Enable it with the domain: Cloudflare dashboard → **Web Analytics** → **Add a site** → pick the owner's domain → **Done**. Because the domain runs through Cloudflare, Cloudflare adds its script to the pages as they're served ("automatic setup"). No token, no code, nothing in the repo. Before the domain there's nothing to turn on: the free address is hidden from Google, so there's little to count.
+- Never also paste Cloudflare's snippet into the pages: two scripts count every visit twice. (A site kept on Pages, `docs/keep-your-dns.md`, uses the Pages project's **Metrics** → **Enable** instead.)
 - `features.analytics` in `site.config.json` only controls whether the privacy policy mentions analytics. Keep it `true` when analytics is on in Cloudflare, `false` when it's off.
 - What it tells the owner: visitors, page views, referrers, countries. Enough for a small business. Explain it in those terms, not in metrics-jargon.
 

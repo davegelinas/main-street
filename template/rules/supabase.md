@@ -16,7 +16,7 @@ Most Main Street sites never need a database. The contact form sends email; cont
 ## Rules
 
 - **Free tier, and say the limits out loud.** Supabase's free tier is generous but not infinite. Tell the owner the limits in plain words before creating anything.
-- **Credentials never in the repo.** The anon key is build-safe only if row-level security is correct; the service key never leaves Cloudflare's secrets. When in doubt, keep both server-side in a Pages Function.
+- **Credentials never in the repo.** The anon key is build-safe only if row-level security is correct; the service key never leaves Cloudflare's secrets. When in doubt, keep both server-side in `src/worker.ts` (a new `/api/...` route), with the keys as Cloudflare secrets.
 - **Row Level Security on everything.** No table without RLS policies. No exceptions. A public anon key with no RLS is a public database.
 - **The database is the system of record.** If a newsletter tool is attached, the tool is a sender, not the source of truth. Consent records live in Postgres and must be producible on request.
 - **Migrations live in the repo** (`supabase/migrations/`), applied in order, never hand-edited in the dashboard. If you change the schema by clicking around in the dashboard, you've created a future outage.

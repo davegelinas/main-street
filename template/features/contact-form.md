@@ -1,33 +1,34 @@
 # Contact form
 
-A contact section with a working form. Submissions are emailed to the owner via Resend. **On by default.**
+A contact section with a working form. Submissions are emailed to the owner through Cloudflare Email Routing (free, no key). **Off until Email Routing is set up** on the owner's domain: setup's first version turns it off (`SETUP.md` step 2), and it comes back on in its own change once email works.
 
 ## How to turn it on/off
 
-Flag: `contactForm` in `site.config.json`. The form posts to `functions/api/contact.ts`.
+Flag: `contactForm` in `site.config.json`. The form posts to `/api/contact`, handled by `src/worker.ts`.
 
 ## What the owner needs to do
 
-After their own domain is connected: verify the domain in Resend, then add `RESEND_API_KEY` and `CONTACT_TO_EMAIL` in Cloudflare (Pages → Settings → Variables and Secrets → **Production** only). Step-by-step in `docs/api-keys.md`.
+After their own domain is connected: turn on Email Routing and verify their inbox there, and make sure `CONTACT_TO_EMAIL` (a Cloudflare secret the Deploy button asked for) is that same inbox. Step-by-step in `docs/api-keys.md`; the rules are in `rules/email.md`.
 
-Until then, the section always shows the business phone and email next to the form, and anyone who submits sees "Email is not set up yet. Please email us directly." Nothing breaks. Preview links never have the key (on purpose), so they always show this note: test real delivery on the live site after shipping.
+While it's off, the contact section still shows the business phone and email (tap-to-call and tap-to-email). If the form is on before email works, anyone who submits sees "Email is not set up yet. Please email us directly." Nothing breaks, but it's a dead end, so keep it off until then. Preview links never have email settings (on purpose), so they always show this note: test real delivery on the live site after shipping.
 
 ## How it works
 
 - Frontend validates (name, valid email, message), includes a honeypot field and a submission timer.
-- The Pages Function rejects bots (honeypot filled, submitted in under 3 seconds), then sends via the Resend API: from the business address, `Reply-To` set to the visitor.
+- `src/worker.ts` checks the fields, rejects bots (honeypot filled, sent in under 3 seconds by the browser's own clock), then sends with the `send_email` binding: from `noreply@<site domain>` (or `CONTACT_FROM_EMAIL`), to `CONTACT_TO_EMAIL`, `Reply-To` set to the visitor.
+- `GET /api/contact` answers `{"ready": true|false}`, so the audit can tell whether the form is ready to try (its settings are in place) without sending anything. Ready isn't proof: only a test message proves Email Routing delivers.
 - On success the visitor sees a plain-words confirmation. On failure they see the direct email address. Never a stack trace.
 
 ## Costs and limits
 
-Resend's free tier covers far more than a small business contact form will ever send. If spam becomes a real problem, add Cloudflare Turnstile (free); see `rules/email.md`. Don't add it preemptively.
+Sending to the owner's verified inbox is free on every Cloudflare plan and counts toward no quota. If spam becomes a real problem, add Cloudflare Turnstile (free); see `rules/email.md`. Don't add it preemptively.
 
 ## Customization
 
-- Change the recipient: messages go to `CONTACT_TO_EMAIL`, set in Cloudflare. To send them elsewhere, the owner changes that variable (no code change), then retries the latest deployment.
-- Extra fields (party size, date): add them to the form and the function together, and test end-to-end.
+- Change the recipient: messages go to `CONTACT_TO_EMAIL`, set in Cloudflare. To send them elsewhere, the owner changes that secret (the site → **Settings** → **Variables and Secrets**; saving deploys it) and verifies the new inbox in Email Routing. No code change.
+- Extra fields (party size, date): add them to the form (`index.html`, `src/main.ts`) and `src/worker.ts` together, check with `npm run serve` (the email prints in the terminal), and test end-to-end on the live site.
 
 ## What can go wrong
 
-- "Nobody's getting the emails": check the Resend dashboard first (deliveries log), then that the domain is still **Verified** there, then that both variables are set in Cloudflare's *Production* environment.
-- Form works locally but not live: `.dev.vars` has the key but Cloudflare doesn't. See `rules/traps.md`.
+- "Nobody's getting the emails": check the inbox is **Verified** in Email Routing and matches `CONTACT_TO_EMAIL` exactly, then the site's logs (the site → **Observability**, "Email Routing refused").
+- Form works with `npm run serve` but not live: the local run only simulates sending. See `rules/traps.md`.

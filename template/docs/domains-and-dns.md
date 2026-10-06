@@ -8,11 +8,11 @@ Buy it in Cloudflare: **Domain Registration** → search and buy (about $10 to $
 
 ## Already own one? Move its settings, keep your email.
 
-Your domain stays with the company you bought it from (GoDaddy, Namecheap, Squarespace...). Only its **DNS** moves to Cloudflare. DNS is the internet's phone book: it tells the world where your website and your email live. With Cloudflare holding it, these work automatically:
+Your domain stays with the company you bought it from (GoDaddy, Namecheap, Squarespace...). Only its **DNS** moves to Cloudflare. DNS is the internet's phone book: it tells the world where your website and your email live. Your site can only use a domain whose DNS Cloudflare holds, so this move is how your domain gets connected. (Really can't move it? [keep-your-dns.md](keep-your-dns.md).) With Cloudflare holding it, these work automatically:
 
 - `yourbusiness.com` itself, not just `www.yourbusiness.com`.
 - Free email forwarding (`hello@yourbusiness.com` to your Gmail).
-- Your contact form sending from your own domain.
+- Your contact form emailing you, with no key.
 - The padlock (a secure `https://` address).
 
 The move is one change at your registrar, but if your email runs on this domain, a rushed move can stop it. So do it in this order, with your AI:
@@ -35,11 +35,13 @@ When the nameservers switch, Cloudflare's copy of your settings takes over. Clou
 
 Your screenshots from step 1 are your safety net.
 
-**Already have mailboxes on your domain** (Google Workspace, Microsoft 365, or your registrar's email)? Don't turn on Cloudflare Email Routing. It would replace your MX records and take over your existing mail. Email Routing is only for domains with no email yet.
+**Already have mailboxes on your domain** (Google Workspace, Microsoft 365, or your registrar's email)? Don't turn on Cloudflare Email Routing for the domain. It would replace your MX records and take over your existing mail. (Your contact form can still work: your AI can turn Email Routing on for a subdomain only, which leaves your mail alone. See [api-keys.md](api-keys.md).)
 
 ## Attach it
 
-Once Cloudflare says **Active** (or right away, if you bought the domain in Cloudflare): Cloudflare → your project → **Custom domains** → **Set up a custom domain** → your domain → **Activate**. Add the `www` version too. Cloudflare creates the settings and the padlock for you; leave them as they are (the orange cloud stays on).
+Once Cloudflare says **Active** (or right away, if you bought the domain in Cloudflare): Cloudflare → **Workers & Pages** → your site → **Settings** → **Domains & Routes** → **Add** → **Custom domain** → your domain → **Add domain**. Add the `www` version too. Cloudflare creates the settings and the padlock for you; leave them as they are (the orange cloud stays on). If it says a record already exists for that name (often an old `www` setting pointing at your previous website), your AI helps you delete that one record first.
+
+Then your domain → **SSL/TLS** → **Edge Certificates** → turn on **Always Use HTTPS**, so nobody lands on an unsecured page.
 
 Then tell your AI **"my domain is connected."** It gets your site ready for Google and helps you tell Google it exists. Now you've launched.
 

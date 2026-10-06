@@ -105,47 +105,23 @@ console.log("The page copy is neutral placeholder text.");
 console.log("Ask your AI assistant: \"rewrite the homepage copy for my business, keeping the layout.\"");
 
 // ---- Integrations status ----
-// API keys live in Cloudflare (Pages -> Settings -> Variables and Secrets,
-// Production only) and in .dev.vars for local testing. Never in this repo,
-// never in chat. A missing key never breaks a page: the feature degrades.
+// Nothing here needs a key. Settings live in Cloudflare, never in this repo.
+// A feature that isn't set up never breaks a page: it degrades.
 console.log("\nIntegrations status (details: docs/api-keys.md):");
 const feat = config.features ?? {};
-const devVarsPath = resolve(root, ".dev.vars");
-let devVars = "";
-try { devVars = readFileSync(devVarsPath, "utf8"); } catch { /* no .dev.vars yet */ }
-const hasResendKey = /^RESEND_API_KEY=.+/m.test(devVars);
 
 function statusLine(name, state, note) {
   console.log(`  ${state}  ${name}: ${note}`);
 }
 
 if (!feat.contactForm) {
-  statusLine("Contact form email (Resend)", "SKIPPED", "the contact form feature is off. Turn it on in site.config.json to use it.");
-} else if (hasResendKey) {
-  statusLine("Contact form email (Resend)", "WORKING", "key found in .dev.vars for local testing. Also add it in Cloudflare Pages -> Settings -> Variables and Secrets (Production) for the live site.");
+  statusLine("Contact form email", "SKIPPED", "the contact form feature is off. Turn it on in site.config.json to use it.");
 } else {
-  statusLine("Contact form email (Resend)", "NOT SET UP", "it needs your own domain first. Until then visitors see your phone and email instead; the page never breaks. See docs/api-keys.md.");
+  statusLine("Contact form email", "LATER", "it starts working once your own domain has Cloudflare Email Routing on (no key needed). Until then visitors see your phone and email instead; the page never breaks.");
 }
 
 if (feat.analytics) {
-  statusLine("Visitor stats (Cloudflare Web Analytics)", "ONE CLICK", "Cloudflare dashboard -> Workers & Pages -> your project -> Metrics -> Enable. No key needed.");
-}
-
-// Offer to save a Resend key for local testing (optional, safe to skip).
-if (feat.contactForm && !hasResendKey) {
-  const key = await prompt("Paste your Resend API key to try the contact form locally (don't have one yet? just press Enter to skip, docs/api-keys.md shows how to get one)", "");
-  if (key.trim()) {
-    const line = `RESEND_API_KEY=${key.trim()}\n`;
-    try {
-      const existing = devVars.includes("RESEND_API_KEY=")
-        ? devVars.replace(/^RESEND_API_KEY=.*$/m, line.trimEnd())
-        : devVars + (devVars.endsWith("\n") || devVars === "" ? "" : "\n") + line;
-      writeFileSync(devVarsPath, existing);
-      console.log("  Saved to .dev.vars (this file is private to your computer and never committed).");
-    } catch {
-      console.log("  Could not write .dev.vars. You can create it by hand later; see docs/api-keys.md.");
-    }
-  }
+  statusLine("Visitor stats (Cloudflare Web Analytics)", "LATER", "free and cookieless. They turn on with your domain: Cloudflare -> Web Analytics -> Add a site -> pick your domain. No key, nothing in this repo.");
 }
 
 if (s.domain) {
@@ -160,5 +136,5 @@ console.log("  2. Ask your AI to rewrite the homepage copy for your business");
 console.log("     (and give it your real opening hours: the Mon-Fri 9-5 default is a placeholder).");
 console.log("  3. Gather your stuff: photos, logo, and your story go in content/brand/ (docs/gather-your-stuff.md).");
 console.log("     Or ask your AI to interview you in chat.");
-console.log("  4. Put the site online: docs/setup-guide.md (GitHub + Cloudflare Pages, free).\n");
+console.log("  4. Put the site online: docs/setup-guide.md (GitHub + Cloudflare, free).\n");
 rl.close();

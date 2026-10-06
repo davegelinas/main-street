@@ -8,9 +8,9 @@ Main Street is owner-first: an owner can set it up alone with their own AI in ab
 2. **Run the setup wizard together** (`npm run setup`) on a 15-minute call, and apply the closest preset (`npm run preset restaurant`). The client watches their business appear on screen; it sells itself.
 3. **Collect real content:** photos, prices, the words they actually say to customers. Put photos in `public/images/` and run `npm run optimize-images` (it strips hidden GPS data; CI strips it on every pull request too). The repo is public and an upload's original stays in its history, so have them turn location off on the phone first.
 4. **Connect their accounts**, screensharing so they learn where things live. All in the site's `docs/setup-guide.md`:
-   - Cloudflare: Pages, then Web Analytics (one click).
+   - Cloudflare: **Workers & Pages** → **Create application** → **Import a repository**, as in START-HERE.md step 4. (Or skip the scaffolder: the **Deploy to Cloudflare** button, signed in as the client, makes the repo and the site in one go.)
    - GitHub: the "Protect live site" ruleset and settings (Step 6).
-   - Later, when they're ready: custom domain, Email Routing (not if they already have mailboxes), and the one Resend key, which needs their own domain.
+   - Later, when they're ready: custom domain, Email Routing, which also turns on the contact form (on a subdomain if they already have mailboxes). No keys.
 5. **Hand over the loop.** Connect the client's own AI account (setup guide, Step 3), put the **Edit my website** button on their phone (Step 7), and have *them* ship two small changes while you watch ("change the Saturday hours," "add a holiday banner"), plus one "undo that." This 10-minute demo is the handoff.
 6. **Hand over their site's `README.md`** (written for the owner) and walk away. They own it now.
 
@@ -37,4 +37,4 @@ Don't charge for the template. It's free and public. Charge for your judgment.
 ## Boundaries
 
 - The client owns their repo, their Cloudflare account, and their domain. Set everything up *in their accounts*, not yours. If they ever leave, everything goes with them. That's a selling point, not a risk.
-- Never hold credentials. The client enters their own contact-form key in Cloudflare (Production only). You guide, they type.
+- Never hold credentials. The client types their own settings (like the contact form's `CONTACT_TO_EMAIL`) into their own Cloudflare. You guide, they type.

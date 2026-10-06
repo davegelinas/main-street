@@ -7,7 +7,7 @@ Small businesses live on local search. Most of this is already built into the te
 - **LocalBusiness JSON-LD** on the homepage, generated from `site.config.json` (`{{jsonld}}` token). If the business type changes (cafe → restaurant), update the schema type to match.
 - **sitemap.xml** generated at build once `site.domain` is set. Every folder with an `index.html` is built and listed automatically (except 404 and pages marked `noindex`). After adding a page, check that `dist/sitemap.xml` lists it.
 - **robots.txt** allows crawling and points at the sitemap.
-- **The free `*.pages.dev` address is hidden from search on purpose** (`public/_headers`). Until the owner's domain is connected, the site is not on Google. Tell the owner that plainly; it's not a launch yet.
+- **The free `*.workers.dev` address and every preview link are hidden from search on purpose** (`public/_headers`). Until the owner's domain is connected, the site is not on Google. Tell the owner that plainly; it's not a launch yet.
 - **Semantic HTML, real copy in HTML** (not JS-rendered), descriptive `<title>` and meta descriptions per page, canonical URLs, OG tags.
 - **llms.txt** in `public/`: a short plain-text description of the business for AI crawlers.
 

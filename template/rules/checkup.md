@@ -45,11 +45,11 @@ Say what you checked, even when the answer is "looks fine."
    them away in a change of their own (never riding along with another
    change, so an undo of that change can't bring them back).
 8. **Analytics (if enabled).** You can't see Cloudflare's numbers yourself.
-   Ask the owner for a screenshot of the project's **Metrics** page, then
+   Ask the owner for a screenshot of Cloudflare's **Web Analytics** page, then
    summarize in plain English: roughly how many visitors, which pages, one
    suggestion. No screenshot? Skip it in one line. Never estimate.
 9. **Broken bits.** Walk the live site yourself: contact form, tap-to-call
-   buttons, map links. If the contact form has its keys set, offer to send a
+   buttons, map links. If `GET /api/contact` says `"ready": true`, offer to send a
    test message; never send one unasked.
 10. **Waiting changes.** List open pull requests. Anything older than 14 days:
     ask ship it, change it, or toss it, one at a time. Close the ones they

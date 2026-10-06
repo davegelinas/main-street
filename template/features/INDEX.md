@@ -2,11 +2,11 @@
 
 Features are switches in `site.config.json` under `"features"`, plus the HTML blocks they control (`<!-- feature:name --> ... <!-- /feature:name -->`). Turning a feature on is a one-line config change plus any content the feature needs. The owner never has to do this themselves: they say "turn on the gallery" to their AI assistant and it handles the rest.
 
-**Defaults:** contactForm, announcementBanner, faq, gallery, menu, testimonials, and analytics are on in the template. heroPhoto, blog, booking, and emailSignup are off (heroPhoto waits for a real photo). (`analytics` only controls the privacy policy's mention of visitor stats; the stats themselves are one click in Cloudflare, see `rules/analytics.md`.)
+**Defaults:** contactForm, announcementBanner, faq, gallery, menu, testimonials, and analytics are on in the template. heroPhoto, blog, booking, and emailSignup are off (heroPhoto waits for a real photo). (`contactForm` is switched off in setup's first version until Email Routing works; see `contact-form.md`. `analytics` only controls the privacy policy's mention of visitor stats; the stats themselves turn on in Cloudflare with the domain, see `rules/analytics.md`.)
 
 | Feature | Flag | Doc | What it adds |
 |---|---|---|---|
-| Contact form | `contactForm` | [contact-form.md](contact-form.md) | Contact section + Pages Function that emails via Resend |
+| Contact form | `contactForm` | [contact-form.md](contact-form.md) | Contact section + `src/worker.ts`, which emails the owner through Cloudflare Email Routing (no key) |
 | Announcement banner | `announcementBanner` | [announcement-banner.md](announcement-banner.md) | One-sentence banner for news and specials (closures go in `site.closedOn`) |
 | Hero photo | `heroPhoto` | [hero-photo.md](hero-photo.md) | The big photo at the top of the homepage (off: the initial as a seal) |
 | Photo gallery | `gallery` | [gallery.md](gallery.md) | Photo grid, lazy-loaded, optimized |

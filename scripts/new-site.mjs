@@ -103,6 +103,20 @@ try {
   fail(`the copy worked but package.json could not be updated in "${targetArg}". You can rename it by hand later.`);
 }
 
+// Name the Cloudflare site the same. It becomes the free address
+// (<name>.<account>.workers.dev) and must match the name typed in Cloudflare.
+const siteName = JSON.parse(readFileSync(pkgPath, "utf8")).name;
+const wranglerPath = resolve(targetDir, "wrangler.jsonc");
+try {
+  const w = readFileSync(wranglerPath, "utf8");
+  writeFileSync(wranglerPath, w.replace(/"name":\s*"[^"]*"/, `"name": "${siteName}"`));
+  if (siteName.length > 30) {
+    console.log(`\nNote: the site name "${siteName}" is long. Preview links put the branch name in front of it, and the two together must fit in 63 characters. A shorter folder name is safer.`);
+  }
+} catch {
+  console.log(`\nNote: could not set the site name in wrangler.jsonc. Set "name" there by hand to "${siteName}".`);
+}
+
 // Initialize git unless asked not to (or already a repo).
 let gitOk = false;
 if (!noGit) {

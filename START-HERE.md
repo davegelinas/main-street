@@ -1,8 +1,8 @@
 # START HERE (for helpers)
 
-**Setting up your own business's website?** You don't need this page or a terminal. Follow the [setup guide](template/docs/setup-guide.md): two free accounts, an empty repository, one link, and your AI does the rest with you (about two hours, much of it waiting).
+**Setting up your own business's website?** You don't need this page or a terminal. Follow the [setup guide](template/docs/setup-guide.md): two free accounts, one **Deploy to Cloudflare** button, and your AI does the rest with you (about two hours, much of it waiting).
 
-This page is for **helpers who prefer a terminal**: an agency, a freelancer, or a tech-savvy friend setting a site up in the owner's accounts. Doing this for paying clients? Also read [docs/for-agencies.md](docs/for-agencies.md).
+This page is for **helpers who prefer a terminal** (the Deploy button is still the easiest start, even for you): an agency, a freelancer, or a tech-savvy friend setting a site up in the owner's accounts. Doing this for paying clients? Also read [docs/for-agencies.md](docs/for-agencies.md).
 
 **Watch the owner-alone setup** (70 seconds, no sound needed): one bakery, from no website to live, with the owner's own AI doing the technical parts. This page covers the terminal alternative for helpers.
 
@@ -24,10 +24,10 @@ flowchart TD
 
 The model every site follows:
 
-- **One change, one pull request, one preview link.** Cloudflare Pages builds every branch and posts its preview link on the pull request.
+- **One change, one pull request, one preview link.** Cloudflare (Workers Builds) builds every branch and posts its preview link on the pull request.
 - **"Ship it" merges; "undo that" reverts.** `main` deploys to the live site automatically, and a GitHub ruleset (free on public repos) means nothing reaches `main` any other way. An undo is published right away for the most recent ship, and previewed first when newer changes went live after it.
 - **Deploys only from git.** No manual deploys, ever: they bypass the record, and the next merge silently reverts them.
-- **Missing key? The feature steps back; the page never breaks.** The one key (contact form) lives in Cloudflare under Production, never in the repo and never in Preview.
+- **Not set up yet? The feature steps back; the page never breaks.** There are no API keys. The contact form's one setting (`CONTACT_TO_EMAIL`, the owner's inbox) is a Cloudflare secret, never in the repo and never on previews.
 
 ## 1. Create the site (2 minutes)
 
@@ -37,7 +37,7 @@ From this toolkit folder:
 node scripts/new-site.mjs ../acme-plumbing
 ```
 
-The `../` matters: the site lives **next to** the toolkit, not inside it, so it can become its own repository. The script copies the template, names the package, verifies the copy, and initializes git. It refuses to overwrite a non-empty folder without `--force`, refuses to build inside the toolkit folder, and never touches the network.
+The `../` matters: the site lives **next to** the toolkit, not inside it, so it can become its own repository. The script copies the template, names the package and the Cloudflare site (`name` in `wrangler.jsonc`, which becomes the free address, so keep the folder name short), verifies the copy, and initializes git. It refuses to overwrite a non-empty folder without `--force`, refuses to build inside the toolkit folder, and never touches the network.
 
 ## 2. Make it theirs (10 minutes)
 
@@ -49,7 +49,7 @@ npm run setup
 
 The wizard asks plain questions (business name, phone, email, address, domain, kind of business) and applies a preset. No domain yet? Press Enter: the site starts on a free address.
 
-Check it with `npm run dev` (usually http://localhost:5173). Then tick boxes 1 and 2 in the site's `SETUP.md`.
+Check it with `npm run dev` (usually http://localhost:5173), or `npm run serve` to run it exactly the way Cloudflare will, with no login. Then tick boxes 1 and 2 in the site's `SETUP.md`.
 
 ## 3. Put it on GitHub, in the owner's account (5 minutes)
 
@@ -69,12 +69,13 @@ git push -u origin main
 
 Follow the site's `docs/setup-guide.md` in the owner's accounts, with the owner beside you: **Step 3** (connect the owner's AI to GitHub), then **Step 5** onward:
 
-- **Step 5:** connect Cloudflare Pages and turn on visitor stats.
+- **Connect Cloudflare** (`SETUP.md` box 3): **Workers & Pages** → **Create application** → **Import a repository** → the repo. The project name must be exactly the `name` in `wrangler.jsonc`. **Build command:** `npm run build` (Cloudflare doesn't fill it in; type it if the box is empty). Deploy command: `npx wrangler deploy`. Then **Settings** → **Variables and Secrets** → add the secret `CONTACT_TO_EMAIL` (the owner's inbox).
+- **Step 5:** check it's live and the repo is public.
 - **Step 6:** lock the live site (GitHub ruleset and settings).
 - **Step 7:** make the owner's **Edit my website** button, and have the owner ship one change and one undo themselves.
 - **Your site card:** make sure the owner turns on GitHub two-step sign-in and writes down their logins and recovery codes.
 
-The domain, business email, and contact form are in the same guide under "Later," whenever the owner is ready.
+The domain, business email (which also turns on the contact form), and visitor stats are in the same guide under "Later," whenever the owner is ready. Never `wrangler deploy` from your machine: Cloudflare builds from git.
 
 > **Cloudflare can't see the repo?** If the repo picker says "No repositories matching," the Cloudflare GitHub App only has access to some repos. On GitHub: your picture → **Settings** → **Applications** → **Installed GitHub Apps** → **Cloudflare Workers and Pages** → **Configure** → add the repo → **Save**. Then refresh Cloudflare.
 
@@ -83,7 +84,7 @@ The domain, business email, and contact form are in the same guide under "Later,
 Run the audit against the free address (and again once the domain is live):
 
 ```
-$ npm run audit https://acme-plumbing.pages.dev
+$ npm run audit https://acme-plumbing.<account>.workers.dev
 
   PASS  homepage returns 200
   PASS  /privacy-policy/ returns 200
