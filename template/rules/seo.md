@@ -5,8 +5,9 @@ Small businesses live on local search. Most of this is already built into the te
 ## Already handled (don't break)
 
 - **LocalBusiness JSON-LD** on every page, generated from `site.config.json` (`{{jsonld}}` token). If the business type changes (cafe → restaurant), update the schema type to match.
-- **sitemap.xml** generated at build from the page list. **New pages must be added to the sitemap** or they're invisible to search. Check how the plugin builds the page list before adding a page.
+- **sitemap.xml** generated at build from the page list, once `site.domain` is set. **New pages must be added to the sitemap** or they're invisible to search. Check how the plugin builds the page list before adding a page.
 - **robots.txt** allows crawling and points at the sitemap.
+- **The free `*.pages.dev` address is hidden from search on purpose** (`public/_headers`). Until the owner's domain is connected, the site is not on Google. Tell the owner that plainly; it's not a launch yet.
 - **Semantic HTML, real copy in HTML** (not JS-rendered), descriptive `<title>` and meta descriptions per page, canonical URLs, OG tags.
 - **llms.txt** in `public/`: a short plain-text description of the business for AI crawlers.
 
@@ -25,7 +26,7 @@ These can't be done in the repo; they matter more than any meta tag:
 1. **Google Business Profile:** claim it, complete every field, add real photos, keep hours in sync with the site.
 2. **Reviews:** ask happy customers for Google reviews. Respond to every review.
 3. **Bing Places, Apple Maps:** same NAP, same photos. Ten minutes each.
-4. After launch, run `node scripts/indexnow.mjs` if present, or submit the sitemap in Google Search Console.
+4. After the domain is connected, submit `https://<their-domain>/sitemap.xml` in Google Search Console.
 
 ## AI crawler note
 

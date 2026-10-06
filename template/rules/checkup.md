@@ -44,9 +44,12 @@ Say what you checked, even when the answer is "looks fine."
 8. **Analytics (if enabled).** Summarize in plain English: roughly how many
    visitors, which pages they looked at, one suggestion. No jargon. If
    analytics is off, say so in one line and move on.
-9. **Broken bits.** Walk the staging site yourself: contact form, tap-to-call
+9. **Broken bits.** Walk the live site yourself: contact form, tap-to-call
    buttons, map links. If the contact form has its keys set, offer to send a
    test message; never send one unasked.
+10. **Waiting changes.** List open pull requests. Anything older than 14 days:
+    ask ship it, change it, or toss it, one at a time. Close the ones they
+    toss.
 
 ## How to report
 
@@ -54,8 +57,8 @@ Say what you checked, even when the answer is "looks fine."
   complete answer.
 - End with a numbered list of **proposed changes**, each one sentence.
 - The owner approves items one by one, or says "do all of them." Every
-  approved change goes through the normal loop: staging preview, owner looks,
-  "ship it."
+  approved change goes through the normal loop: its own preview link, owner
+  looks, "ship it."
 - **Never change anything during a checkup on your own authority.** The only
   exception is something actively broken or embarrassing (site down, wrong
   phone number): fix it first, then report it immediately in plain words.
