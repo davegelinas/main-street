@@ -7,7 +7,7 @@ Features are switches in `site.config.json` under `"features"`, plus the HTML bl
 | Feature | Flag | Doc | What it adds |
 |---|---|---|---|
 | Contact form | `contactForm` | [contact-form.md](contact-form.md) | Contact section + Pages Function that emails via Resend |
-| Announcement banner | `announcementBanner` | [announcement-banner.md](announcement-banner.md) | One-sentence banner for closures, news, specials |
+| Announcement banner | `announcementBanner` | [announcement-banner.md](announcement-banner.md) | One-sentence banner for news and specials (closures go in `site.closedOn`) |
 | Hero photo | `heroPhoto` | [hero-photo.md](hero-photo.md) | The big photo at the top of the homepage (off: the initial as a seal) |
 | Photo gallery | `gallery` | [gallery.md](gallery.md) | Photo grid, lazy-loaded, optimized |
 | Testimonials | `testimonials` | [testimonials.md](testimonials.md) | Customer quotes section |

@@ -45,7 +45,7 @@ That's the whole skill. Below, the same kind of one-liners, slowed down.
 
 **You send:** "We're closed December 24 through January 1. Update the site."
 
-**You see:** a preview link a few minutes later. On your phone, the hours now say "Closed December 24 to January 1."
+**You see:** a preview link a few minutes later. At the top of the page, a line says "Closed Thursday, December 24 to Friday, January 1." Your AI tells you it shows on your live site three weeks ahead, says "Closed today" on those days, and disappears by itself afterwards.
 
 **You say:** "ship it." The live site updates about a minute later.
 
@@ -59,9 +59,9 @@ That's the whole skill. Below, the same kind of one-liners, slowed down.
 
 ## 3. An announcement banner
 
-**You send:** "Put up a banner: Closed this Saturday for the Maple Ave street fair. Come find our chair at the fair!"
+**You send:** "Put up a banner: Find our chair at the Maple Ave street fair this Saturday!"
 
-**You see:** a banner across the top of the preview, in your exact words. Your AI may ask when it should come down.
+**You see:** a banner across the top of the preview, in your exact words.
 
 **You say:** "ship it." When the fair's over, say "take the banner down." Same loop.
 

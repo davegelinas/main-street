@@ -25,7 +25,7 @@ flowchart TD
 The model every site follows:
 
 - **One change, one pull request, one preview link.** Cloudflare Pages builds every branch and posts its preview link on the pull request.
-- **"Ship it" merges; "undo that" reverts.** `main` deploys to the live site automatically, and a GitHub ruleset (free on public repos) means nothing reaches `main` any other way. An undo is published right away for a change shipped in the same conversation, and previewed first for older ones.
+- **"Ship it" merges; "undo that" reverts.** `main` deploys to the live site automatically, and a GitHub ruleset (free on public repos) means nothing reaches `main` any other way. An undo is published right away for the most recent ship, and previewed first when newer changes went live after it.
 - **Deploys only from git.** No manual deploys, ever: they bypass the record, and the next merge silently reverts them.
 - **Missing key? The feature steps back; the page never breaks.** The one key (contact form) lives in Cloudflare under Production, never in the repo and never in Preview.
 
