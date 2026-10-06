@@ -11,6 +11,10 @@
   "main": "src/worker.ts",
   "compatibility_date": "2026-10-01",
 
+  // Wrangler builds dist/ itself before every deploy, preview and local run,
+  // so the site still builds if Cloudflare's "Build command" box is blank.
+  "build": { "command": "npm run build", "watch_dir": ["src", "plugins", "public"] },
+
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

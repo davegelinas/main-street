@@ -69,7 +69,7 @@ git push -u origin main
 
 Follow the site's `docs/setup-guide.md` in the owner's accounts, with the owner beside you: **Step 3** (connect the owner's AI to GitHub), then **Step 5** onward:
 
-- **Connect Cloudflare** (`SETUP.md` box 3): **Workers & Pages** → **Create application** → **Import a repository** → the repo. The project name must be exactly the `name` in `wrangler.jsonc`; keep the suggested build (`npm run build`) and deploy (`npx wrangler deploy`) commands. Then **Settings** → **Variables and Secrets** → add the secret `CONTACT_TO_EMAIL` (the owner's inbox).
+- **Connect Cloudflare** (`SETUP.md` box 3): **Workers & Pages** → **Create application** → **Import a repository** → the repo. The project name must be exactly the `name` in `wrangler.jsonc`. **Build command:** `npm run build` (Cloudflare doesn't fill it in; type it if the box is empty). Deploy command: `npx wrangler deploy`. Then **Settings** → **Variables and Secrets** → add the secret `CONTACT_TO_EMAIL` (the owner's inbox).
 - **Step 5:** check it's live and the repo is public.
 - **Step 6:** lock the live site (GitHub ruleset and settings).
 - **Step 7:** make the owner's **Edit my website** button, and have the owner ship one change and one undo themselves.

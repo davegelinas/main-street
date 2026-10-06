@@ -194,7 +194,7 @@ Free, cookieless, nothing to install: Cloudflare → **Web Analytics** → **Add
 
 ## For helpers who prefer a terminal
 
-Steps 2 and 4 can be done from a terminal instead: see [START-HERE.md](https://github.com/davegelinas/main-street/blob/main/START-HERE.md) in the toolkit, then tick boxes 1 and 2 in `SETUP.md`. **Step 3 still happens in the owner's AI account**, or their Edit my website button won't work. Steps 5 onward are the same, in the owner's accounts. Never deploy from your own machine (`wrangler deploy`): Cloudflare builds from git.
+Steps 2 and 4 can be done from a terminal instead: see [START-HERE.md](https://github.com/davegelinas/main-street/blob/main/START-HERE.md) in the toolkit, then tick boxes 1 and 2 in `SETUP.md`. **Step 3 still happens in the owner's AI account**, or their Edit my website button won't work. On this path the Deploy button didn't connect Cloudflare or ask for the contact inbox, so do the import in `SETUP.md` box 3 (it includes the build command and the `CONTACT_TO_EMAIL` secret). Steps 5 onward are the same, in the owner's accounts. Never deploy from your own machine (`wrangler deploy`): Cloudflare builds from git.
 
 ## What "done" looks like
 
