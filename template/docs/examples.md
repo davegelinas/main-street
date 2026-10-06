@@ -45,7 +45,7 @@ That's the whole skill. Below, the same kind of one-liners, slowed down.
 
 **You send:** "We're closed December 24 through January 1. Update the site."
 
-**You see:** a preview link a few minutes later. At the top of the page, a line says "Closed Thursday, December 24 to Friday, January 1." Your AI tells you it shows on your live site three weeks ahead, says "Closed today" on those days, and disappears by itself afterwards.
+**You see:** a preview link a few minutes later. At the top of the page, a line says "Closed Thu, Dec 24 to Fri, Jan 1." Your AI tells you it shows on your live site three weeks ahead, says "Closed today" on those days, and disappears by itself afterwards.
 
 **You say:** "ship it." The live site updates about a minute later.
 

@@ -54,9 +54,9 @@ try {
   assert.ok(!html.includes(`"validFrom":"2020-01-01"`), "an ended closure reached structured data");
   // Each closure gets its own notice line, dates in words, soonest first,
   // notes escaped; ended ones are left out.
-  const words = (iso) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+  const words = (iso, len = "long") => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { weekday: len, month: len, day: "numeric", timeZone: "UTC" });
   const parade = `<p class="announcement closure" data-from="${nextYear}-11-04" data-to="${nextYear}-11-04" hidden><strong>Closed</strong> ${words(`${nextYear}-11-04`)}, for the &quot;Fall&quot; parade &amp; fair.</p>`;
-  const holidays = `<p class="announcement closure" data-from="${nextYear}-12-24" data-to="${nextYear}-12-26" hidden><strong>Closed</strong> ${words(`${nextYear}-12-24`)} to ${words(`${nextYear}-12-26`)}.</p>`;
+  const holidays = `<p class="announcement closure" data-from="${nextYear}-12-24" data-to="${nextYear}-12-26" hidden><strong>Closed</strong> ${words(`${nextYear}-12-24`, "short")} to ${words(`${nextYear}-12-26`, "short")}.</p>`;
   assert.ok(html.includes(parade), "closure notice with a note is missing or not escaped");
   assert.ok(html.includes(holidays), "closure notice for a range is missing");
   assert.ok(html.indexOf(parade) < html.indexOf(holidays), "closure notices are not in date order");

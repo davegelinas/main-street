@@ -41,8 +41,9 @@ Say what you checked, even when the answer is "looks fine."
    holiday closures, price changes, new offerings. Ask one question about it.
 7. **Announcement and closures.** Is the announcement still about something
    current? Any closures coming up that aren't in `site.closedOn` yet
-   (holidays especially)? Past `site.closedOn` entries can be tidied away in
-   the next change; they no longer show.
+   (holidays especially)? Past `site.closedOn` entries no longer show; tidy
+   them away in a change of their own (never riding along with another
+   change, so an undo of that change can't bring them back).
 8. **Analytics (if enabled).** You can't see Cloudflare's numbers yourself.
    Ask the owner for a screenshot of the project's **Metrics** page, then
    summarize in plain English: roughly how many visitors, which pages, one

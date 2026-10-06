@@ -14,6 +14,7 @@
 //                                       (only strip camera data, in place;
 //                                        what CI runs on every change)
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { resolve, dirname, extname, basename, relative, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -63,7 +64,9 @@ function hasGps(exif) {
   return false;
 }
 
-let located = 0;
+// Located photos, counted once even when the same file sits in the shoebox
+// and in public/images.
+const located = new Set();
 
 // Re-encode in the same format with no metadata (sharp drops it by default).
 // rotate() first, so photos keep the orientation the phone recorded.
@@ -111,7 +114,7 @@ for (const full of files) {
   const kb = Math.round(statSync(full).size / 1024);
   const dirty = hasCameraData(meta);
   const gps = hasGps(meta.exif);
-  if (gps) located++;
+  if (gps) located.add(createHash("sha1").update(readFileSync(full)).digest("hex"));
   const what = gps ? "its GPS location and other camera data" : "hidden camera data";
   const wide = shipsToSite && (meta.width ?? 0) > MAX_WIDTH;
   const heavy = shipsToSite && kb * 1024 > MAX_BYTES;
@@ -157,6 +160,6 @@ const summary = checkOnly
   ? (problems === 0 ? "\nAll photos are clean." : `\n${problems} photo(s) need attention (see above).`)
   : `\n${fixed} photo(s) updated${problems ? `, ${problems} need attention (see above)` : ""}.`;
 console.log(summary);
-if (located) console.log(`${located} photo(s) had a GPS location (where they were taken). Tell the owner in one line, and see rules/deploy.md, "I uploaded my photos".`);
+if (located.size) console.log(`${located.size} photo(s) had a GPS location (where they were taken). Tell the owner in one line, and see rules/deploy.md, "I uploaded my photos".`);
 // --check and --strip fail when something couldn't be made safe, so CI shows it.
 process.exit((checkOnly || stripOnly) && problems > 0 ? 1 : 0);

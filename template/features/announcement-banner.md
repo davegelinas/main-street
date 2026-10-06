@@ -7,7 +7,7 @@ A band at the top of the homepage with two kinds of short lines: **closure notic
 Every closure gets its own line, written from the dates, soonest first:
 
 - `"2026-11-04"` shows "Closed Wednesday, November 4."
-- `{ "dates": "2026-12-24 to 2026-12-26", "note": "for the holidays" }` shows "Closed Thursday, December 24 to Saturday, December 26, for the holidays."
+- `{ "dates": "2026-12-24 to 2026-12-26", "note": "for the holidays" }` shows "Closed Thu, Dec 24 to Sat, Dec 26, for the holidays."
 
 Each line appears 21 days before the closure starts and disappears after its last day, by the visitor's own date. On those days the page also says "Closed today", and Google gets them as special hours. No announcement needed, and nothing to take down: a closure that has ended drops off the site by itself, and later closures stay put.
 

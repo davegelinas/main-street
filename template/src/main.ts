@@ -68,11 +68,10 @@ if (!closedToday) {
 }
 // Closure notices: each line shows from 21 days before its first day until
 // its last, by the visitor's own date. The build already dropped past ones.
-// Preview links (<branch>.<project>.pages.dev) and local dev show every
-// upcoming closure, so the owner can see what they're approving.
-const host = location.hostname;
-const isPreview = /\.[^.]+\.pages\.dev$/.test(host) && host.split(".").length > 3 || host === "localhost" || host === "127.0.0.1";
-const noticeHorizon = isPreview ? "9999-12-31" : iso(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 21));
+// A link ending in ?closures shows every upcoming closure, so the owner can
+// see a closure change they're approving before its three-week window opens.
+const showAllClosures = /[?&#]closures\b/.test(location.search + location.hash);
+const noticeHorizon = showAllClosures ? "9999-12-31" : iso(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 21));
 document.querySelectorAll<HTMLElement>(".closure[data-from][data-to]").forEach((line) => {
   line.hidden = !((line.dataset.to ?? "") >= isoToday && (line.dataset.from ?? "") <= noticeHorizon);
 });

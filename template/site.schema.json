@@ -154,7 +154,7 @@
           "type": "string"
         },
         "closedOn": {
-          "description": "One-off closures: a date like \"2026-11-04\", a range like \"2026-12-24 to 2026-12-26\", or either with a short note: { \"dates\": \"2026-12-24 to 2026-12-26\", \"note\": \"for the holidays\" }. Each shows as its own line at the top of the homepage (\"Closed Thursday, December 24 to Saturday, December 26, for the holidays.\") from 21 days before until it ends, the page says \"Closed today\" on those days, and Google gets them as special hours. No announcement needed. Past closures drop off the site by themselves; tidy them out of this list now and then.",
+          "description": "One-off closures: a date like \"2026-11-04\", a range like \"2026-12-24 to 2026-12-26\", or either with a short note: { \"dates\": \"2026-12-24 to 2026-12-26\", \"note\": \"for the holidays\" }. Each shows as its own line at the top of the homepage (\"Closed Thu, Dec 24 to Sat, Dec 26, for the holidays.\") from 21 days before until it ends, the page says \"Closed today\" on those days, and Google gets them as special hours. No announcement needed. Past closures drop off the site by themselves; the monthly checkup tidies them out of this list.",
           "items": {
             "oneOf": [
               {

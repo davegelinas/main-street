@@ -237,18 +237,20 @@ function upcomingClosures(cfg: Config, warn?: (msg: string) => void): Closure[] 
     .sort((a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to));
 }
 
-// "2026-12-24" -> "Thursday, December 24" (en-US, the date as written).
-function dayInWords(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+// "2026-12-24" -> "Thursday, December 24", or "Thu, Dec 24" when short (en-US,
+// the date as written). Ranges use the short form so they fit one phone line.
+function dayInWords(iso: string, short = false): string {
+  const len = short ? "short" : "long";
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { weekday: len, month: len, day: "numeric", timeZone: "UTC" });
 }
 
-// One short line per closure: "Closed Thursday, December 24 to Saturday,
-// December 26, for the holidays." Hidden until the page script shows the ones
+// One short line per closure: "Closed Wednesday, November 4, for the parade."
+// or "Closed Thu, Dec 24 to Sat, Dec 26, for the holidays." Hidden until the page script shows the ones
 // that start within 21 days (by the visitor's date) and haven't ended.
 function closureNotices(cfg: Config, warn?: (msg: string) => void): string {
   return upcomingClosures(cfg, warn)
     .map(({ from, to, note }) => {
-      const when = from === to ? dayInWords(from) : `${dayInWords(from)} to ${dayInWords(to)}`;
+      const when = from === to ? dayInWords(from) : `${dayInWords(from, true)} to ${dayInWords(to, true)}`;
       return `<p class="announcement closure" data-from="${from}" data-to="${to}" hidden><strong>Closed</strong> ${esc(when)}${note ? `, ${esc(note)}` : ""}.</p>`;
     })
     .join("\n  ");
