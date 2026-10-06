@@ -112,9 +112,11 @@ try {
     console.log("  INFO  no analytics beacon, visitor stats off. Turn them on with one click (Cloudflare -> Workers & Pages -> your project -> Metrics -> Enable Web Analytics); they start after the next deployment.");
   }
   const starters = ["Your photo here", "Placeholder image", "Placeholder gallery image", "placeholder copy", "Example service", "lorem ipsum", "Your first real customer quote"];
-  const found = starters.filter((s) => text.toLowerCase().includes(s.toLowerCase()));
+  // Match what visitors can see: HTML comments hold notes for the AI, not page text.
+  const visible = text.replace(/<!--[\s\S]*?-->/g, "").toLowerCase();
+  const found = starters.filter((s) => visible.includes(s.toLowerCase()));
   if (found.length) {
-    console.log(`  INFO  this page still shows starter placeholder text (${found.join("; ")}). Replace it before shipping. Ask your AI to rewrite it for your business.`);
+    console.log(`  INFO  this page still shows starter placeholder text (${found.join("; ")}). Ask your AI to replace it with your own words and photos.`);
   }
 } catch {
   console.log("  INFO  could not read the homepage for the integrations summary.");

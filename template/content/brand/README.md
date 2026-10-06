@@ -9,9 +9,9 @@ This folder is your **shoebox**. Whatever you put here, your AI uses to build yo
 
 ## Adding a photo
 
-1. **Turn location off first.** This folder is public, like your website, and phone photos can carry the exact spot where they were taken. On iPhone: in the Share sheet, tap **Options** and turn off **Location**. On Android: turn off **Location tags** in your camera's settings.
+1. **Turn location off first.** This folder is public, like your website, and phone photos can carry the exact spot where they were taken. On iPhone: in the Photos app, open each photo, swipe up, tap **Adjust** next to the little map, and choose **No Location**. On Android: open the photo's details and remove the location.
    iPhone tip: **Settings** → **Camera** → **Formats** → **Most Compatible** makes new photos JPGs. Websites can't show Apple's HEIC format.
-2. Open `photos`, then click **Add file** → **Upload files**, pick your photos, and click **Commit changes**.
+2. Open `photos`, then click **Add file** → **Upload files** and pick your photos. Tap the green button at the bottom (**Commit changes** or **Propose changes**); if the next page says **Create pull request**, tap that too.
 3. Tell your AI: "I uploaded my photos."
 
 What to shoot, and more tips: [docs/gather-your-stuff.md](../../docs/gather-your-stuff.md).

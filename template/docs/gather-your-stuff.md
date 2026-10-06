@@ -35,11 +35,11 @@ What makes a good phone photo: daylight beats flash, morning and late afternoon 
 
 Photos go into your site's **photos folder on GitHub**. Sending them in the chat isn't enough: your AI can see them there, but it can't save them to your site.
 
-1. **Turn location off first.** Phone photos can carry the exact spot where they were taken, and your website's files are public. Once a photo is uploaded, the original stays in your site's history. On iPhone: in the Share sheet, tap **Options** at the top and turn off **Location**. On Android: turn off **Location tags** in your camera's settings.
+1. **Turn location off first.** Phone photos can carry the exact spot where they were taken, and your website's files are public. Once a photo is uploaded, the original stays in your site's history. On iPhone: in the Photos app, open each photo, swipe up, tap **Adjust** next to the little map, and choose **No Location**. On Android: open the photo's details and remove the location.
 2. **iPhone: save new photos as JPGs.** **Settings** → **Camera** → **Formats** → **Most Compatible**. Websites can't show Apple's HEIC format.
 3. **Open your photos folder.** On github.com, in your repository, open `content/brand/photos`. (Or ask your AI: "Send me the link to upload photos.")
 4. Click **Add file** → **Upload files**, and pick your photos. On a phone, if you don't see **Add file**, tap **aA** in Safari's address bar → **Request Desktop Website**.
-5. Click **Commit changes**. If GitHub asks, choose to start a new branch: that's your site's lock doing its job.
+5. Tap the green button at the bottom (**Commit changes** or **Propose changes**). If the next page says **Create pull request**, tap that too: that's your site's lock doing its job.
 6. Tell your AI: "I uploaded my photos." It shrinks them, strips any hidden location data that slipped through, and shows you a preview.
 
 Simple names help but aren't required: `storefront.jpg`, `team.jpg`, `croissants.jpg`.

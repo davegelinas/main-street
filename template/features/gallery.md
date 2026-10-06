@@ -16,7 +16,20 @@ Where photos live: the owner's originals can sit in the shoebox (`content/brand/
 3. Add each photo to the gallery markup with real alt text ("Our team finishing a job on Elm Street"), replacing the placeholder `gallery-*.svg` entries.
 4. Ship via preview so the owner can see the photos in place.
 
-**Photo attached in chat?** Some cloud AIs can see an attached photo but can't save it as a file. If you can't, ask the owner to upload it on GitHub instead: their repository → `content/brand/photos` → **Add file** → **Upload files** → **Commit changes** (see `docs/browser-only.md`, the photos part). Then take it from there.
+**Photo attached in chat?** Some cloud AIs can see an attached photo but can't save it as a file. If you can't, send the owner the upload message below.
+
+### The photo upload message
+
+The one way owners add photos. Send it with the real link filled in:
+
+> Here's how to add your photos (about two minutes):
+> 1. First, hide where they were taken. In your Photos app, open each photo, swipe up, tap **Adjust** next to the little map, and choose **No Location**. (Android: open the photo's details and remove the location.)
+> 2. Open this link: `https://github.com/OWNER/REPO/upload/main/content/brand/photos`
+> 3. Tap **choose your files** and pick the photos (under 25 MB each).
+> 4. Tap the green button at the bottom (**Commit changes** or **Propose changes**). If the next page says **Create pull request**, tap that too.
+> 5. Tell me "done".
+
+Then follow `rules/deploy.md`, "I uploaded my photos."
 
 That's it. No CMS, no admin panel, no image service. Files in a folder.
 

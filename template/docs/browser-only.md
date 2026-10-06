@@ -138,16 +138,16 @@ Real photos beat everything. Use your phone.
 
 **Step 1: Pick 5 to 10 photos.** Storefront, interior, your work, your team. The best photos are bright and simple. Use JPG or PNG photos: iPhones sometimes save photos as HEIC, which websites cannot display. To switch, open iPhone **Settings** → **Camera** → **Formats** → **Most Compatible** (new photos will be JPG).
 
-**Location tip:** your repository is public, and phone photos can carry the GPS spot where they were taken. Before you share a photo, turn location off: on iPhone, open the photo → **Share** → **Options** → **Location** off. (An automatic check also strips it before anything reaches your live site, but the original you upload stays in your site's public history, so turning location off first is what really protects you.)
+**Location tip:** your repository is public, and phone photos can carry the GPS spot where they were taken. Before you upload, hide it: in your Photos app, open each photo, swipe up, tap **Adjust** next to the little map, and choose **No Location**. (An automatic check also strips it before anything reaches your live site, but the original you upload stays in your site's public history.)
 
 **Step 2: Upload them.**
 
 1. On github.com, in your repository, click through to the folder **`content/brand/photos/`**.
 2. Click **Add file**, then **Upload files**.
 3. Drag your photos in from your phone or computer. (If a photo is over 25 MB, shrink it first; phone photos are usually fine.)
-4. Click **Commit changes**.
+4. Tap the green button at the bottom (**Commit changes**, or **Propose changes** once your site is locked). If the next page says **Create pull request**, tap that too.
 
-**Step 3: Tell the AI.** Go back to the chat and say: "I uploaded my photos to content/brand/photos. Here are the filenames: ..." (list what you uploaded). The AI will tell you exactly what to paste and where so the photos appear on the site, usually back in `site.config.json`.
+**Step 3: Tell the AI.** Go back to the chat and say: "I uploaded my photos to content/brand/photos. Here are the filenames: ..." (list what you uploaded). The AI will tell you exactly what to paste and where so the photos appear on the site (in the page markup, `index.html`).
 
 ---
 

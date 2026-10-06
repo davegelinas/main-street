@@ -28,8 +28,8 @@ Say what you checked, even when the answer is "looks fine."
    listing, so ask whether the site still matches their Google Business
    Profile.
 2. **Placeholder copy.** Search the pages for leftover starter text (the audit
-   script flags it: placeholder copy, "Example service", "Your first real
-   customer quote"). Anything still generic gets rewritten or flagged.
+   script flags visible starter text and placeholder images: "Example
+   service", "Your first real customer quote", "Your photo here"). Anything still generic gets rewritten or flagged.
 3. **Photos.** Placeholder or stand-in images still in use? Photos the owner
    might want to refresh? Ask, don't assume.
 4. **Reviews.** Any new Google, Yelp, or Facebook reviews worth featuring? Ask
