@@ -125,6 +125,11 @@
   --on-band-soft: #c7b3bd;
 }
 
+/* Browsers without color-mix() (Safari before 16.2) get a plain shadow. */
+@supports not (color: color-mix(in srgb, red, red)) {
+  :root { --shadow: 0 12px 32px -16px rgb(0 0 0 / 0.22); }
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -213,6 +218,7 @@ a:hover { color: var(--accent-text); text-decoration-thickness: 2px; }
   position: sticky;
   top: 0;
   z-index: 50;
+  background: var(--bg); /* browsers without color-mix() */
   background: color-mix(in srgb, var(--bg) 94%, transparent);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -459,6 +465,7 @@ main > section:nth-of-type(even) { background: var(--bg-alt); }
   content: "";
   position: absolute;
   inset: 1.1rem;
+  border: 1.5px solid var(--line);
   border: 1.5px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: inherit;
 }
@@ -523,7 +530,9 @@ main > section:nth-of-type(even) { background: var(--bg-alt); }
   background: var(--line);
 }
 .gallery-grid figure:nth-child(3n + 1) { grid-column: 1 / -1; aspect-ratio: 3 / 2; }
-.gallery-grid img { width: 100%; height: 100%; object-fit: cover; }
+/* The photo fills its tile whatever its shape: a tall lead photo can't
+   stretch the rows. */
+.gallery-grid img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .gallery-grid figcaption {
   position: absolute;
   inset: auto 0 0;
@@ -741,6 +750,7 @@ address { font-style: normal; }
   margin-bottom: 0.75rem;
 }
 .footer-base {
+  border-top: 1px solid rgb(255 255 255 / 0.15);
   border-top: 1px solid color-mix(in srgb, var(--on-band) 15%, transparent);
   padding-top: 1.5rem;
   display: flex;
@@ -788,6 +798,7 @@ address { font-style: normal; }
     right: 0;
     background: var(--bg);
     border-bottom: 1px solid var(--line);
+    box-shadow: 0 24px 32px -24px rgb(0 0 0 / 0.3);
     box-shadow: 0 24px 32px -24px color-mix(in srgb, var(--ink) 40%, transparent);
     padding: 0.25rem 1.25rem 1rem;
   }
@@ -807,7 +818,7 @@ address { font-style: normal; }
   .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); align-items: start; }
   .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
   .gallery-grid figure:nth-child(3n + 1) { grid-column: auto; aspect-ratio: 1; }
-  .gallery-grid figure:first-child { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+  .gallery-grid figure:first-child { grid-column: span 2; grid-row: span 2; }
   .contact-grid form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
 }
 

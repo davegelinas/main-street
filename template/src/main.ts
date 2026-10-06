@@ -35,9 +35,12 @@ document.addEventListener("keydown", (e) => {
 // Today's hours: mark today's row in every hours list and show it in the
 // hero. Uses the visitor's day of the week. Labels come from business.hours:
 // "Monday – Friday", "Saturday", "Sat & Sun", "Weekends", "Every day".
+// A label with an exception ("Every day except Sunday") is never claimed as
+// today: a wrong "Today: 9 to 5" sends someone to a locked door.
 const DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 function coversToday(label: string, today: number): boolean {
   const text = label.toLowerCase();
+  if (/\b(except|but|closed)\b/.test(text)) return false;
   if (/every ?day|daily/.test(text)) return true;
   if (/weekdays?/.test(text)) return today >= 1 && today <= 5;
   if (/weekends?/.test(text)) return today === 0 || today === 6;

@@ -3,7 +3,9 @@
 //   - Strips hidden camera data (GPS location, camera model, dates) from every
 //     photo under public/ and content/. Phone photos often carry the exact
 //     spot they were taken, which for a home business is the owner's home.
-//   - Converts oversized photos under public/ to WebP, max 1600px wide.
+//   - Converts oversized photos under public/ (over 200 KB or 1200px wide) to
+//     WebP, max 1200px wide: photo slots are at most about 700 px wide, and
+//     the hero photo stays inside the 200 KB budget in rules/design.md.
 // Usage: npm run optimize-images        (fix everything it can)
 //        npm run check-images           (report only; exits 1 if a photo
 //                                        still carries camera data or can't
@@ -19,8 +21,8 @@ import sharp from "sharp";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const checkOnly = process.argv.includes("--check");
 const stripOnly = process.argv.includes("--strip");
-const MAX_BYTES = 400 * 1024;
-const MAX_WIDTH = 1600;
+const MAX_BYTES = 200 * 1024;
+const MAX_WIDTH = 1200;
 const PHOTO_EXT = [".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".avif"];
 const PHONE_ONLY_EXT = [".heic", ".heif"];
 const VIDEO_EXT = [".mp4", ".mov", ".m4v"];

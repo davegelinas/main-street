@@ -6,7 +6,8 @@
 //   src/styles.css. No words on it: previews already print the business name
 //   next to the picture, and text would need fonts the build server may lack.
 // Uses sharp (already installed for optimize-images). If anything goes wrong
-// the build still succeeds; previews just show no picture.
+// the build still succeeds, and the caller removes the tags that point at
+// the missing picture.
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
@@ -45,20 +46,35 @@ function landscape(c: Record<string, string>): string {
 </svg>`;
 }
 
-export async function writeShareImage(root: string, outDir: string, cfg: Config): Promise<void> {
+// Returns true when images/share.jpg was written. A hero photo sharp can't
+// read falls back to the theme picture rather than to no picture.
+export async function writeShareImage(root: string, outDir: string, cfg: Config): Promise<boolean> {
   const out = resolve(outDir, "images/share.jpg");
+  const warn = (err: unknown) =>
+    console.warn(`site-config: could not make the link-preview picture from the hero photo, so it uses the theme picture: ${(err as Error).message}`);
   try {
     const sharp = (await import("sharp")).default;
     mkdirSync(dirname(out), { recursive: true });
+    const make = (input: string | Buffer) =>
+      sharp(input)
+        .rotate()
+        .resize(1200, 630, { fit: "cover", position: "attention" })
+        .flatten({ background: "#ffffff" })
+        .jpeg({ quality: 82, mozjpeg: true })
+        .toFile(out);
     const photo = heroPhoto(root, outDir);
-    const input = photo || Buffer.from(landscape(themeColors(root, String(cfg.site?.theme ?? ""))));
-    await sharp(input)
-      .rotate()
-      .resize(1200, 630, { fit: "cover", position: "attention" })
-      .flatten({ background: "#ffffff" })
-      .jpeg({ quality: 82, mozjpeg: true })
-      .toFile(out);
+    if (photo) {
+      try {
+        await make(photo);
+        return true;
+      } catch (err) {
+        warn(err);
+      }
+    }
+    await make(Buffer.from(landscape(themeColors(root, String(cfg.site?.theme ?? "")))));
+    return true;
   } catch (err) {
     console.warn(`site-config: could not make the link-preview picture (images/share.jpg): ${(err as Error).message}`);
+    return false;
   }
 }

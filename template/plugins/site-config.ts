@@ -441,7 +441,16 @@ export function siteConfig(): Plugin {
       } catch {
         // No llms.txt in public/: nothing to do.
       }
-      await writeShareImage(root, outDir, cfg);
+      // No share picture: drop the tags that point at it, so link previews
+      // show the title alone instead of a broken image.
+      if (!(await writeShareImage(root, outDir, cfg))) {
+        for (const file of readdirSync(outDir, { recursive: true, encoding: "utf8" }).filter((f) => f.endsWith(".html"))) {
+          const path = resolve(outDir, file);
+          const html = readFileSync(path, "utf8");
+          const out = html.replace(/[ \t]*<meta (?:property="og:image(?::width|:height)?"|name="twitter:(?:card|image)")[^>]*>\n?/g, "");
+          if (out !== html) writeFileSync(path, out);
+        }
+      }
       await writeIcons(root, outDir, cfg, monogram(cfg), SANS_THEMES.has(String(cfg.site?.theme ?? "")));
     },
   };

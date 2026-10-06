@@ -22,7 +22,7 @@ This site should look like the business, not like a template. Warm, confident, u
 - **No stock look.** Avoid generic hero layouts (centered headline + two buttons + abstract shapes). Use the business's real photos, real voice, real details. Asymmetry and restraint beat symmetry and noise.
 - **Images:** optimized (see `rules/content.md`), sized for their slot, never stretched. `loading="lazy"` below the fold.
 - **No placeholders live.** Never ship the "Your photo here" pictures; `npm run audit` flags them. No photo yet means `heroPhoto` off (below).
-- **Performance budget:** first load under ~100KB total on the homepage. If a change blows past that, say so before shipping.
+- **Performance budget:** the homepage's first load stays under about 100 KB before photos (the heading font is most of it), plus the hero photo: aim for under 200 KB. `npm run optimize-images` usually gets a landscape phone photo there (1200 px wide, WebP). If a change blows past that, say so before shipping.
 - **Dark mode:** not required. A local business site doesn't need it; skip it rather than doing it badly. Pages declare `color-scheme: only light` so phones that force-darken websites leave the owner's colors and photos alone.
 
 ## Brand pieces
