@@ -13,6 +13,13 @@ If you have a current site, tell your AI its domain: "Pull everything you can fr
 - **`logo/`**: your logo file, if you have one. Any format. No logo? Skip it, your AI will set your business name in nice type instead.
 - **`brief.md`**: the questionnaire about your business (your story, prices, what makes you different). You can fill it in here, or skip it and answer your AI's questions in chat instead. Your AI fills this in for you either way.
 
+## Before you upload a photo
+
+This folder is public, like your website. Phone photos can secretly carry the exact spot they were taken. Turn location off before you upload: once a photo is uploaded, the original stays in your site's public history. Your AI and an automatic check also strip that data before anything reaches your live site.
+
+- **iPhone:** in the Share sheet, tap **Options** at the top and turn off **Location**. To make every new photo a website-friendly JPG: **Settings → Camera → Formats → Most Compatible**.
+- **Android:** in the camera app's settings, turn off **Location tags** (the name varies by phone).
+
 ## Naming your files
 
 Keep names simple and lowercase: `storefront.jpg`, `team.jpg`, `croissants.jpg`, `shop-tour.mp4`. No spaces if you can help it.

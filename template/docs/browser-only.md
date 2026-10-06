@@ -1,6 +1,8 @@
 # The browser-only path: from a ChatGPT or Claude account to a live site
 
-This is the complete path for the person who has **nothing but a chat AI account** (claude.ai or chatgpt.com) and a web browser. No terminal, no installs, no code editor, no helper. Every step is written out; nothing is skipped, because a skipped step is where people get lost.
+This is the path for when your AI **can't make changes itself**: a free plan, or a plain chat window (claude.ai or chatgpt.com) that can't touch your files. If you have a paid AI plan (about $20 a month), the faster way is [setup-guide.md](setup-guide.md), where your AI does the clicking for you. This path is the slower rescue: you do the clicks, and the AI tells you exactly which ones.
+
+You need only a chat AI account and a web browser. No terminal, no installs, no code editor, no helper. Every step is written out; nothing is skipped, because a skipped step is where people get lost.
 
 What you will have at the end: a live business website at your own address, which you update by chatting and clicking buttons on websites.
 
@@ -38,7 +40,7 @@ Your site starts as a folder of files called the **template**. You will download
 
 1. Go to github.com (signed in). Click the **+** at the top right, then **New repository**.
 2. **Repository name:** your business name plus `-site`, all lowercase with dashes. Example: `maple-street-bakery-site`. (No spaces. Dashes are fine.)
-3. Choose **Private**. Your drafts stay yours.
+3. Choose **Public**. Your website is public anyway, and only a public repository gets GitHub's free lock that protects your live site (Part 7). Nothing private ever goes in it.
 4. **Important:** leave **Add a README file** unchecked. An empty repository makes the next step easy.
 5. Click **Create repository**.
 
@@ -55,7 +57,7 @@ Note: the hidden `.github` folder often does not come along in a drag (your comp
 
 **Step 4: Check the hidden folder made it.**
 
-Scroll through your repository's file list. You should see a folder named **`.github`** (with a dot in front). It runs automatic safety checks on your changes. (Cloudflare builds every branch except the production one automatically, so your staging branch gets its preview build with no extra settings needed.)
+Scroll through your repository's file list. You should see a folder named **`.github`** (with a dot in front). It runs automatic safety checks on your changes. (Cloudflare also builds a preview link for every change automatically, with no extra settings.)
 
 - **If you see `.github`:** you are done with this part.
 - **If you don't see it:** your computer hid it during the upload. This is normal and fixable in two minutes:
@@ -75,7 +77,7 @@ One more tiny file almost never survives the upload: `.node-version`. It tells t
 
 **A word about the checks.** After each save, GitHub runs an automatic check on your files. A green check mark means everything is fine. A red X means something in the files is broken. Do not panic: copy the error text into your chat and your AI will hand you the fix. Most fixes are one paste.
 
-Your repository now holds your entire website. Nothing is public yet; you have not connected anything.
+Your repository now holds your entire website. During setup, saving straight to `main` (the live copy) is fine; Part 7 locks it. Nothing is on the internet yet; you have not connected anything.
 
 ---
 
@@ -87,11 +89,11 @@ Your AI has not seen your site yet. Give it the site's operating manual, then te
 
 **Step 2: Attach three files.** Click the **paperclip** (attach) button in the chat box and upload these files from the `template` folder you downloaded:
 
-- `CLAUDE.md`
 - `AGENTS.md`
 - `rules/beginner-mode.md`
+- `rules/deploy.md`
 
-(These are the operating manual your site carries for any AI. Your AI will read them. If it ever needs another file from the `rules/` folder later, it will ask you to attach that one too.)
+(`AGENTS.md` is the operating manual your site carries for any AI. Your AI will read all three. If it ever needs another file from the `rules/` folder later, it will ask you to attach that one too.)
 
 **Step 3: Send this message.** Copy and paste it exactly:
 
@@ -120,7 +122,7 @@ file for me to paste into GitHub.
 
 **Step 3: Paste it into GitHub.**
 
-1. Go to your repository on github.com. Check the branch dropdown (top left) says **`main`**.
+1. Go to your repository on github.com. (Saving straight to `main` is fine during setup, before the lock in Part 7.)
 2. Click the file **`site.config.json`**.
 3. Click the **pencil icon** (Edit this file) at the top right.
 4. Click inside the text box, select everything (Ctrl+A or Cmd+A), and paste (Ctrl+V or Cmd+V) the AI's text over it.
@@ -136,6 +138,8 @@ Real photos beat everything. Use your phone.
 
 **Step 1: Pick 5 to 10 photos.** Storefront, interior, your work, your team. The best photos are bright and simple. Use JPG or PNG photos: iPhones sometimes save photos as HEIC, which websites cannot display. To switch, open iPhone **Settings** → **Camera** → **Formats** → **Most Compatible** (new photos will be JPG).
 
+**Location tip:** your repository is public, and phone photos can carry the GPS spot where they were taken. Before you share a photo, turn location off: on iPhone, open the photo → **Share** → **Options** → **Location** off. (An automatic check also strips it before anything reaches your live site, but the original you upload stays in your site's public history, so turning location off first is what really protects you.)
+
 **Step 2: Upload them.**
 
 1. On github.com, in your repository, click through to the folder **`content/brand/photos/`**.
@@ -147,24 +151,7 @@ Real photos beat everything. Use your phone.
 
 ---
 
-## Part 6: Create your staging branch (3 minutes)
-
-From here on, you work with **two copies** of your site:
-
-- **`main`** is your live site, the one customers see.
-- **`staging`** is your draft copy, where changes appear first so you can check them privately.
-
-**Steps:**
-
-1. On your repository page, click the branch dropdown (it says **`main`**).
-2. Click **View all branches**.
-3. Click **New branch**.
-4. Type `staging` as the branch name. Make sure it says it will be created from `main`.
-5. Click **Create new branch**.
-
----
-
-## Part 7: Connect Cloudflare (15 minutes)
+## Part 6: Connect Cloudflare (15 minutes)
 
 This connects your GitHub repository to the service that publishes your site.
 
@@ -186,13 +173,27 @@ This connects your GitHub repository to the service that publishes your site.
 
 **Step 3: Wait.** Cloudflare builds your site (one to three minutes). When you see a green checkmark, your site is live at the address shown, something like `https://maple-street-bakery.pages.dev`.
 
-**Step 4: Know where your staging (preview) address will appear.**
+**Step 4: Turn on visitor stats.** In Cloudflare, click your project → **Metrics** → **Enable** under Web Analytics. One click.
 
-1. In Cloudflare, click your project, then the **Deployments** tab. Right now there is only a `main` row. That is normal: Cloudflare builds a branch only after it changes, and your `staging` branch has not changed since before Cloudflare was connected.
-2. Your first commit to `staging` (Part 8, Steps 1-2) triggers its first preview build. After that, a row whose **Branch** column says `staging` appears here. Click it.
-3. Its address looks like `https://staging.maple-street-bakery.pages.dev`. **Bookmark this.** This is your preview link.
+Your free `pages.dev` address is hidden from Google on purpose. It is a working site you can check and share, not your launch. The launch is your own domain, later (Part 10).
 
-A note on privacy: the preview link is not access-protected. Anyone who has the address can open it, but it is not linked from anywhere public. That is plenty for a pre-launch preview; just do not treat it as password-protected.
+---
+
+## Part 7: Lock your live site (5 minutes)
+
+This makes "nothing goes live until you say ship it" true. On github.com, in your repository:
+
+1. **Settings** → **Rules** → **Rulesets** → **New ruleset** → **New branch ruleset**.
+   - **Name:** `Protect live site`. **Enforcement:** Active. Leave the **bypass list empty**.
+   - **Target branches:** **Add target** → **Include default branch**.
+   - Keep **Restrict deletions** and **Block force pushes** checked. Check **Require a pull request before merging**, with required approvals at **0** (your "ship it" is the approval).
+   - Click **Create**.
+2. **Settings** → **General**:
+   - **Features:** turn off **Issues**, and set pull requests to **collaborators only**.
+   - **Pull Requests:** leave only **Allow squash merging** checked (uncheck merge commits and rebase merging), and check **Automatically delete head branches**.
+3. Your account (your picture → **Settings** → **Emails**): check **Keep my email addresses private**.
+
+From now on GitHub will not let anyone save straight to the live site. Every change goes through a pull request, which is exactly what Part 8 does.
 
 ---
 
@@ -202,22 +203,25 @@ From here on, your job is the conversation: you talk, you look at your phone, yo
 
 **Step 1: Tell the AI what's wrong, in plain words.** Examples: "My phone number is wrong, it should be 555-0142." "I don't like the blue, make it green." "Add that we do emergency calls."
 
-**Step 2: Follow the AI's paste steps.** The AI will answer with exact steps: which file to open on github.com, what to find, and the complete replacement text. **Before you paste, check the branch dropdown says `staging`, not `main`.** Then commit.
+**Step 2: Follow the AI's paste steps.** The AI will answer with exact steps: which file to open on github.com, what to find, and the complete replacement text. Paste it, then save like this, every time:
 
-**Step 3: Open your staging preview on your phone.** The very first time, this commit is what triggers the preview build, so give Cloudflare two or three minutes, then find it: go to dash.cloudflare.com, click **Workers & Pages** in the left menu, click your project name, then the **Deployments** tab → the row whose **Branch** says `staging` → open its address. Bookmark it. Tap through every page: home, services, contact. Read every word out loud if you can; you will catch mistakes.
+1. Click **Commit changes**.
+2. Choose **Create a new branch for this commit and start a pull request**.
+3. Click **Propose changes**, then **Create pull request**.
 
-**Step 4: Repeat.** After each new commit to `staging`, wait a couple of minutes, then reload the staging link. If it looks unchanged, open it in a private/incognito window (your browser may be showing the old cached copy). Keep going until you love it. This loop is the whole job, now and forever.
+**Step 3: Open your preview on your phone.** Give Cloudflare a minute or two. On the pull request page, a Cloudflare comment appears with a **preview link**. Open it on your phone. Tap through every page: home, services, contact. Read every word out loud if you can; you will catch mistakes. (The contact form shows an "email us directly" note on previews. That is expected.)
+
+**Step 4: Repeat.** To keep fixing the same change, edit the file again **on that pull request's branch**: on the pull request page, click **Files changed**, then the **⋯** menu on the file → **Edit file**. Each new commit updates the same preview link. If it looks unchanged, open it in a private/incognito window (your browser may be showing the old cached copy). To start a different change, begin again from `main`. Keep going until you love it. This loop is the whole job, now and forever.
 
 ---
 
-## Part 9: Go live ("ship it", 5 minutes)
+## Part 9: Go live ("ship it", 2 minutes)
 
-When the staging site looks right, you publish it with three clicks. A "pull request" is just GitHub's name for copying your staging draft into your live site. You are not asking anyone for anything.
+When the preview looks right, you publish it. A "pull request" is just GitHub's name for a proposed change. You are not asking anyone for anything.
 
-1. On github.com, in your repository, click **Pull requests** (top menu), then **New pull request**.
-2. Set the **base** dropdown to **`main`** and the **compare** dropdown to **`staging`**. (Read it as: "take what's in staging and put it into main.")
-3. Click **Create pull request**, then **Merge pull request**, then **Confirm merge**. If the merge button gets stuck saying "Checking for the ability to merge" for more than a minute, reload the page.
-4. Wait about a minute. Open your `pages.dev` address: your site is live.
+1. On github.com, in your repository, click **Pull requests** (top menu) and open the one you checked.
+2. Click **Squash and merge**, then **Confirm squash and merge**. If the button is stuck saying "Checking for the ability to merge" for more than a minute, reload the page.
+3. Wait about a minute. Open your `pages.dev` address: your site is live.
 
 From now on, **"ship it"** means those clicks. You can also just tell your AI "ship it" and it will walk you through them.
 
@@ -229,9 +233,9 @@ The `pages.dev` address works, but customers expect `yourbusiness.com`. A domain
 
 **The simple version:** buy the domain inside Cloudflare so everything stays in one place: dash.cloudflare.com → **Domain Registration** → search and buy. Then in your Pages project → **Custom domains** → **Set up a custom domain** → enter your domain → Activate. Cloudflare handles the rest.
 
-**Read this before you touch DNS or email:** if you already own a domain, or your business email runs on your domain (like `you@yourbusiness.com`), **do not change DNS records without reading `docs/domains-and-dns.md` first**, or ask your AI: "I have email on my domain. What do I need to protect before connecting it?" Done wrong, this can stop your email from working. Done right, it takes ten minutes.
+**Read this before you touch DNS or email:** if you already own a domain, or your business email runs on your domain (like `you@yourbusiness.com`), **do not change DNS records without reading [domains-and-dns.md](domains-and-dns.md) first**, or ask your AI: "I have email on my domain. What do I need to protect before connecting it?" Done wrong, this can stop your email from working. Done right, it takes ten minutes.
 
-**Contact form emails** (so the form sends inquiries to your inbox) need one free key from Resend. It is all done in the browser: `docs/api-keys.md` walks through it, or ask your AI: "walk me through the Resend key, step by step, browser only."
+**Contact form emails** (so the form sends inquiries to your inbox) need your own domain first. Once it is connected, [api-keys.md](api-keys.md) walks through the one free Resend key, all in the browser, or ask your AI: "walk me through the Resend key, step by step, browser only."
 
 ---
 
@@ -239,9 +243,9 @@ The `pages.dev` address works, but customers expect `yourbusiness.com`. A domain
 
 Before every paste, confirm three things:
 
-1. The branch dropdown says **`staging`**, not `main`.
-2. You are in the file the AI named.
-3. You copied the AI's **complete** block, not half of it.
+1. You are in the file the AI named.
+2. You copied the AI's **complete** block, not half of it.
+3. You will commit it as a **new branch + pull request** (Part 8, Step 2).
 
 Put this on a sticky note until it's habit.
 
@@ -255,13 +259,13 @@ Put this on a sticky note until it's habit.
 
 **"Cloudflare says the build failed."** In Cloudflare, open the failed deployment, click **View build log**, copy the red error lines, and paste them to the AI. It will tell you the exact fix.
 
-**"I published something bad."** In Cloudflare: your project → **Deployments** → find the last good entry → click the three dots → **Rollback**. One click, and the previous version is live again.
+**"I published something bad."** Say "undo that" to your AI. It prepares the undo as a new pull request with its own preview link; check it and say "ship it." (If the live site is badly broken right now, a helper can use Cloudflare's Rollback as an emergency brake, but the undo pull request must still follow, or the next ship re-publishes the bad change.)
 
-**"I can't find my staging link."** Cloudflare dashboard → Workers & Pages → your project → **Deployments** tab → the row whose branch says `staging`.
+**"I can't find my preview link."** Open the pull request on github.com (**Pull requests** in the top menu). Cloudflare's comment on that page has the link. Give it a minute or two after saving.
 
-**"I edited the wrong branch."** It happens. Tell the AI exactly what you did ("I pasted the new hours into main instead of staging"). It will tell you the two or three clicks that fix it. Nothing is unfixable; every change is remembered and reversible.
+**"I tried to edit the live site and GitHub won't let me."** That is the lock from Part 7 doing its job. Edit the file again and choose **Create a new branch for this commit and start a pull request** when you commit. If you already made a branch, tell the AI what you did and it will tell you the clicks that fix it. Nothing is unfixable; every change is remembered and reversible.
 
-**"My AI seems lost."** Start a fresh message with: "Read CLAUDE.md again. I am browser-only: no commands, browser steps with complete paste text." If you started a brand-new chat, re-attach `CLAUDE.md`, `AGENTS.md`, and `rules/beginner-mode.md` first.
+**"My AI seems lost."** Start a fresh message say: "Read AGENTS.md again. I am browser-only: no commands, browser steps with complete paste text." If you started a brand-new chat, re-attach `AGENTS.md`, `rules/beginner-mode.md`, and `rules/deploy.md` first.
 
 ---
 

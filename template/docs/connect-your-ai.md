@@ -1,76 +1,66 @@
-# Connect your AI: use the subscription you already pay for
+# Connect your AI: your web developer, on the plan you already pay for
 
-Your AI assistant is your web developer. It runs on the chat subscription you already have (Claude, ChatGPT, or similar). You do **not** need to buy API access or pay any usage-based billing for the AI itself. (Your site uses at most two free service keys for contact-form email and visitor stats; those are covered in [api-keys.md](api-keys.md) and have nothing to do with your AI.) If an AI ever asks you for an API key *for itself*, say no and tell it to proceed without one.
+Your AI assistant is your web developer. It needs a **paid AI plan, about $20 a month**: Claude Pro or ChatGPT Plus (or higher). Many owners already have one. You never need API keys or usage billing for the AI, and if an AI ever asks you for an API key *for itself*, say no.
 
-Two people make this work, and one flow serves both.
+Why a paid plan: on these plans the AI can make changes to your site by itself and send you a preview link. On free plans it can only chat, so you'd be the one copying its changes into GitHub (that path exists, below, but it's the slow one).
 
-- **The owner** runs the business and, from now on, the website. After the one-time setup, they run it entirely through conversation: they talk to the AI in plain words, check the preview on their phone, and say "ship it." They never install anything, never type a command, never choose between technical options.
-- **The helper** is the somewhat-savvy person who does the one-time setup: a Fiverr freelancer, a friend, a family member. They follow [setup-guide.md](setup-guide.md), connect everything once, and hand it over. (No helper? A capable AI can walk the owner through setup too; the guide says where.)
+You (the owner) connect it yourself, once, as part of [setup-guide.md](setup-guide.md); your AI walks you through it. After that you talk to it in plain words, look at the preview link on your phone, and say "ship it." You never install anything or type a command. (If someone helps you, they do these same steps signed in as you.)
 
-There are no paths to choose. The owner opens the AI they already use and talks. The AI reads the site's operating manual (`CLAUDE.md`) and handles the mechanics itself: if it can reach the site files, it edits directly; if it can't, it gives the owner or helper exact click-by-click steps. Nobody picks a lane.
+*Checked October 2026. These products change their menus often; if a button moved, tell your AI where you are and it will guide you.*
 
-## If you're the owner: connect in two minutes
+## Best: Claude Pro (Claude in the cloud)
 
-1. Open the AI you already pay for: the Claude or ChatGPT app, their websites, or this chat.
-2. Give it the operating manual: attach your site's `CLAUDE.md`, or tell it where your site folder lives. (Your helper may have already done this during setup.)
-3. Say: **"read CLAUDE.md."**
+Works at **claude.ai/code** in a browser, or in the **Code** tab of the Claude phone app. Nothing to install.
 
-Then just talk, like in [these real examples](examples.md):
+**One-time setup (about 5 minutes, signed in as you):**
 
-```
-Change my Saturday hours to 9am to 2pm.
-```
+1. Go to **claude.ai/code** and sign in with your Claude account.
+2. When it asks, **Sign in with GitHub** and approve.
+3. Install the **Claude GitHub App** on the site's repository: go to `github.com/apps/claude/installations/new`, choose **Only select repositories**, pick the site, and save. Leave **Auto-fix** off.
+4. Claude creates a work environment named **Default** for you. Leave it as it is.
+5. Make your **Edit my website** button. Replace `OWNER/REPO` with your site's GitHub address (like `maria-lopez/maple-bakery-site`) and open this link on your phone:
 
-The rhythm from here on: you ask, the change appears on your preview copy, you look at it on your phone, you say **"ship it."** That's the entire job. If your AI has direct access to your files, it edits them and sends you the preview link; if it doesn't, it hands you the exact clicks and paste text and you do the clicking, like in [the browser-only guide](browser-only.md). If your AI ever asks you to choose between technical options, say: "you decide, just get me the preview link."
+   ```
+   https://claude.ai/code?repositories=OWNER/REPO&prompt=Read%20AGENTS.md%20first.%20Here%27s%20what%20I%27d%20like%20to%20change%20on%20my%20website%3A%20
+   ```
 
-One thing to know: in a plain browser chat, play it safe and re-attach `CLAUDE.md` at the start of each new conversation and say "read CLAUDE.md" again. (Some paid plans now keep your files around between chats, ChatGPT through its Library and Claude through Projects, but a fresh chat is the only behavior that works everywhere.)
+   Then use the browser's **Share → Add to Home Screen**. One tap opens Claude with your site already selected and a sentence started: you just finish it ("...change Saturday hours to 9 to 2") and send. (Your AI can make this link for you: say "make my Edit my website button.")
+6. Do one real change together (below).
 
-**If all you have is this browser chat** (no coding app, no terminal, no helper): start with [docs/browser-only.md](browser-only.md). It is the complete path from a ChatGPT or Claude account to a live site, every step written out, nothing installed.
+**Day to day:** tap **Edit my website**, say what you want, open the preview link Claude sends back, say "ship it." Claude publishes it and tells you when it's live.
 
-## If you're the helper: the one-time setup
+## Also good: ChatGPT Plus (Codex)
 
-You're here because the owner trusts you with the technical afternoon. It's about an hour, and [setup-guide.md](setup-guide.md) is written for you, step by step.
+Works at **chatgpt.com/codex** and in the ChatGPT phone app.
 
-1. Get the site folder on GitHub and connected to Cloudflare Pages (setup guide, Steps 1 through 6).
-2. Connect the owner's AI to the site: point their AI app at the site folder or repo, open `CLAUDE.md` together, and send the copy-paste message below.
-3. Do one real change together while the owner watches: change a headline, open the preview link on their phone, say "ship it." Once they've seen the loop, you're done.
-4. Hand it over. The owner runs day-to-day updates alone from here. They'll call you when something looks weird.
+**One-time setup:** in Codex, connect GitHub, give it access to the site's repository, and create an environment for it (accept the defaults). Once.
 
-### How the AI reaches the files (mechanics reference)
+**Day to day:** describe the change. When Codex finishes, tap **Create PR**. A minute later the pull request shows a preview link from Cloudflare: open it on your phone. If it looks right, tap **Squash and merge** → **Confirm squash and merge** (or ask Codex to). A few more taps than Claude, same result.
 
-The contract is the same everywhere: `CLAUDE.md` + `rules/` tell any AI its job. Only the write path varies, and the AI sorts it out on its own. This table is for you, not the owner.
+## Other AIs
 
-| AI | How it sees the files | What happens on a change request |
-|---|---|---|
-| **Claude Code** (terminal app; Claude paid plans, $20/mo and up; a helper's tool, not the owner's) | Opens the site folder directly on the helper's computer | Full loop: edits, commits, pushes (needs the helper's git login working); the owner approves the preview |
-| **Claude Cowork** (Claude app, paid plans only, $20/mo and up) | The owner grants it the site folder; it reads and writes files, no terminal | Edits files directly; sync the folder to GitHub with the bridge below. Anthropic is folding Cowork into ordinary chat, so the buttons may look different than described here; the folder access is what matters |
-| **muse.ai in a browser** (free tier and paid tiers) | Cannot see the owner's computer files; a GitHub connector exists but its editing powers are not confirmed | Drafts the complete change and gives exact clicks and paste text; apply it with GitHub's edit button ([editing-in-browser.md](editing-in-browser.md)) |
-| **Muse Mac app** | Works with files and apps the owner authorizes, with permission | Edits files directly; sync the folder to GitHub with the bridge below. Feature details vary by plan; the AI says when something needs an upgrade |
-| **Codex** (chatgpt.com/codex; ChatGPT Plus $20/mo and up) | Connect GitHub once, then describe the change in plain words | Edits in a cloud workspace, pushes a branch, and opens a pull request; the owner reviews the preview link and clicks Merge. No pasting. Closest to the full loop on ChatGPT |
-| **ChatGPT desktop app / Work mode** (full access needs a paid plan) | Works with local folders on the computer; can operate across files and apps | Edits files directly; sync with the bridge below. A helper does the install and folder setup |
-| **claude.ai or chatgpt.com in a browser tab** | Attach the files (re-attach each new chat to be safe); ChatGPT's GitHub connector reads the repo but cannot change it | Drafts the complete change; apply it with GitHub's edit button ([editing-in-browser.md](editing-in-browser.md)) |
+Any AI that can open pull requests on GitHub works the same way, because they all read the site's manual (`AGENTS.md`): Google's Jules (it has a free tier), GitHub Copilot's coding agent, and others.
 
-**The no-terminal bridge:** if the owner's AI edits files on their computer but can't push to GitHub itself, install GitHub Desktop (free, from GitHub). It syncs the folder with one click, no commands. Tell the owner to press it when their AI says so.
+If your AI can only chat (a free plan, or any plain chat window), it can still help: it writes the change and tells you exactly where to paste it on GitHub. That works, but you do the clicking. The complete walkthrough is [browser-only.md](browser-only.md).
 
-## Copy-paste first message
+## The first real change, together
 
-The owner sends this to their AI:
+Do this once, on your phone, right after setup:
 
-```
-I just set you up with my website files. Read CLAUDE.md first, then tell me
-in one or two plain sentences what you understood your job to be.
-```
+1. Tap **Edit my website** and send: **"Read AGENTS.md first, then tell me in one or two plain sentences what you understood your job to be."** A good answer: every change gets a preview link, and nothing goes live until the owner says "ship it."
+2. Ask for something small: "Add a banner: welcome to our new website!"
+3. Open the preview link it sends. Look at the banner.
+4. Say **"ship it."** Wait a minute, open the live site, see the banner.
+5. Say **"undo that."** Watch the undo arrive as its own preview, then "ship it" again.
 
-If its answer sounds right (changes go to the staging preview first, nothing goes live without my "ship it"), you're connected.
+Once you've done that loop once, setup is finished.
 
 ## If something's confusing
 
-- **"Which AI should the owner use?"** Whichever they already pay for. Claude, ChatGPT, muse.ai, all fine. Never make them buy something new.
-- **"The menus look different from the guide."** They move. Tell the AI where you are ("I'm on the settings page and I don't see...") and it will guide you from there.
-- **"The AI can't see the repo."** Attach `CLAUDE.md` to the chat. That file plus the question is enough for most tasks.
-- **"It asked for an API key."** It doesn't need one for itself. Say: "No API keys for you. Work with my chat subscription." If it insists, it's confused; start a fresh chat.
-- **"The owner has ChatGPT Plus. Can they skip the pasting?"** Yes. Codex (chatgpt.com/codex) connects to GitHub once, then the owner describes the change in plain words and Codex opens a pull request. The owner reviews the preview link and clicks Merge, same as the normal loop, without touching a file. It needs Plus or higher, and a one-time GitHub install the helper can do.
-- **"Should we set up a custom GPT or a special plugin for the site?"** No. Plain chat plus CLAUDE.md is the whole interface, and OpenAI has retired new custom GPTs. Nothing to build, nothing to maintain.
-- **"How do I get the monthly checkup?"** Say "run the monthly checkup." Your AI walks the whole site looking for stale hours, old photos, leftover placeholder text, and broken links, then gives you a plain-English report with proposed fixes. You approve each one; nothing changes without your yes.
-- **"Can I just send a voice message instead of typing?"** Yes. Talk the way you'd talk to a person. Your AI will say back what it heard in one sentence and take it from there. If a word is unclear it will ask, never guess.
-- **"Something looks wrong after I said ship it."** Say "undo that." Your AI puts the previous version on the preview site; you check it and say "ship it" to publish the undo. (There's also a one-click rollback in the Cloudflare dashboard you can do yourself, any time.)
+- **"It asked for an API key."** It doesn't need one for itself. Say: "No API keys for you. Work with my plan." If it insists, start a fresh session.
+- **"Which AI should I use?"** The one you already pay for. If you're choosing fresh, Claude Pro has the smoothest loop today.
+- **"The menus look different from this page."** They move. Tell the AI where you are ("I'm on the settings page and I don't see...") and it will guide you.
+- **"Can I send a voice message instead of typing?"** Yes. Your AI says back what it heard in one sentence and takes it from there. If a word is unclear, it asks instead of guessing.
+- **"How do I get the monthly checkup?"** Say "run the monthly checkup." Your AI reviews the whole site for stale hours, old photos, leftover placeholder text, broken links, and changes you never shipped, then proposes fixes. Nothing changes without your yes.
+- **"Something looks wrong after I said ship it."** Say "undo that." Your AI prepares the undo as a new preview; you check it and say "ship it."
+- **"Should we build a custom GPT or a plugin for the site?"** No. The site's manual plus your AI is the whole interface. Nothing to build, nothing to maintain.

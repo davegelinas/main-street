@@ -2,7 +2,7 @@
 
 Your website looks its best when it's built from **your** business: your photos, your words, your story. This is the one piece of homework, and you can do it in an afternoon, mostly with your phone.
 
-Everything goes into one folder, the **shoebox**: `content/brand/`. (If the words "folder" and "repo" make your eyes glaze over, skip this page and jump to ["Or just answer in chat"](#or-just-answer-in-chat) below. Same result, no files.)
+Everything goes into one folder, the **shoebox**: `content/brand/`. That folder is part of your website's files, and those files are **public**, so only put in things you're happy for anyone to see. (If the words "folder" and "repo" make your eyes glaze over, skip this page and jump to ["Or just answer in chat"](#or-just-answer-in-chat) below. Same result, no files.)
 
 ## Already have a website? Start here.
 
@@ -23,6 +23,8 @@ Ten minutes, daylight, phone camera. You don't need all of these; more is just b
 5. **Your team**, if you have one. People trust people.
 
 Put them in `content/brand/photos/` with simple names: `storefront.jpg`, `team.jpg`, `croissants.jpg`. (If your AI can reach your site files, it can do the filing if you just attach the photos in chat. A plain browser chat can't move files, so ask it for the exact GitHub clicks instead.)
+
+**Location tip:** phone photos can carry the GPS spot where they were taken. Turn location off before you upload, because once a photo is uploaded its original stays in your site's public history: on iPhone, **Share** → **Options** → **Location** off. Your AI and an automatic check also strip it before anything reaches your live site.
 
 What makes a good phone photo: daylight beats flash, morning and late afternoon beat harsh midday sun, and one honest photo of your real place beats ten perfect stock shots.
 

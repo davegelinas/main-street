@@ -1,124 +1,64 @@
-# API keys, in plain English
+# The contact form key, in plain English
 
-Your site needs up to **two keys** to unlock everything. Both are free. Without them, nothing breaks. The site just does a little less (this page tells you exactly what).
+Your site has exactly **one** optional key: the one that lets the contact form email you. It's free. Without it nothing breaks: visitors who use the form are asked to email you directly, and your phone number and email address are always right there on the page.
 
-**These keys are not for your AI.** Your AI assistant runs on the chat subscription you already pay for and never needs an API key. The two keys below are for outside services your *site* talks to (email delivery, visitor stats).
+**This key is not for your AI.** Your AI runs on your AI plan and never needs an API key.
 
-**Do this with your AI.** You don't have to read this whole page and click around alone. Copy one of the prompts at the bottom into whatever chat AI you use (muse.ai, claude.ai, chatgpt.com, any of them), and it will walk you through each screen, click by click. That's what it's for.
+**Do this with your AI.** Paste the prompt at the bottom into your chat and it will walk you through each screen, click by click.
+
+(Visitor stats need no key at all: Cloudflare dashboard → **Workers & Pages** → your project → **Metrics** → **Enable** under Web Analytics. One click.)
 
 ## The one rule about keys
 
 A key is like a house key: whoever has it can act as you. So:
 
-- Keys go in **Cloudflare's dashboard only** (the exact spot is below). Never in your website's files, never in a chat message, never in email.
-- If a key ever leaks (pasted somewhere public, emailed to the wrong person), don't panic: go back to the provider, delete it, and make a new one. Two minutes, problem solved.
+- Keys go in **Cloudflare's dashboard only**, under **Production** (the exact spot is below). Never in your website's files, never in a chat message, never in email, and never under **Preview**.
+- If a key ever leaks, don't panic: go back to Resend, delete it, and make a new one. Two minutes, problem solved.
 
-```mermaid
-flowchart TD
-    A[Get the key<br/>from the provider] --> B[Paste it in Cloudflare<br/>Pages → Settings →<br/>Environment variables]
-    B --> C[Test it on your<br/>staging site]
-    C --> D{Did it work?}
-    D -- Yes --> E[Say ship it: done]
-    D -- No --> F[Ask your AI<br/>what to check]
-    F --> B
-```
+## Before you start: you need your own domain
 
-![Animated steps: ask your AI, get the key, paste it in Cloudflare environment variables, verify on the staging site, and never put keys in the repo or chat](assets/api-keys.svg)
+The form sends from an address at your domain (like `noreply@yourbusiness.com`), and Resend only sends from a domain it has verified. So this step comes after your domain is connected ([setup-guide.md](setup-guide.md), "Your own domain"). On the free `pages.dev` address the form can't send yet; that's expected.
 
-## Key 1: Resend, which delivers your contact form messages
+## Resend: the service that delivers your form messages
 
-**What it does:** when a visitor submits your contact form, this key lets your site hand the message to Resend, which emails it to you.
-**Why you want it:** without it, visitors see your email address and have to write to you themselves. With it, the form just works.
+**1. Sign up and verify your domain (about 10 minutes, mostly waiting):**
 
-**Get it (about 5 minutes):**
 1. Go to **resend.com** and click **Sign up**. Use your business email.
-2. Once you're in, look in the left sidebar for **API Keys** and click it.
-3. Click **Create API Key**. Give it a name like `website-contact-form`. For permission, choose **Sending access**.
-4. Click **Create**. Resend shows you the key **once**. It starts with `re_`. Copy it somewhere safe for the next two minutes (a notes app is fine; you'll paste it into Cloudflare right away, then you can forget it).
+2. In Resend's sidebar, click **Domains** → **Add Domain** → type your domain.
+3. Resend shows you a few DNS records. Add them in Cloudflare (**your domain** → **DNS** → **Records** → **Add record**), copying each one exactly. Your AI can read them off a screenshot and walk you through it.
+4. Wait for Resend to show the domain as **Verified** (minutes to an hour).
 
-**Where to paste it:**
-1. Open the **Cloudflare dashboard** → **Workers & Pages** → click your site's project.
-2. Go to **Settings** → **Environment variables**.
-3. Under **Production**, click **Add variable** (mark them secret/encrypted):
-   - Name: `RESEND_API_KEY`, value: paste the key.
-   - Name: `CONTACT_TO_EMAIL`, value: the email address where you want form messages delivered (usually your business email).
-4. (Optional) Under **Preview**, add the same two variables if you want the contact form to work on your staging site too.
-5. Click **Save**. Then make the change take effect with a redeploy: go to **Deployments**, click **⋯** on the latest deployment, and choose **Retry deployment** (or push any small change). The form starts working after the rebuild (about a minute).
+**2. Create the key:**
 
-**One more thing: sending from your own domain (optional but recommended)**
-Right now Resend sends from a generic address. To send from `noreply@yourdomain.com` (looks more professional, lands in inboxes better):
-1. In Resend's sidebar, click **Domains** → **Add Domain** → type your domain.
-2. Resend shows you 3 DNS records to add. Your AI can walk you through adding them in Cloudflare's DNS. It takes a few minutes, then Resend verifies automatically.
+1. In Resend's sidebar, click **API Keys** → **Create API Key**. Name it `website-contact-form`. Permission: **Sending access**.
+2. Resend shows the key **once**. It starts with `re_`. Copy it; you'll paste it in the next step and can forget it after.
 
-**How to verify it worked:** open your **staging** site, fill in the contact form, hit send. The message should arrive at your CONTACT_TO_EMAIL inbox within a minute. Check the spam folder too, especially if you have not finished the optional domain verification below. If it doesn't arrive anywhere, ask your AI: the usual culprit is a typo pasted into the key.
+**3. Put it in Cloudflare:**
 
-**If you skip it:** the contact info next to the form still shows your email address and phone number, but the form itself will not deliver messages: anyone who submits sees a note saying email is not set up yet and is asked to email you directly. Add the key before you tell customers about the form.
+1. Cloudflare dashboard → **Workers & Pages** → your project → **Settings** → **Environment variables**.
+2. Under **Production** (not Preview), click **Add variable** and add two, marked **Encrypt**:
+   - `RESEND_API_KEY`: the key from step 2.
+   - `CONTACT_TO_EMAIL`: the address where form messages should land (usually your business email).
+3. Click **Save**. Then make it take effect: **Deployments** → ⋯ on the latest production deployment → **Retry deployment** (or just ship any small change).
 
-## Key 2: Cloudflare Web Analytics (visitor stats)
-
-**What it does:** counts how many people visit your site and which pages they read. No cookies, no creepy tracking.
-**Why you want it:** to answer "is my website actually being visited?" without guessing.
-
-**Get it (about 3 minutes):**
-1. In the **Cloudflare dashboard**, look in the left sidebar for **Web Analytics** and click it.
-2. Click **Add a site**, type your domain (e.g. `acmeplumbing.com`), and confirm.
-3. Cloudflare shows you a small snippet of code (if it asks how to install, choose the **JS snippet** option). Inside the snippet you'll see `"token": "..."`. That quoted value is your token. Copy just the token (the part inside the quotes, about 32 characters).
-
-**Where to paste it:**
-1. Open the **Cloudflare dashboard** → **Workers & Pages** → click your site's project.
-2. Go to **Settings** → **Environment variables**.
-3. Under **Production**, click **Add variable**: name `CF_ANALYTICS_TOKEN`, value: paste the token.
-4. Click **Save** and redeploy (or push any change). The token is read at build time. It takes effect on the next build, and it never appears in your website's files.
-
-**How to verify it worked:** visit your live site yourself, then check Cloudflare → Web Analytics → your site. Your visit should show up within a few minutes.
-
-**If you skip it:** nothing changes on the site at all. You just won't have visitor numbers.
-
-## Companion settings (not keys, but set them in the same place)
-
-These live alongside the keys in Cloudflare → Pages → Settings → Environment variables:
-
-| Setting | What it does | Required? |
-|---|---|---|
-| `CONTACT_TO_EMAIL` | Where contact form messages are delivered | Yes, if you set up Resend |
-| `FROM_EMAIL` | The "from" address on those emails | No, defaults to `noreply@<your-domain>` |
-| `RESEND_API_KEY` | The Resend key from above | Yes, for the form to send email |
-
-## Testing on your own computer (optional)
-
-If you (or your AI) ever run the site locally with `npm run dev` and want the contact form to actually send, create a file called `.dev.vars` in your site's folder with one line:
-
-```
-RESEND_API_KEY=re_your_key_here
-```
-
-That file is private to your computer. It's on the never-commit list, so it can't end up on GitHub by accident. The setup wizard (`npm run setup`) can create it for you if you paste the key when asked.
-
-## Copy-paste prompts for your AI
-
-Paste any of these into your chat AI and it will guide you through the screens:
-
-```
-Walk me through creating a Resend API key for my website's contact form.
-I'm not technical: tell me exactly what to click.
-```
-
-```
-Help me add my Resend API key to Cloudflare Pages environment variables.
-Tell me exactly where to click, and remind me what NOT to do with the key.
-```
-
-```
-I want visitor stats on my site. Walk me through setting up Cloudflare
-Web Analytics and show me where the token goes in Cloudflare (never in
-my site's files).
-```
+**4. Test it on your live site:** fill in the contact form at your own domain and send. The message should arrive within a minute (check spam the first time). The form won't send from a preview link; previews have no keys, on purpose.
 
 ## If something goes wrong
 
-- **"Invalid API key"**: you probably copied it with a missing character. Delete the variable in Cloudflare, create a fresh key in Resend, and paste again carefully.
-- **Form sends but no email arrives**: check CONTACT_TO_EMAIL for a typo, and check your spam folder.
-- **Form suddenly stops working (it used to work)**: your Resend key may have been revoked or deleted. In Resend, go to **API Keys**: if yours is gone, create a new one with Sending access, replace the `RESEND_API_KEY` variable in Cloudflare (Pages → your site → Settings → Environment variables), and redeploy. To catch this early, submit a test message yourself once a month and confirm it arrives.
-- **Analytics shows nothing**: the `CF_ANALYTICS_TOKEN` in Cloudflare's environment variables must be the exact token from Web Analytics (the 32-character value inside `"token": "..."` in the snippet, not the whole snippet). And the site must be rebuilt *after* you added it: Deployments → ⋯ → Retry deployment. Stats only count visits to the live site, and only after the change is shipped there.
+- **Form says email isn't set up:** check both variables exist under **Production**, then retry the latest deployment.
+- **"Invalid API key":** probably a missing character. Delete the variable, create a fresh key in Resend, paste again.
+- **Nothing arrives:** check `CONTACT_TO_EMAIL` for a typo, check spam, and check your domain still shows **Verified** in Resend.
+- **It used to work and stopped:** the key may have been deleted in Resend. Make a new one and replace `RESEND_API_KEY`. To catch this early, send yourself a test message once a month (the monthly checkup reminds you).
 
-Still stuck? Paste the error message into your AI and say which step you were on. That's a 5-minute fix, not a disaster.
+## Testing on your own computer (helpers only)
+
+To make the form send while running the site locally (`npm run dev`), create a file named `.dev.vars` in the site folder with `RESEND_API_KEY=re_your_key_here`. It's on the never-commit list, so it can't reach GitHub. The setup wizard can create it for you.
+
+## Copy-paste prompt for your AI
+
+```
+My domain is connected. Walk me through setting up the contact form:
+verify my domain in Resend, create the key, and put it in Cloudflare
+under Production. I'm not technical: tell me exactly what to click,
+one step at a time.
+```

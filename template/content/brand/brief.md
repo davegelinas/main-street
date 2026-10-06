@@ -2,6 +2,8 @@
 
 > **You don't have to write this yourself.** The easiest way: tell your AI "interview me about my business, a few questions at a time." It asks, you answer in plain words, and it fills this in for you. What you write below is just a head start.
 
+> **This file is public**, like your website. Write only what you'd print on a flyer: no personal phone numbers, private notes, or prices you haven't announced.
+
 Delete the hints in parentheses as you fill each one in. Skip anything that doesn't apply.
 
 ---
