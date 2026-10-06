@@ -68,7 +68,7 @@ export function htmlPages(root: string): Record<string, string> {
 }
 
 // The domain is empty until the owner connects one (the site starts on its
-// free *.pages.dev address). Absolute URLs (canonical, og:url, sitemap) are
+// free *.workers.dev address). Absolute URLs (canonical, og:url, sitemap) are
 // only emitted once a real domain exists, so shares never point at a
 // placeholder.
 function liveDomain(cfg: Config): string {

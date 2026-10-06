@@ -1,10 +1,17 @@
-// POST /api/contact: contact form handler (Cloudflare Pages Function).
-// Sends via Resend. Gracefully degrades when RESEND_API_KEY is not set.
+// The site's only server code. Everything else is the plain files in dist/.
+//
+// POST /api/contact  emails a contact form message to the owner through the
+//                    send_email binding (Cloudflare Email Routing). No key.
+// GET  /api/contact  says whether email is set up here: {"ready": true|false}.
+//
+// Until email is set up, visitors get "please email us directly" instead of
+// a broken form.
 
 interface Env {
-  RESEND_API_KEY?: string;
-  FROM_EMAIL?: string; // optional override; defaults to noreply@<site domain>
-  CONTACT_TO_EMAIL?: string; // where messages are delivered; set in Pages env vars
+  ASSETS: Fetcher;
+  EMAIL?: SendEmail; // send_email binding (wrangler.jsonc); never on preview links
+  CONTACT_TO_EMAIL?: string; // secret: the owner's inbox, verified in Email Routing
+  CONTACT_FROM_EMAIL?: string; // optional; defaults to noreply@<site domain>
 }
 
 interface Payload {
@@ -15,8 +22,10 @@ interface Payload {
   elapsed?: unknown; // ms the visitor spent on the page before sending (their own clock)
 }
 
+const EMAIL_RE = /^[^\s@<>,;"]+@[^\s@<>,;"]+\.[^\s@<>,;"]+$/;
+
 const json = (data: Record<string, unknown>, status = 200) =>
-  new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
+  Response.json(data, { status, headers: { "Cache-Control": "no-store" } });
 
 function friendlyError(): Response {
   return json(
@@ -34,9 +43,21 @@ function sendFailed(): Response {
 
 const unreadable = () => json({ ok: false, error: "Could not read your message. Please try again." }, 400);
 
-export const onRequestPost: PagesFunction<Env> = async (context) => {
-  const { request, env } = context;
+const destination = (env: Env) => {
+  const to = env.CONTACT_TO_EMAIL?.trim() ?? "";
+  return env.EMAIL && EMAIL_RE.test(to) ? to : "";
+};
 
+// The sender must be on a domain with Email Routing on: the owner's own,
+// never a free *.workers.dev or *.pages.dev address.
+function sender(env: Env, request: Request): string {
+  if (env.CONTACT_FROM_EMAIL?.trim()) return env.CONTACT_FROM_EMAIL.trim();
+  const host = new URL(request.url).hostname.replace(/^www\./, "");
+  if (host.endsWith(".workers.dev") || host.endsWith(".pages.dev") || !host.includes(".")) return "";
+  return `noreply@${host}`;
+}
+
+async function contact(request: Request, env: Env): Promise<Response> {
   // A real message is a few KB at most; refuse anything far bigger before parsing it.
   if (Number(request.headers.get("Content-Length") ?? 0) > 64 * 1024) {
     return json({ ok: false, error: "Please keep your message under 5000 characters." }, 413);
@@ -60,7 +81,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   if (name.length > 100) {
     return json({ ok: false, error: "Please keep your name under 100 characters." }, 400);
   }
-  if (!/^[^\s@<>,;"]+@[^\s@<>,;"]+\.[^\s@<>,;"]+$/.test(email) || email.length > 254) {
+  if (!EMAIL_RE.test(email) || email.length > 254) {
     return json({ ok: false, error: "That email address does not look right. Please check it." }, 400);
   }
   if (message.length > 5000) {
@@ -75,37 +96,38 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const elapsed = Number(body.elapsed);
   if (Number.isFinite(elapsed) && elapsed >= 0 && elapsed < 3000) return json({ ok: true }); // pretend success
 
-  const apiKey = env.RESEND_API_KEY;
-  const to = env.CONTACT_TO_EMAIL;
-  if (!apiKey || !to) return friendlyError();
-
-  const host = new URL(request.url).hostname.replace(/^www\./, "");
-  // Resend only sends from a verified domain: the owner's own, never *.pages.dev.
-  if (!env.FROM_EMAIL && host.endsWith(".pages.dev")) return friendlyError();
-  const from = env.FROM_EMAIL ?? `noreply@${host}`;
+  const to = destination(env);
+  const from = sender(env, request);
+  if (!env.EMAIL || !to || !from) return friendlyError();
 
   // Failures are logged for the owner's AI to find: Cloudflare dashboard ->
-  // Workers & Pages -> the project -> the deployment -> Functions (real-time logs).
+  // Workers & Pages -> the site -> Observability (look for "Email Routing refused").
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from,
-        to: [to],
-        reply_to: email,
-        subject: `Website message from ${name}`,
-        text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-      }),
+    await env.EMAIL.send({
+      from: { email: from, name: "Website contact form" },
+      to,
+      replyTo: email,
+      subject: `Website message from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
     });
-    if (!res.ok) {
-      console.error(`Resend refused the message (HTTP ${res.status}): ${(await res.text()).slice(0, 500)}`);
-      return sendFailed();
-    }
   } catch (err) {
-    console.error("Could not reach Resend:", err);
+    const e = err as { code?: string; message?: string };
+    console.error(`Email Routing refused the message (${e.code ?? "no code"}): ${String(e.message ?? err).slice(0, 500)}`);
     return sendFailed();
   }
 
   return json({ ok: true });
-};
+}
+
+export default {
+  async fetch(request, env): Promise<Response> {
+    const { pathname } = new URL(request.url);
+    if (pathname === "/api/contact") {
+      if (request.method === "POST") return contact(request, env);
+      if (request.method === "GET") return json({ ready: Boolean(destination(env) && sender(env, request)) });
+      return new Response(null, { status: 405, headers: { Allow: "GET, POST" } });
+    }
+    // No file matched this request: serve 404.html with a 404 status.
+    return env.ASSETS.fetch(request);
+  },
+} satisfies ExportedHandler<Env>;

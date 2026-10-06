@@ -1,0 +1,41 @@
+// How Cloudflare runs this website: the plain files in dist/ (built by
+// `npm run build`), plus one small piece of code for the contact form.
+// Owners never need to edit this file. AIs: read rules/deploy.md first.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  // The site's name on Cloudflare, and its free address:
+  // https://<name>.<account>.workers.dev (hidden from Google by public/_headers).
+  // Must match the name in the Cloudflare dashboard, or every build fails.
+  "name": "my-website",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-01",
+
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Unknown pages get 404.html with a real 404 status.
+    "not_found_handling": "404-page",
+    // Only /api/* runs code. Every page, photo and file is served as-is.
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Contact form email through Cloudflare Email Routing: free, no key. It can
+  // only deliver to inboxes the owner verified in Email Routing, so it can
+  // never email anyone else. Until that's set up, the form asks visitors to
+  // email the business directly.
+  "send_email": [{ "name": "EMAIL" }],
+
+  // Keep the free workers.dev address even if "routes" is ever added.
+  "workers_dev": true,
+
+  // Settings typed into the Cloudflare dashboard survive every deploy.
+  "keep_vars": true,
+
+  // Contact form failures show up in the dashboard (the site -> Observability).
+  "observability": { "enabled": true },
+
+  // Preview links get no settings and no email binding, on purpose: the form
+  // shows its "please email us directly" note there.
+  "previews": {}
+}
