@@ -4,13 +4,16 @@
 //      {{faqJsonld}}, {{phoneHref}} (a dialable tel: link), {{directionsUrl}}
 //      (Google Maps link for the address), {{siteUrl}} (https://your-domain,
 //      or empty until a domain is connected), {{monogram}} (the name's first
-//      letter, for the round brand mark shown until there is a logo)
-//   3. on build, emits sitemap.xml, robots.txt and llms.txt into dist/
+//      letter, for the round brand mark shown until there is a logo),
+//      {{instagramUrl}} and {{facebookUrl}} (full links from business.social)
+//   3. on build, emits sitemap.xml, robots.txt, llms.txt and the link-preview
+//      picture (images/share.jpg, see share-image.ts) into dist/
 // Pages are found automatically (htmlPages): a new page is a new folder with
 // an index.html, and the build and sitemap pick it up with no config change.
 import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import type { Plugin } from "vite";
+import { writeShareImage } from "./share-image.ts";
 
 type Config = Record<string, any>;
 type Hours = { days: string; time: string };
@@ -253,6 +256,9 @@ function faqJsonLd(html: string): string {
   return mainEntity.length ? ldScript({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity }) : "";
 }
 
+// Themes whose headings use the system sans instead of Fraunces (src/styles.css).
+const SANS_THEMES = new Set(["harbor"]);
+
 function stripFeatures(html: string, cfg: Config, warn: (msg: string) => void): string {
   // The body pattern refuses to cross another feature opener, so innermost
   // blocks are stripped first; loop until no blocks remain (handles nesting).
@@ -266,6 +272,10 @@ function stripFeatures(html: string, cfg: Config, warn: (msg: string) => void): 
     // Not a flag: blocks that need an absolute URL render only once a real
     // domain is set in site.domain.
     if (name === "liveDomain") return liveDomain(cfg) ? body : "";
+    // Not flags either: themes whose headings use the system sans skip the
+    // display-font download, and a social link shows only once it's filled in.
+    if (name === "displayFont") return SANS_THEMES.has(String(cfg.site?.theme ?? "")) ? "" : body;
+    if (name === "instagram" || name === "facebook") return socialUrl(cfg, name) ? body : "";
     if (!(name in (cfg.features ?? {}))) warn(`<!-- feature:${name} --> has no matching flag in site.config.json "features", so the block is hidden.`);
     return on ? body : "";
   });
@@ -279,6 +289,8 @@ function stripFeatures(html: string, cfg: Config, warn: (msg: string) => void): 
 }
 
 function hoursHtml(hours: Hours[]): string {
+  // No hours yet: one honest line instead of an empty list under a heading.
+  if (!hours.length) return `<p class="hours-empty">Call us for our hours.</p>`;
   return `<dl class="hours">\n${hours.map((h) => `  <div><dt>${esc(h.days)}</dt><dd>${esc(h.time)}</dd></div>`).join("\n")}\n</dl>`;
 }
 
@@ -326,6 +338,15 @@ function directionsUrl(cfg: Config): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
+// "@littleloaf", "littleloaf", "instagram.com/littleloaf" or a full link ->
+// a full profile link. Empty when the owner hasn't given one.
+function socialUrl(cfg: Config, network: "instagram" | "facebook"): string {
+  const v = String(cfg.business?.social?.[network] ?? "").trim();
+  if (!v || /^https?:\/\//i.test(v)) return v;
+  if (/^[\w.-]+\.[a-z]+\//i.test(v)) return `https://${v}`;
+  return `https://www.${network}.com/${encodeURIComponent(v.replace(/^@/, ""))}`;
+}
+
 // "The Velvet Chair" -> "V". Skips a leading "The"; empty if there is no letter.
 function monogram(cfg: Config): string {
   const name = String(cfg.business?.name ?? "").trim().replace(/^the\s+/i, "");
@@ -344,6 +365,8 @@ function tokenValue(path: string, cfg: Config): string | undefined {
     case "directionsUrl": return directionsUrl(cfg);
     case "siteUrl": return siteUrl(cfg);
     case "monogram": return monogram(cfg);
+    case "instagramUrl": return socialUrl(cfg, "instagram");
+    case "facebookUrl": return socialUrl(cfg, "facebook");
   }
   const v = getPath(cfg, path);
   return v == null || typeof v === "object" ? undefined : String(v);
@@ -387,7 +410,7 @@ export function siteConfig(): Plugin {
       };
       return replaceTokens(stripFeatures(html, cfg, warn), cfg, warn);
     },
-    writeBundle(options) {
+    async writeBundle(options) {
       // Build-only: write sitemap.xml, robots.txt, and the token-filled
       // llms.txt straight to the output dir, overwriting the public/ templates.
       // (options is typed by the Plugin contract; only options.dir is used.)
@@ -416,6 +439,7 @@ export function siteConfig(): Plugin {
       } catch {
         // No llms.txt in public/: nothing to do.
       }
+      await writeShareImage(root, outDir, cfg);
     },
   };
 }

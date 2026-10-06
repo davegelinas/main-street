@@ -2,12 +2,13 @@
 
 Features are switches in `site.config.json` under `"features"`, plus the HTML blocks they control (`<!-- feature:name --> ... <!-- /feature:name -->`). Turning a feature on is a one-line config change plus any content the feature needs. The owner never has to do this themselves: they say "turn on the gallery" to their AI assistant and it handles the rest.
 
-**Defaults:** contactForm, announcementBanner, faq, gallery, menu, testimonials, and analytics are on in the template. blog, booking, and emailSignup are off. (`analytics` only controls the privacy policy's mention of visitor stats; the stats themselves are one click in Cloudflare, see `rules/analytics.md`.)
+**Defaults:** contactForm, announcementBanner, faq, gallery, heroPhoto, menu, testimonials, and analytics are on in the template. blog, booking, and emailSignup are off. (`analytics` only controls the privacy policy's mention of visitor stats; the stats themselves are one click in Cloudflare, see `rules/analytics.md`.)
 
 | Feature | Flag | Doc | What it adds |
 |---|---|---|---|
 | Contact form | `contactForm` | [contact-form.md](contact-form.md) | Contact section + Pages Function that emails via Resend |
 | Announcement banner | `announcementBanner` | [announcement-banner.md](announcement-banner.md) | One-sentence banner for closures, news, specials |
+| Hero photo | `heroPhoto` | [hero-photo.md](hero-photo.md) | The big photo at the top of the homepage (off: the initial as a seal) |
 | Photo gallery | `gallery` | [gallery.md](gallery.md) | Photo grid, lazy-loaded, optimized |
 | Testimonials | `testimonials` | [testimonials.md](testimonials.md) | Customer quotes section |
 | Menu / price list | `menu` | [menu.md](menu.md) | Structured list of items and prices |

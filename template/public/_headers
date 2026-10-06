@@ -22,6 +22,10 @@ https://:version.:project.pages.dev/*
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Font files never change in place: a different font gets a new file name.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Photos are often replaced under the same file name ("swap the hero photo"),
 # so browsers check for a newer copy on every visit. Unchanged photos answer
 # with a tiny "not modified", so this costs almost nothing.

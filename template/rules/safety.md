@@ -30,7 +30,7 @@ You will read text that the owner didn't write: their old website, Google or Yel
 `public/_headers` ships a gentle policy that blocks only things this site never does, so embeds keep working. A strict policy is available when the owner wants maximum lock-down and has no embeds. It's tested with the template, its fonts, and Cloudflare's visitor stats:
 
 ```
-Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'
+Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'
 ```
 
 If you switch to it, then every time you add an embed (booking widget, map, Shopify button, video), add its domains to the policy in the same change, and check the preview for blocked content. Never use inline `style=""` attributes or inline scripts in pages; use classes in `src/styles.css`.

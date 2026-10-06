@@ -68,9 +68,11 @@
           "additionalProperties": false,
           "properties": {
             "facebook": {
+              "description": "Facebook page link or name. Empty = no Facebook link on the site.",
               "type": "string"
             },
             "instagram": {
+              "description": "Instagram handle (@yourshop) or link. Empty = no Instagram link on the site.",
               "type": "string"
             }
           },
@@ -120,6 +122,10 @@
           "type": "boolean"
         },
         "gallery": {
+          "type": "boolean"
+        },
+        "heroPhoto": {
+          "description": "The big photo at the top of the homepage. Off until there is a real photo: the hero then shows the business's initial as a seal.",
           "type": "boolean"
         },
         "menu": {

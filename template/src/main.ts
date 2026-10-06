@@ -101,7 +101,7 @@ form?.addEventListener("submit", async (e) => {
     name: String(data.get("name") ?? ""),
     email: String(data.get("email") ?? ""),
     message: String(data.get("message") ?? ""),
-    website: String(data.get("website") ?? ""),
+    leave_blank: String(data.get("leave_blank") ?? ""), // honeypot (not "website": password managers fill that)
     elapsed: Math.round(performance.now() - shownAt),
   };
   // One send at a time: a double tap must not email the owner twice.

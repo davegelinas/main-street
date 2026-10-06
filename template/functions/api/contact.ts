@@ -11,7 +11,7 @@ interface Payload {
   name?: unknown;
   email?: unknown;
   message?: unknown;
-  website?: unknown; // honeypot: must stay empty
+  leave_blank?: unknown; // honeypot: must stay empty (not named "website", which autofill can fill)
   elapsed?: unknown; // ms the visitor spent on the page before sending (their own clock)
 }
 
@@ -71,7 +71,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   // The browser measures the time on its own clock. (Comparing a browser
   // timestamp with this server's clock silently dropped real messages from
   // anyone whose phone clock runs a little fast.)
-  if (String(body.website ?? "").trim() !== "") return json({ ok: true }); // pretend success
+  if (String(body.leave_blank ?? "").trim() !== "") return json({ ok: true }); // pretend success
   const elapsed = Number(body.elapsed);
   if (Number.isFinite(elapsed) && elapsed >= 0 && elapsed < 3000) return json({ ok: true }); // pretend success
 

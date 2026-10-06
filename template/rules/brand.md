@@ -47,7 +47,7 @@ When the owner gives you their current site's domain, pull everything you can in
 
 - `content/brand/` is the raw shoebox; the site serves images from `public/images/`. When you use a brand asset, **copy it into `public/images/`** (keep the original in the shoebox), then run `npm run optimize-images`.
 - Prefer real brand assets over the `public/images/` placeholders whenever brand assets exist.
-- When you swap the hero image, update the `og:image` meta tag to the new file too, so link previews show the real photo instead of the placeholder.
+- The hero photo also becomes the link-preview picture (`images/share.jpg`, made at build time), so there's no `og:image` to update by hand. With `heroPhoto` off, previews get a plain picture in the theme's colors.
 - Every image gets descriptive alt text (see `rules/content.md`).
 
 ## Ship it like everything else
