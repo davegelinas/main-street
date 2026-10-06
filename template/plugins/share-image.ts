@@ -13,7 +13,7 @@ import { dirname, resolve } from "node:path";
 type Config = Record<string, any>;
 
 // The page's colors: :root tokens, overridden by the active theme's block.
-function themeColors(root: string, theme: string): Record<string, string> {
+export function themeColors(root: string, theme: string): Record<string, string> {
   const css = readFileSync(resolve(root, "src/styles.css"), "utf8");
   const vars = (block: string | undefined) =>
     Object.fromEntries([...(block ?? "").matchAll(/--([\w-]+):\s*(#[0-9a-f]{3,8})\b/gi)].map((m) => [m[1], m[2]]));

@@ -6,13 +6,15 @@
 //      or empty until a domain is connected), {{monogram}} (the name's first
 //      letter, for the round brand mark shown until there is a logo),
 //      {{instagramUrl}} and {{facebookUrl}} (full links from business.social)
-//   3. on build, emits sitemap.xml, robots.txt, llms.txt and the link-preview
-//      picture (images/share.jpg, see share-image.ts) into dist/
+//   3. on build, emits sitemap.xml, robots.txt, llms.txt, the link-preview
+//      picture (images/share.jpg, see share-image.ts) and the site icons
+//      (favicon.svg, apple-touch-icon.png, see icons.ts) into dist/
 // Pages are found automatically (htmlPages): a new page is a new folder with
 // an index.html, and the build and sitemap pick it up with no config change.
 import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import type { Plugin } from "vite";
+import { writeIcons } from "./icons.ts";
 import { writeShareImage } from "./share-image.ts";
 
 type Config = Record<string, any>;
@@ -440,6 +442,7 @@ export function siteConfig(): Plugin {
         // No llms.txt in public/: nothing to do.
       }
       await writeShareImage(root, outDir, cfg);
+      await writeIcons(root, outDir, cfg, monogram(cfg), SANS_THEMES.has(String(cfg.site?.theme ?? "")));
     },
   };
 }

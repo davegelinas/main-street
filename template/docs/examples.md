@@ -7,13 +7,13 @@ Every update is the same three moves: you send **one message**, you open the **p
 Real screenshots of the demo site, not mockups.
 
 ![Homepage of the Cedar and Pine Barbershop demo site](assets/demo-hero.png)
-*The homepage: the owner's own words and one clear button.*
+*The homepage: the owner's own words, today's hours, and one clear next step.*
 
 ![Services and prices on the demo site](assets/demo-services.png)
 *The price list. The owner changes it with one message, like example 2 below.*
 
-![Contact section and footer on the demo site](assets/demo-visit.png)
-*The contact section. The contact form isn't turned on for this demo, so visitors see the email address instead. Nothing breaks.*
+![Hours, address, phone, and email on the demo site](assets/demo-visit.png)
+*Hours and location: today is marked, and the phone and email are one tap away. (The contact form isn't turned on for this demo, so nothing here can break.)*
 
 ## Copy these
 

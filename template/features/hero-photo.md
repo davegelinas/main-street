@@ -1,6 +1,6 @@
 # Hero photo
 
-The big photo at the top of the homepage, next to the headline. **On in the template; setup turns it off until the owner has a real photo.**
+The big photo at the top of the homepage, next to the headline. **Off in the template until the owner has a real photo.**
 
 ## How to turn it on/off
 

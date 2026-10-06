@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- main-street:stock-icon. The build swaps this for the business's initial in
+       the theme color. Replace this file with your own logo icon to keep
+       yours instead (the build only swaps this stock one). -->
   <rect width="64" height="64" rx="14" fill="#b4552d"/>
   <path d="M10 26h44v4a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2v-4z" fill="#faf6ef"/>
   <path d="M14 26v-3a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v3" fill="none" stroke="#faf6ef" stroke-width="4" stroke-linecap="round"/>

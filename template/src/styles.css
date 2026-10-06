@@ -243,7 +243,7 @@ a:hover { color: var(--accent-text); text-decoration-thickness: 2px; }
 }
 .brand:hover { color: var(--ink); }
 .brand { min-height: 44px; }
-.brand-name { text-wrap: balance; }
+.brand-name { text-wrap: pretty; } /* balance splits "Cedar & / Pine Barbershop" */
 /* Round initial until the owner has a logo. With a logo, replace the
    brand-mark span with <img class="brand-logo" src="/images/logo.svg" alt=""> */
 .brand-mark {
@@ -473,6 +473,7 @@ main > section:nth-of-type(even) { background: var(--bg-alt); }
   text-transform: uppercase;
   color: var(--accent-text);
 }
+.hero-seal-logo { width: 12rem; height: auto; }
 .hero-grid:has(.hero-media) .hero-seal { display: none; }
 
 /* Section headings */
