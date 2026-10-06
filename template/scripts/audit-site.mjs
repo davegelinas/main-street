@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 // Post-deploy health check. Usage: node scripts/audit-site.mjs https://your-domain.com
 // Verifies the live site the way a visitor (and Google) sees it.
-// Note: `vite preview` serves the homepage with 200 for unknown paths, so the
-// "missing page returns 404" check only means something against Cloudflare,
-// where 404.html is served with a real 404 status.
+// Locally, run it against `npm run serve` (wrangler dev): that serves the
+// site the way Cloudflare does, with real 404s, headers and redirects.
 
 const base = (process.argv[2] ?? "").replace(/\/+$/, "");
 // Post-deploy checks target https, but allow plain localhost for local try-outs.
@@ -13,10 +12,10 @@ if (!/^https:\/\//.test(base) && !isLocal) {
   process.exit(2);
 }
 const host = new URL(base).host;
-// The free Cloudflare addresses (*.pages.dev: the starter address and every
-// preview link) must stay out of search engines; the owner's domain must
-// stay indexable.
-const isPreviewHost = host.endsWith(".pages.dev");
+// The free Cloudflare addresses (*.workers.dev: the starter address and every
+// preview link; *.pages.dev on Pages-hosted sites) must stay out of search
+// engines; the owner's domain must stay indexable.
+const isPreviewHost = host.endsWith(".workers.dev") || host.endsWith(".pages.dev");
 const results = [];
 
 async function check(name, fn) {
@@ -102,14 +101,25 @@ console.log("\nIntegrations (info only, see docs/api-keys.md):");
 try {
   const { text } = await get("/");
   if (/id="contact-form"/.test(text)) {
-    console.log("  INFO  contact form is on this page: messages are delivered only if RESEND_API_KEY and CONTACT_TO_EMAIL are set in Cloudflare (Production) and your domain is verified in Resend; without them visitors are asked to email you directly. The page never breaks.");
+    let ready = null;
+    try {
+      const r = await fetch(base + "/api/contact", { headers: { Accept: "application/json" } });
+      if (r.ok) ready = Boolean((await r.json()).ready);
+    } catch { /* no contact endpoint reachable (static server) */ }
+    if (ready === true) {
+      console.log("  INFO  contact form is on and email is set up. Send yourself a test message to confirm it arrives (the address must be verified in Cloudflare Email Routing).");
+    } else if (ready === false) {
+      console.log("  INFO  contact form is on, but email is not set up here, so visitors are asked to email you directly. Expected on preview links and before your domain has Email Routing; the page never breaks.");
+    } else {
+      console.log("  INFO  contact form is on this page, but its email code did not answer (normal on a plain file server).");
+    }
   } else {
     console.log("  INFO  no contact form on this page (feature off).");
   }
   if (/cloudflareinsights\.com\/beacon/.test(text)) {
     console.log("  INFO  analytics beacon present, visitor stats are collecting.");
   } else {
-    console.log("  INFO  no analytics beacon, visitor stats off. Turn them on with one click (Cloudflare -> Workers & Pages -> your project -> Metrics -> Enable Web Analytics); they start after the next deployment.");
+    console.log("  INFO  no analytics beacon, visitor stats off. To turn them on, see the Visitor stats part of docs/api-keys.md; they start after that change ships.");
   }
   const starters = ["Your photo here", "placeholder copy", "Example service", "lorem ipsum", "Your first real customer quote"];
   const found = starters.filter((s) => text.toLowerCase().includes(s.toLowerCase()));

@@ -137,14 +137,9 @@
         "bookingUrl": {
           "type": "string"
         },
-        "resend": {
-          "additionalProperties": false,
-          "properties": {
-            "fromEmail": {
-              "type": "string"
-            }
-          },
-          "type": "object"
+        "cloudflareAnalyticsToken": {
+          "description": "Cloudflare Web Analytics token (public). Cloudflare -> Web Analytics -> Add a site -> copy the token from the snippet. Empty means no visitor stats.",
+          "type": "string"
         }
       },
       "type": "object"

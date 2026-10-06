@@ -1,1 +1,1 @@
-{"compilerOptions":{"lib":["ES2022","DOM","DOM.Iterable"],"module":"ESNext","moduleResolution":"bundler","noEmit":true,"skipLibCheck":true,"strict":true,"target":"ES2022","types":["@cloudflare/workers-types"]},"include":["src","plugins","functions","vite.config.ts"]}
+{"compilerOptions":{"lib":["ES2022","DOM","DOM.Iterable"],"module":"ESNext","moduleResolution":"bundler","noEmit":true,"skipLibCheck":true,"strict":true,"target":"ES2022","types":["@cloudflare/workers-types"]},"include":["src","plugins","vite.config.ts"]}

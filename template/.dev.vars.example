@@ -1,0 +1,4 @@
+# Where your website's contact form messages should go: your everyday inbox
+# (for example your Gmail). It is never shown on your site. Messages start
+# arriving once this same address is verified in Cloudflare Email Routing.
+CONTACT_TO_EMAIL=

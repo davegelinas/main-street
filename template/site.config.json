@@ -41,9 +41,7 @@
   },
   "integrations": {
     "bookingUrl": "",
-    "resend": {
-      "fromEmail": "noreply@example.com"
-    }
+    "cloudflareAnalyticsToken": ""
   },
   "site": {
     "announcement": "",

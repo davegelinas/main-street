@@ -6,8 +6,14 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# Keep the free Cloudflare addresses (the starter address and every change's
-# preview link) out of search engines. Your own domain is not affected.
+# Keep the free Cloudflare addresses out of search engines: the starter
+# address (<name>.<account>.workers.dev) and every change's preview link
+# (<branch>-<name>.<account>.workers.dev). Your own domain is not affected.
+https://:name.:account.workers.dev/*
+  X-Robots-Tag: noindex
+
+# Same, for sites hosted on Cloudflare Pages instead (docs/domains-and-dns.md,
+# "Keeping your domain where it is"). Harmless on Workers.
 https://:project.pages.dev/*
   X-Robots-Tag: noindex
 

@@ -32,7 +32,7 @@ function loadConfig(root: string): Config {
 }
 
 // The domain is empty until the owner connects one (the site starts on its
-// free *.pages.dev address). Absolute URLs (canonical, og:url, sitemap) are
+// free *.workers.dev address). Absolute URLs (canonical, og:url, sitemap) are
 // only emitted once a real domain exists, so shares never point at a
 // placeholder.
 function liveDomain(cfg: Config): string {
@@ -181,6 +181,16 @@ function replaceTokens(html: string, cfg: Config): string {
   });
 }
 
+// Cloudflare Web Analytics (cookieless). The token is public: it ends up in
+// every page anyway. Workers sites have no one-click switch, so the owner
+// copies it from Cloudflare -> Web Analytics -> Add a site.
+function analyticsBeacon(html: string, cfg: Config): string {
+  const token = String(cfg.integrations?.cloudflareAnalyticsToken ?? "").trim();
+  if (!cfg.features?.analytics || !/^[A-Za-z0-9]{16,64}$/.test(token)) return html;
+  const tag = `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${token}"}'></script>`;
+  return html.replace(/<\/body>/i, `${tag}\n</body>`);
+}
+
 export function siteConfig(): Plugin {
   let root = "";
   return {
@@ -190,7 +200,7 @@ export function siteConfig(): Plugin {
     },
     transformIndexHtml(html) {
       const cfg = loadConfig(root);
-      return replaceTokens(stripFeatures(html, cfg), cfg);
+      return analyticsBeacon(replaceTokens(stripFeatures(html, cfg), cfg), cfg);
     },
     writeBundle(options) {
       // Build-only: write sitemap.xml, robots.txt, and the token-filled
